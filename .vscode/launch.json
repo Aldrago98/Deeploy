@@ -5,6 +5,37 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Generic Platform Adder",
+            "type": "debugpy",
+            "request": "launch",
+            "justMyCode": false,
+            "program": "testRunner_generic.py",
+            "cwd": "${workspaceFolder}/DeeployTest",
+            "args": [
+                "-t",
+                "Tests/Adder",
+                
+                
+            ]
+        },
+         {
+            "name": "Python: model tester",
+            "type": "debugpy",
+            "request": "launch",
+            "justMyCode": false,
+            "program": "testRunner_generic.py",
+            "cwd": "${workspaceFolder}/DeeployTest",
+            "env": {
+            "PYTHONPATH": "${workspaceFolder}/DeeployTest:/home/Deeploy/"
+                },
+            "args": [
+                "-t",
+                "Tests/TestAutoenc",
+                
+                
+            ]
+        },
+        {
             "name": "Deeploy Generate Untiled",
             "type": "debugpy",
             "request": "launch",
@@ -12,7 +43,12 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/DeeployTest",
             "justMyCode": false,
-            "args": "-p${input:platformUntiled} -t${input:model} ${input:additionalArgsUntiled}"
+            "args": [
+                "-v",
+                "-p${input:platformUntiled}",
+                "-t${input:model}",
+                "${input:additionalArgsUntiled}"
+            ]
         },
         {
             "name": "Deeploy Generate Tiled",
@@ -22,7 +58,11 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/DeeployTest",
             "justMyCode": false,
-            "args": "-p${input:platformTiled} -t${input:model} ${input:additionalArgsTiled}"
+            "args": [
+                "-p${input:platformTiled}",
+                "-t${input:model}",
+                "${input:additionalArgsTiled}"
+            ]
         }
     ],
     "inputs": [
