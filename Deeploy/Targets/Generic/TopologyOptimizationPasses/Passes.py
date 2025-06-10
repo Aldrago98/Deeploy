@@ -401,8 +401,11 @@ def _extract_padding_fun_conv(graph: gs.Graph, match: Match, name: str, value = 
             newPads[len(newPads) // 2 + 2 + idx] = i
 
         newConvInput = gs.Variable(name + '_padded_input', dtype = np.float32, shape = newShape)
+        
+
         #valConst = gs.Constant('value', np.array(0))
         conv.attrs['pads'] = [0 for pad in conv.attrs['pads']]
+        
         newPad = gs.Node(op = 'Pad',
                          name = name + '_pad',
                          attrs = {
@@ -412,14 +415,17 @@ def _extract_padding_fun_conv(graph: gs.Graph, match: Match, name: str, value = 
                          },
                          inputs = [conv.inputs[0]],
                          outputs = [newConvInput])
+        print(f"[DEBUG] Pad input dtype: {conv.inputs[0].dtype}")
 
         conv.inputs[0] = newConvInput
+        print(f"[DEBUG] Pad new input dtype: {newConvInput.dtype}")
         graph.nodes.append(newPad)
         graph.cleanup().toposort()
         print(f"_extract_padding_fun_conv, pads: {newPad.attrs['pads']}")
         #import IPython; IPython.embed()
 
     return graph
+
 
 
 
