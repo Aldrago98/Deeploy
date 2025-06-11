@@ -30,13 +30,14 @@ from Deeploy.CommonExtensions.OptimizationPasses.TopologyOptimizationPasses.Lowe
     RemoveEmptyConvBiasPass
 from Deeploy.DeeployTypes import ConstantBuffer, DeploymentEngine, DeploymentPlatform, NodeMapper, NodeTemplate, \
     StructBuffer, TopologyOptimizer, TransientBuffer, VariableBuffer
-from Deeploy.Targets.Generic.Bindings import BasicAddBindings, BasicConv1DBinding, BasicConv2DBindings, \
+from Deeploy.Targets.Generic.Bindings import BasicAddBindings, BasicConv1DBindings, BasicConv2DBindings, \
     BasicDebugPrintBindings, BasicDequantBindings, BasicDivBindings, BasicDWConv1DBinding, BasicDWConv2DBindings, \
     BasicGatherBindings, BasicGELUBindings, BasicGEMMBindings, BasicITAPartialSoftmaxBinding, BasicITASoftmaxBinding, \
     BasicLayerNormBindings, BasicMatMulBindings, BasicMaxPool2DBindings, BasicMulBindings, BasicPad1DBindings, \
     BasicPad2DBindings, BasicQuantBindings, BasicReduceMeanBindings, BasicReduceSumBindings, BasicReluBinding, \
     BasicReshapeBindings, BasicRQIntegerDivBinding, BasicRQSBindings, BasicRQSGELUBinding, BasicSliceBindings, \
-    BasicSoftmaxBindings, BasicTransposeBindings, DummyBinding, BasicBatchNormBindings, BasicConvTransposeBindings
+    BasicSoftmaxBindings, BasicTransposeBindings, DummyBinding, BasicBatchNormBindings, BasicConvTransposeBindings, \
+    BasicMaxPool1DBinding
 from Deeploy.Targets.Generic.Layers import AddLayer, ConvLayer, DebugPrintLayer, DequantLayer, DivLayer, GatherLayer, \
     GELULayer, GEMMLayer, ITAMaxLayer, LayerNormLayer, MatMulLayer, MaxPoolLayer, MulLayer, PadLayer, QuantLayer, \
     ReduceMeanLayer, ReduceSumLayer, ReluLayer, RequantShiftLayer, ReshapeLayer, RQIntegerDivLayer, RQSiGELULayer, \
@@ -47,14 +48,14 @@ from Deeploy.Targets.Generic.Parsers import AddParser, DebugParser, DequantParse
     ITAPartialMaxParser, LayerNormParser, MatMulParser, MulParser, Pad1DParser, Pad2DParser, QuantParser, \
     ReduceMeanParser, ReduceSumParser, ReluParser, RequantShiftParser, ReshapeParser, RQIntegerDivParser, \
     RQSiGELUParser, SliceParser, SoftmaxParser, TransposeParser, UnsqueezeParser, iLayerNormParser, iSoftmaxParser, \
-    BatchNormParser, ConvTransposeParser
+    BatchNormParser, ConvTransposeParser, MaxPool1DParser
 from Deeploy.Targets.Generic.Templates import AllocateTemplate, FreeTemplate
 from Deeploy.Targets.Generic.TopologyOptimizationPasses.Passes import DequantPatternPass, ExtractPaddingFromConvPass, \
     ExtractPaddingFromPoolPass, MatMulAddMergePass, MergeConstAddAndRequantPass, QuantPatternPass, \
     iGELURequantMergePass
 
 AddMapper = NodeMapper(AddParser(), BasicAddBindings)
-Conv1DMapper = NodeMapper(GenericConv1DParser(), [BasicConv1DBinding])
+Conv1DMapper = NodeMapper(GenericConv1DParser(), BasicConv1DBindings)
 Conv2DMapper = NodeMapper(GenericConv2DParser(), BasicConv2DBindings)
 DebugMapper = NodeMapper(DebugParser(), BasicDebugPrintBindings)
 DWConv1DMapper = NodeMapper(GenericDWConv1DParser(), [BasicDWConv1DBinding])
@@ -71,6 +72,7 @@ ITAMaxMapper = NodeMapper(ITAMaxParser(), [BasicITASoftmaxBinding])
 ITAPartialMaxMapper = NodeMapper(ITAPartialMaxParser(), [BasicITAPartialSoftmaxBinding])
 MatMulMapper = NodeMapper(MatMulParser(), BasicMatMulBindings)
 MaxPoolMapper = NodeMapper(GenericMaxPool2DParser(), BasicMaxPool2DBindings)
+MaxPool1DMapper = NodeMapper(MaxPool1DParser(), [BasicMaxPool1DBinding])
 MulMapper = NodeMapper(MulParser(), BasicMulBindings)
 Pad1DMapper = NodeMapper(Pad1DParser(), BasicPad1DBindings)
 Pad2DMapper = NodeMapper(Pad2DParser(), BasicPad2DBindings)
@@ -115,7 +117,7 @@ GenericMapping = {
     'ITAPartialMax': ITAMaxLayer([ITAPartialMaxMapper]),
     'MatMul': GEMMLayer([MatMulMapper]),
     'MatMulInteger': MatMulLayer([MatMulMapper]),
-    'MaxPool': MaxPoolLayer([MaxPoolMapper]),
+    'MaxPool': MaxPoolLayer([MaxPool1DMapper,MaxPoolMapper]),
     'Mul': MulLayer([MulMapper]),
     'Pad': PadLayer([Pad1DMapper, Pad2DMapper]),
     'ReduceMean': ReduceMeanLayer([ReduceMeanMapper]),
