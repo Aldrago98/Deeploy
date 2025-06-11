@@ -1687,6 +1687,8 @@ class NodeMapper():
                    default_channels_first: bool = True) -> Tuple[NetworkContext, bool]:
 
         newCtxt, ret = self.parser.parseNodeCtxt(ctxt.copy(), node, default_channels_first)
+        print('################################################')
+        print({ret})
         return (newCtxt, ret)
 
     def bindingsExhausted(self) -> bool:
@@ -1968,6 +1970,7 @@ class ONNXLayer():
             ioParse = not ret
 
             if not ret:
+                print('!!!! Mapper Discarded  !!!')
                 self.discardedMappers.add(mapper)
                 continue
 
