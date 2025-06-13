@@ -683,6 +683,7 @@ class ConvTransposeLayer(ONNXLayer):
                 newOutputShapes[0][-1] = ch_out
 
         return newInputShapes, newOutputShapes
+
     def computeOps(self):
         opRep = self.mapper.parser.operatorRepresentation
 
