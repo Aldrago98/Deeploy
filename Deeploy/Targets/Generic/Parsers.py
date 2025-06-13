@@ -2599,7 +2599,7 @@ class ConvTransposeParser(NodeParser):
         super().__init__()
 
     def parseNode(self, node: gs.Node) -> bool:
-        print(f"[ConvTransposeParser] parseNode called for node: {node.name}")
+        #print(f"[ConvTransposeParser] parseNode called for node: {node.name}")
         attrs = node.attrs
 
         # Accept both 1D and 2D ConvTranspose
@@ -2611,8 +2611,8 @@ class ConvTransposeParser(NodeParser):
             print('ERROR in Dims')
             return False
 
-        print(f"Node Attributes for {node.name}: {node.attrs}")
-        print(f"Node Inputs for {node.name}: {node.inputs}")
+        #print(f"Node Attributes for {node.name}: {node.attrs}")
+        #print(f"Node Inputs for {node.name}: {node.inputs}")
         self.operatorRepresentation['auto_pad'] = attrs.get('auto_pad', 'NOTSET')
         self.operatorRepresentation['dilations'] = attrs.get('dilations', [1] * dims)
         self.operatorRepresentation['group'] = attrs.get('group', 1)
@@ -2626,11 +2626,10 @@ class ConvTransposeParser(NodeParser):
         if not (2 <= len(node.inputs) <= 3):
             print('ERROR in len of node inputs')
             return False
-        print(f"[ConvTransposeParser] parseNode returns {True} for node: {node.name}")
+        #print(f"[ConvTransposeParser] parseNode returns {True} for node: {node.name}")
         return True
 
     def parseNodeCtxt(self, ctxt: NetworkContext, node: gs.Node, channels_first: bool = True) -> Tuple[NetworkContext, bool]:
-        print("[ConvTransposeParser] ch_im_out set to:", self.operatorRepresentation.get('ch_im_out'))
         inputs = ['data_in', 'weight']
         outputs = ['data_out']
 
@@ -2645,8 +2644,13 @@ class ConvTransposeParser(NodeParser):
         # Assign variable names for inputs and outputs
         for idx, inputNode in enumerate(node.inputs):
             self.operatorRepresentation[inputs[idx]] = ctxt.lookup(inputNode.name).name
-
         for idx, outputNode in enumerate(node.outputs):
+            output_name = outputNode.name
+            print(f"[DEBUG] Parser: {self.__class__.__name__}, Node: {node.name}, Output: {output_name}")
+            # Add this line to check the type before annotation
+            print(f"[DEBUG] Type of outputNode: {type(outputNode)}")
+            # Add this line to check the type before annotation
+            print(f"[DEBUG] Type of what will be annotated: {type(ctxt.globalObjects.get(output_name))}")
             self.operatorRepresentation[outputs[idx]] = ctxt.lookup(outputNode.name).name
 
         # Set input/output shapes and channels
@@ -2657,7 +2661,7 @@ class ConvTransposeParser(NodeParser):
         self.operatorRepresentation['size'] = int(np.prod(data_in.shape))
         group = self.operatorRepresentation.get('group', 1)
         dims = len(self.operatorRepresentation['kernel_shape'])
-
+        print(f"[ConvTransposeParser] parseNodeCtxt called for node: {node.name}, dims: {dims}, group: {group}")
         if dims == 1:
             # 1D: N, C_in, W or N, W, C_in
             if channels_first:
