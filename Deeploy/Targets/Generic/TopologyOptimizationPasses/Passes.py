@@ -421,8 +421,6 @@ def _extract_padding_fun_conv(graph: gs.Graph, match: Match, name: str, value = 
         print(f"[DEBUG] Pad new input dtype: {newConvInput.dtype}")
         graph.nodes.append(newPad)
         graph.cleanup().toposort()
-        print(f"_extract_padding_fun_conv, pads: {newPad.attrs['pads']}")
-        #import IPython; IPython.embed()
 
     return graph
 
