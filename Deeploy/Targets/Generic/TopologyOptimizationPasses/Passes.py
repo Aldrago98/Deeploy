@@ -198,8 +198,6 @@ def _merge_igelu_rq_fun(graph: gs.Graph, match: Match, name: str):
     _inputs = list(igelu.inputs) + list(rqs.inputs[1:]) + [shiftNode]
     _outputs = rqs.outputs
 
-    #import IPython; IPython.embed()
-
     rqsiGELU = gs.Node(op = 'RequantizediGELU', name = name, attrs = {**igelu.attrs, **rqs.attrs})
     graph.replaceInsertNode(_inputs, _outputs, rqsiGELU)
 
