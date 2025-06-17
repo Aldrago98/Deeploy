@@ -76,14 +76,14 @@ BasicAddBindings = [
                 FloatAddTemplate.referenceTemplate, BasicTransformer)
 ]
 
-BasicConv1DBindings =[ NodeBinding(ConvChecker([PointerClass(int8_t), PointerClass(int8_t)], [PointerClass(int32_t)]),
-                                 ConvTemplate.reference1DTemplate, BasicTransformer) 
-] + [
+BasicConv1DBindings =[
     NodeBinding(
         ConvChecker([PointerClass(float32_t), PointerClass(float32_t), 
                      PointerClass(float32_t)], [PointerClass(float32_t)]),FloatConvTemplate.reference1DTemplate,
             BasicTransformer)
-]
+] + [ NodeBinding(ConvChecker([PointerClass(int8_t), PointerClass(int8_t)], [PointerClass(int32_t)]),
+                                 ConvTemplate.reference1DTemplate, BasicTransformer) 
+]  
 
 BasicDWConv1DBinding = NodeBinding(ConvChecker([PointerClass(int8_t), PointerClass(int8_t)], [PointerClass(int32_t)]),
                                    DWConvTemplate.reference1DTemplate, BasicTransformer)
@@ -321,7 +321,7 @@ BasicBatchNormBindings = [
 BasicConvTransposeBindings = [
     NodeBinding(
         ConvTransposeChecker(
-            [PointerClass(float32_t), PointerClass(float32_t)],  # input, weight
+            [PointerClass(float32_t), PointerClass(float32_t), PointerClass(float32_t)],  # input, weight, bias
             [PointerClass(float32_t)]
         ),
         ConvTransposeTemplate.referenceTemplate,
@@ -329,10 +329,11 @@ BasicConvTransposeBindings = [
     ),
     NodeBinding(
         ConvTransposeChecker(
-            [PointerClass(float32_t), PointerClass(float32_t), PointerClass(float32_t)],  # input, weight, bias
+            [PointerClass(float32_t), PointerClass(float32_t)],  # input, weight
             [PointerClass(float32_t)]
         ),
         ConvTransposeTemplate.referenceTemplate,
         BasicTransformer
     )
+    
 ]
