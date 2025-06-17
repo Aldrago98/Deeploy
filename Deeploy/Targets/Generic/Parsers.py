@@ -31,6 +31,7 @@ from typing import Tuple
 
 import numpy as np
 import onnx_graphsurgeon as gs
+import warnings
 
 from Deeploy.DeeployTypes import NetworkContext, NodeParser, VariableBuffer
 
@@ -2688,7 +2689,12 @@ class ConvTransposeParser(NodeParser):
         kernel_shape = node.attrs.get('kernel_shape', None)
         dilations = node.attrs.get('dilations', [1])
         group = node.attrs.get('group', 1)
-
+        for i, inp in enumerate(node.inputs):
+            print(f"ConvTranspose input {i}: name={inp.name}, shape={getattr(inp, 'shape', None)}")
+        for i, out in enumerate(node.outputs):
+            print(f"ConvTranspose output {i}: name={out.name}, shape={getattr(out, 'shape', None)}")
+        
+        
         # Check for required attributes
         wellFormed = (kernel_shape is not None and len(node.outputs) == 1)
         if wellFormed:
