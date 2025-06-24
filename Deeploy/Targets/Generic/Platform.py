@@ -37,7 +37,7 @@ from Deeploy.Targets.Generic.Bindings import BasicAddBindings, BasicConv1DBindin
     BasicPad2DBindings, BasicQuantBindings, BasicReduceMeanBindings, BasicReduceSumBindings, BasicReluBinding, \
     BasicReshapeBindings, BasicRQIntegerDivBinding, BasicRQSBindings, BasicRQSGELUBinding, BasicSliceBindings, \
     BasicSoftmaxBindings, BasicTransposeBindings, DummyBinding, BasicBatchNormBindings, BasicConvTransposeBindings, \
-    BasicMaxPool1DBinding
+    BasicMaxPool1DBindings
 from Deeploy.Targets.Generic.Layers import AddLayer, ConvLayer, DebugPrintLayer, DequantLayer, DivLayer, GatherLayer, \
     GELULayer, GEMMLayer, ITAMaxLayer, LayerNormLayer, MatMulLayer, MaxPoolLayer, MulLayer, PadLayer, QuantLayer, \
     ReduceMeanLayer, ReduceSumLayer, ReluLayer, RequantShiftLayer, ReshapeLayer, RQIntegerDivLayer, RQSiGELULayer, \
@@ -72,7 +72,7 @@ ITAMaxMapper = NodeMapper(ITAMaxParser(), [BasicITASoftmaxBinding])
 ITAPartialMaxMapper = NodeMapper(ITAPartialMaxParser(), [BasicITAPartialSoftmaxBinding])
 MatMulMapper = NodeMapper(MatMulParser(), BasicMatMulBindings)
 MaxPoolMapper = NodeMapper(GenericMaxPool2DParser(), BasicMaxPool2DBindings)
-MaxPool1DMapper = NodeMapper(MaxPool1DParser(), [BasicMaxPool1DBinding])
+MaxPool1DMapper = NodeMapper(MaxPool1DParser(), BasicMaxPool1DBindings)
 MulMapper = NodeMapper(MulParser(), BasicMulBindings)
 Pad1DMapper = NodeMapper(Pad1DParser(), BasicPad1DBindings)
 Pad2DMapper = NodeMapper(Pad2DParser(), BasicPad2DBindings)
