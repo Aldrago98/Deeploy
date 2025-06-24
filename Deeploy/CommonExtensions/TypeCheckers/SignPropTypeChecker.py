@@ -60,22 +60,15 @@ class SignPropTypeChecker(NodeTypeChecker):
 
         inputs = [ctxt.lookup(inputNode.name) for inputNode in node.inputs]
         outputs = [ctxt.lookup(outputNode.name) for outputNode in node.outputs]
-        print(f"[DEBUG - typeInferOutput] Node: {node.name}")
-        for i, inp in enumerate(inputs):
-            print(f"  Input {i}: name={inp.name}, has _signed={hasattr(inp, '_signed')}, has nLevels={hasattr(inp, 'nLevels')}")
+        
         signProp = all([hasattr(_input, "_signed") and hasattr(_input, "nLevels") for _input in inputs])
-        print(f"  signProp = {signProp}")
+
         if signProp:
             nLevels = self._inferNumLevels(inputs, operatorRepresentation)
             signedness = self._inferSignedness(inputs, operatorRepresentation)
-            print(f"  inferred nLevels = {nLevels}")
-            print(f"  inferred signedness = {signedness}")
 
             for obj, nLevel, sign in zip(outputs, nLevels, signedness):
                 obj.nLevels = nLevel
                 obj._signed = sign
-                print(f"  --> Set output {obj.name} nLevels={nl}, _signed={sign}")
-        else:
-            print(f"  [WARNING] signProp check failed: skipping inference")
 
         return ctxt

@@ -35,23 +35,6 @@
                 
             ]
         },
-         {
-            "name": "Python: model tester",
-            "type": "debugpy",
-            "request": "launch",
-            "justMyCode": false,
-            "program": "testRunner_generic.py",
-            "cwd": "${workspaceFolder}/DeeployTest",
-            "env": {
-            "PYTHONPATH": "${workspaceFolder}/DeeployTest:/home/Deeploy/"
-                },
-            "args": [
-                "-t",
-                "Tests/TestAutoenc",
-                
-                
-            ]
-        },
         {
             "name": "Deeploy Generate Untiled",
             "type": "debugpy",
