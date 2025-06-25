@@ -1300,8 +1300,7 @@ class NodeTypeChecker():
                 return False
 
             if hasattr(reference, "values"):
-                ok = _type.referencedType.checkPromotion(reference.values)
-                retCheck &= ok
+                retCheck &= _type.referencedType.checkPromotion(reference.values)
             else:
                 if ctxt.is_global(inputNode.name):
                     retCheck &= _type.referencedType.partialOrderUpcast(reference._type.referencedType)
