@@ -116,6 +116,7 @@ jobs:
         miniMobileNet
         miniMobileNetv2
         CCT/CCT_1_16_16_8
+        Autoencoder1D
   
   ### SoftHier Tests ###
   softhier-kernels:
