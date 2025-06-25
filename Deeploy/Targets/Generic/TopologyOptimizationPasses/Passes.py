@@ -374,9 +374,6 @@ class SplitAddPass(ReplaceSequentialPatternPass):
         super().__init__(graph, _split_add_fun, name)
 
 
-
-
-
 def _extract_padding_fun_conv(graph: gs.Graph, match: Match, name: str, value = 0):
 
     matched_nodes = [m for k, m in match.nodes_map.items()]
@@ -399,11 +396,10 @@ def _extract_padding_fun_conv(graph: gs.Graph, match: Match, name: str, value = 
             newPads[len(newPads) // 2 + 2 + idx] = i
 
         newConvInput = gs.Variable(name + '_padded_input', dtype = np.float32, shape = newShape)
-        
 
         #valConst = gs.Constant('value', np.array(0))
         conv.attrs['pads'] = [0 for pad in conv.attrs['pads']]
-        
+
         newPad = gs.Node(op = 'Pad',
                          name = name + '_pad',
                          attrs = {
@@ -419,9 +415,6 @@ def _extract_padding_fun_conv(graph: gs.Graph, match: Match, name: str, value = 
         graph.cleanup().toposort()
 
     return graph
-
-
-
 
 
 def _extract_padding_fun_maxpool(graph: gs.Graph, match: Match, name: str, value = 0):
