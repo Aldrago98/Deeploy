@@ -24,8 +24,6 @@
 # limitations under the License.
 
 from Deeploy.DeeployTypes import NodeTemplate
-from Deeploy.DeeployTypes import NodeTemplate, NetworkContext, OperatorRepresentation
-from typing import List, Tuple, Dict
 
 reference2DTemplate = NodeTemplate("""
 <%
@@ -112,4 +110,3 @@ BEGIN_SINGLE_CORE
     %endif
 END_SINGLE_CORE
 """)
-
