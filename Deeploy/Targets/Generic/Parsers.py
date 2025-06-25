@@ -353,11 +353,8 @@ class PadParser(NodeParser):
 
     def __init__(self):
         super().__init__()
-        
-
 
     def parseNode(self, node: gs.Node) -> bool:
-        
 
         ret = all([
             'mode' in node.attrs, 'pads' in node.attrs, 'value' in node.attrs,
@@ -395,9 +392,9 @@ class Pad2DParser(PadParser):
 
     def __init__(self):
         super().__init__()
-        
+
     def parseNode(self, node: gs.Node) -> bool:
-        
+
         ret = super().parseNode(node)
 
         wellFormed = False
@@ -447,10 +444,9 @@ class Pad1DParser(PadParser):
 
     def __init__(self):
         super().__init__()
-        
 
     def parseNode(self, node: gs.Node) -> bool:
-        
+
         ret = super().parseNode(node)
 
         wellFormed = False
@@ -462,7 +458,7 @@ class Pad1DParser(PadParser):
                 wellFormed = True
                 self.operatorRepresentation['pad_y'] = int(pads[2])
                 self.operatorRepresentation['pad_x'] = 0
-        
+
         return wellFormed
 
     def parseNodeCtxt(self,
@@ -470,9 +466,8 @@ class Pad1DParser(PadParser):
                       node: gs.Node,
                       channels_first: bool = True) -> Tuple[NetworkContext, bool]:
 
-        
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
-    
+
         wellFormed = False
         if ret:
             data_in = newCtxt.lookup(node.inputs[0].name)
@@ -1220,7 +1215,7 @@ class ConvParser(NodeParser):
             self.operatorRepresentation['pads'] = node.attrs['pads']
             self.operatorRepresentation['strides'] = node.attrs['strides']
             self.operatorRepresentation['dilations'] = node.attrs['dilations']
-            
+
         return wellFormed
 
     def parseNodeCtxt(self,
@@ -1366,7 +1361,9 @@ class Conv1DParser(ConvParser):
             self.operatorRepresentation['stride_y'] = int(self.operatorRepresentation['strides'][0])
             self.operatorRepresentation['bias_shift'] = int(0)
             self.operatorRepresentation['out_shift'] = int(0)
-            
+            self.operatorRepresentation['dim_kernel_x'] = int(1)
+            self.operatorRepresentation['stride_x'] = int(1)
+
         return ret
 
     def parseNodeCtxt(self,
@@ -1382,8 +1379,8 @@ class Conv1DParser(ConvParser):
             weight = newCtxt.lookup(self.operatorRepresentation['weight'])
 
             self.operatorRepresentation['batch'] = data_in.shape[0]
-            self.operatorRepresentation['dim_im_in_x'] = 1
-            self.operatorRepresentation['dim_im_out_x'] = 1
+            self.operatorRepresentation['dim_im_in_x'] = int(1)
+            self.operatorRepresentation['dim_im_out_x'] = int(1)
 
             if channels_first:
                 self.operatorRepresentation['ch_im_in'] = data_in.shape[1]
@@ -1396,6 +1393,10 @@ class Conv1DParser(ConvParser):
                 self.operatorRepresentation['ch_im_out'] = data_out.shape[2]
                 self.operatorRepresentation['dim_im_out_y'] = data_out.shape[1]
 
+            self.operatorRepresentation[
+                'batchOffsetIn'] = self.operatorRepresentation['ch_im_in'] * self.operatorRepresentation['dim_im_in_y']
+            self.operatorRepresentation['batchOffsetOut'] = self.operatorRepresentation[
+                'ch_im_out'] * self.operatorRepresentation['dim_im_out_y']
             self.operatorRepresentation[
                 'batchOffsetIn'] = self.operatorRepresentation['ch_im_in'] * self.operatorRepresentation['dim_im_in_y']
             self.operatorRepresentation['batchOffsetOut'] = self.operatorRepresentation[
@@ -2205,7 +2206,8 @@ class GenericConv1DParser(Conv1DParser):
                 self.operatorRepresentation["bias"] = "NULL"
             for idx, inputNode in enumerate(node.inputs):
                 if idx >= len(inputs):
-                    raise IndexError(f"Index {idx} out of range for inputs of length {len(inputs)} in node {inputNode.name}")
+                    raise IndexError(
+                        f"Index {idx} out of range for inputs of length {len(inputs)} in node {inputNode.name}")
                 self.operatorRepresentation[inputs[idx]] = ctxt.lookup(inputNode.name).name
             return newCtxt, True
 
