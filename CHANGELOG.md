@@ -5,6 +5,7 @@ This file contains the changelog for the Deeploy project. The changelog is divid
 This release containing major architectural changes, new platform support, enhanced simulation workflows, floating-point kernel support, training infrastructure for CCT models, memory allocation strategies, and documentation improvements.
 
 ### List of Pull Requests
+- Support for 1D Autoencoder [#98](https://github.com/pulp-platform/Deeploy/pull/98)
 - Reduce Mean Float Template [#92](https://github.com/pulp-platform/Deeploy/pull/92)
 - Reshape Memory Freeing and Generic Float GEMM Fixes [#91](https://github.com/pulp-platform/Deeploy/pull/91)
 - Prepare for Release and Separate Dependencies [#90](https://github.com/pulp-platform/Deeploy/pull/90)
