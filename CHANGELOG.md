@@ -5,6 +5,7 @@ This file contains the changelog for the Deeploy project. The changelog is divid
 This release containing major architectural changes, new platform support, enhanced simulation workflows, floating-point kernel support, training infrastructure for CCT models, memory allocation strategies, and documentation improvements.
 
 ### List of Pull Requests
+- Support for 1D Autoencoder [#93](https://github.com/pulp-platform/Deeploy/pull/93)
 - Reshape Memory Freeing and Generic Float GEMM Fixes [#91](https://github.com/pulp-platform/Deeploy/pull/91)
 - Prepare for Release and Separate Dependencies [#90](https://github.com/pulp-platform/Deeploy/pull/90)
 - Move PULP SDK to main branch/fork [#88](https://github.com/pulp-platform/Deeploy/pull/88)
@@ -64,6 +65,13 @@ This release containing major architectural changes, new platform support, enhan
 
 
 ### Added
+- BatchNorm kernel 
+- ConvTranspose kernel 
+- MaxPool1D kernel 
+- Template for 1D Convolution
+- Support for float32 data type in the previous kernels
+- Float binding for Pad1D kernel
+- Test for Autoencoder1D in the CI pipeline
 - New alias list parameter for buffer objects
 - New test, also included in the CI pipeline, for the reshape and skip connection situation
 - 'shape' parameter handling similar to the 'indices' parameter in the generic reshape template
@@ -190,6 +198,8 @@ This release containing major architectural changes, new platform support, enhan
 - `dev-requirements.txt` tracking the dependencies of the build system, linting, documentation, and QOL.
 
 ### Changed
+- FloatConvTemplate file
+- Platform.py file  
 - Moved PULP SDK from Victor-Jung/pulp-sdk branch deeploy to pulp-platform/pulp-sdk branch main.
 - Memory arena buffers are now declared at the beginning of the `InitNetwork` function
 - Tiling profiling is now an ON/OFF version where you get the I/O DMA time for each DMA call
