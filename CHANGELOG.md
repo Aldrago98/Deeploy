@@ -66,6 +66,13 @@ This release containing major architectural changes, new platform support, enhan
 
 
 ### Added
+- BatchNorm kernel
+- ConvTranspose kernel
+- MaxPool1D kernel
+- Template for 1D Convolution
+- Support for float32 data type in the previous kernels
+- Float binding for Pad1D kernel
+- Test for Autoencoder1D in the CI pipeline
 - Generic FP32 reduce mean bindings, parser, and template
 - New alias list parameter for buffer objects
 - New test, also included in the CI pipeline, for the reshape and skip connection situation
