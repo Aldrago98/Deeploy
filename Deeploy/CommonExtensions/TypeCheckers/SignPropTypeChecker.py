@@ -67,8 +67,8 @@ class SignPropTypeChecker(NodeTypeChecker):
             nLevels = self._inferNumLevels(inputs, operatorRepresentation)
             signedness = self._inferSignedness(inputs, operatorRepresentation)
 
-            for obj, nl, sign in zip(outputs, nLevels, signedness):
-                obj.nLevels = nl
+            for obj, nLevels, sign in zip(outputs, nLevels, signedness):
+                obj.nLevels = nLevels
                 obj._signed = sign
 
         return ctxt
