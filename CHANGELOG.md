@@ -6,9 +6,12 @@ This release containing major architectural changes, new platform support, enhan
 
 ### List of Pull Requests
 - Support for 1D Autoencoder [#98](https://github.com/pulp-platform/Deeploy/pull/98)
+- Chimera Platform Integration [#96](https://github.com/pulp-platform/Deeploy/pull/96)
+- Add Tutorial and Refactor README [#97](https://github.com/pulp-platform/Deeploy/pull/97)
 - Reduce Mean Float Template [#92](https://github.com/pulp-platform/Deeploy/pull/92)
 - Reshape Memory Freeing and Generic Float GEMM Fixes [#91](https://github.com/pulp-platform/Deeploy/pull/91)
 - Prepare for Release and Separate Dependencies [#90](https://github.com/pulp-platform/Deeploy/pull/90)
+- Fix input offsets calculation [#89](https://github.com/pulp-platform/Deeploy/pull/89)
 - Move PULP SDK to main branch/fork [#88](https://github.com/pulp-platform/Deeploy/pull/88)
 - Finite Lifetime for IO Tensors [#51](https://github.com/pulp-platform/Deeploy/pull/51)
 - Improved Memory Visualization and Multi-Layer Tiling Profiling [#56](https://github.com/pulp-platform/Deeploy/pull/56)
@@ -73,6 +76,12 @@ This release containing major architectural changes, new platform support, enhan
 - Support for float32 data type in the previous kernels
 - Float binding for Pad1D kernel
 - Test for Autoencoder1D in the CI pipeline
+- ChimeraDeployer, currently mainly a placeholder
+- Allocate templates for Chimera
+- ChimeraPlatform, using appropriate allocation templates and using the generic Parser + Binding for the Add node
+- Adder CI test for Chimera
+- Install flow for chimera-sdk via Makefile
+- DeeployChimeraMath library
 - Generic FP32 reduce mean bindings, parser, and template
 - New alias list parameter for buffer objects
 - New test, also included in the CI pipeline, for the reshape and skip connection situation
@@ -202,6 +211,9 @@ This release containing major architectural changes, new platform support, enhan
 ### Changed
 - FloatConvTemplate file
 - Platform.py file  
+- Bump the CMake version to 3.24 as required for the chimera-sdk
+- Bump GVSoC's version and add chimera simulation target
+- Rename the generic source util to utils to avoid name collision with chimera-sdk
 - Moved PULP SDK from Victor-Jung/pulp-sdk branch deeploy to pulp-platform/pulp-sdk branch main.
 - Memory arena buffers are now declared at the beginning of the `InitNetwork` function
 - Tiling profiling is now an ON/OFF version where you get the I/O DMA time for each DMA call
@@ -287,6 +299,7 @@ This release containing major architectural changes, new platform support, enhan
 - Input offset height and width calculation for tiled PULPOpen convolution kernels
 
 ### Removed
+- Removed commented code from generic allocation templates
 - Remove the link to the precompiled LLVM 12 in the `testRunner` for Snitch and in the CI.
 - Remove the sourcing of the cursed PULP SDK script.
 - Commented IPython breakpoints.

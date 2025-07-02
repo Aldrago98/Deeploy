@@ -54,7 +54,7 @@
 
 #include "macros.h"
 #include "types.h"
-#include "util.h"
+#include "utils.h"
 
 #include "kernel/BatchNorm.h"
 #include "kernel/ConvTranspose1d_fp32.h"
