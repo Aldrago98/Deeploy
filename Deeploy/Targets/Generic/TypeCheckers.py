@@ -633,5 +633,3 @@ class BatchNormChecker(SignPropTypeChecker):
     def _inferSignedness(self, inputs: List[VariableBuffer],
                          operatorRepresentation: OperatorRepresentation) -> List[bool]:
         return [True]
-
-
