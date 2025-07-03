@@ -1581,8 +1581,11 @@ class NodeBinding():
             Updated and NetworkContext and true if the typing rule
             matches the node
 
+        
         """
+
         newCtxt, ret = self.typeChecker.typeCheck(ctxt.copy(), node, operatorRepresentation)
+
         if ret:
             return newCtxt, True
 
