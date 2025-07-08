@@ -57,6 +57,7 @@ from Deeploy.Targets.Generic.TopologyOptimizationPasses.Passes import DequantPat
 AddMapper = NodeMapper(AddParser(), BasicAddBindings)
 Conv1DMapper = NodeMapper(GenericConv1DParser(), BasicConv1DBindings)
 Conv2DMapper = NodeMapper(GenericConv2DParser(), BasicConv2DBindings)
+ConcatMapper = NodeMapper(ConcatParser(), BasicConcatBindings)
 DebugMapper = NodeMapper(DebugParser(), BasicDebugPrintBindings)
 DWConv1DMapper = NodeMapper(GenericDWConv1DParser(), [BasicDWConv1DBinding])
 DWConv2DMapper = NodeMapper(GenericDWConv2DParser(), BasicDWConv2DBindings)
@@ -100,6 +101,7 @@ DummyMapper = NodeMapper(DummyParser(), [DummyBinding])
 GenericMapping = {
     'Add': AddLayer([AddMapper]),
     'Conv': ConvLayer([Conv2DMapper, DWConv2DMapper, Conv1DMapper, DWConv1DMapper]),
+    'Concat': ConcatLayer([ConcatMapper]),
     'DebugPrint': DebugPrintLayer([DebugMapper]),
     'Div': DivLayer([DivMapper]),
     'Flatten': ReshapeLayer([FlattenMapper]),
