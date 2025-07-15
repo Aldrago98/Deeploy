@@ -133,7 +133,7 @@ jobs:
         CCT/CCT_1_16_16_8
         testFloatDemoTinyViT
         Autoencoder1D
-  
+
   ### SoftHier Tests ###
   softhier-kernels:
     uses: ./.github/workflows/TestRunnerSoftHier.yml
