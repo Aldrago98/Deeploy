@@ -1586,7 +1586,6 @@ class NodeBinding():
 
         newCtxt, ret = self.typeChecker.typeCheck(ctxt.copy(), node, operatorRepresentation)
 
-
         if ret:
             return newCtxt, True
 

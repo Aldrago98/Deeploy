@@ -47,11 +47,11 @@
 #include <ctype.h>
 #include <inttypes.h>
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 
 #include "macros.h"
 #include "types.h"
