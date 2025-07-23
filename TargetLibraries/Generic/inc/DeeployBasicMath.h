@@ -47,7 +47,7 @@
 #include <ctype.h>
 #include <inttypes.h>
 
-#include <math.h>
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -56,7 +56,7 @@
 #include "macros.h"
 #include "types.h"
 #include "utils.h"
-
+#include <math.h>
 #include "kernel/BatchNorm.h"
 #include "kernel/ConvTranspose1d_fp32.h"
 #include "kernel/Convolution.h"
