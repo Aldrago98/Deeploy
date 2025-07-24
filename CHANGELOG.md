@@ -21,13 +21,13 @@ This file contains the changelog for the Deeploy project. The changelog is divid
 This release containing major architectural changes, new platform support, enhanced simulation workflows, floating-point kernel support, training infrastructure for CCT models, memory allocation strategies, and documentation improvements.
 
 ### List of Pull Requests
+- Support for 1D Autoencoder [#98](https://github.com/pulp-platform/Deeploy/pull/98)
 - Prepare v0.2.0 release [#102](https://github.com/pulp-platform/Deeploy/pull/102)
 - Add Luka as Code Owner [#101](https://github.com/pulp-platform/Deeploy/pull/101)
 - Fix CI, Docker Files, and Documentation Workflow [#100](https://github.com/pulp-platform/Deeploy/pull/100)
 - Chimera Platform Integration [#96](https://github.com/pulp-platform/Deeploy/pull/96)
 - Add Tutorial and Refactor README [#97](https://github.com/pulp-platform/Deeploy/pull/97)
 - Reduce Mean Float Template [#92](https://github.com/pulp-platform/Deeploy/pull/92)
-- Support for 1D Autoencoder [#98](https://github.com/pulp-platform/Deeploy/pull/98)
 - Reshape Memory Freeing and Generic Float GEMM Fixes [#91](https://github.com/pulp-platform/Deeploy/pull/91)
 - Prepare for Release and Separate Dependencies [#90](https://github.com/pulp-platform/Deeploy/pull/90)
 - Fix input offsets calculation [#89](https://github.com/pulp-platform/Deeploy/pull/89)
@@ -88,13 +88,6 @@ This release containing major architectural changes, new platform support, enhan
 
 
 ### Added
-- ChimeraDeployer, currently mainly a placeholder
-- Allocate templates for Chimera
-- ChimeraPlatform, using appropriate allocation templates and using the generic Parser + Binding for the Add node
-- Adder CI test for Chimera
-- Install flow for chimera-sdk via Makefile
-- DeeployChimeraMath library
-- Generic FP32 reduce mean bindings, parser, and template
 - BatchNorm kernel 
 - ConvTranspose kernel 
 - MaxPool1D kernel 
@@ -102,6 +95,13 @@ This release containing major architectural changes, new platform support, enhan
 - Support for float32 data type in the previous kernels
 - Float binding for Pad1D kernel
 - Test for Autoencoder1D in the CI pipeline
+- ChimeraDeployer, currently mainly a placeholder
+- Allocate templates for Chimera
+- ChimeraPlatform, using appropriate allocation templates and using the generic Parser + Binding for the Add node
+- Adder CI test for Chimera
+- Install flow for chimera-sdk via Makefile
+- DeeployChimeraMath library
+- Generic FP32 reduce mean bindings, parser, and template
 - New alias list parameter for buffer objects
 - New test, also included in the CI pipeline, for the reshape and skip connection situation
 - 'shape' parameter handling similar to the 'indices' parameter in the generic reshape template
@@ -228,11 +228,11 @@ This release containing major architectural changes, new platform support, enhan
 - `dev-requirements.txt` tracking the dependencies of the build system, linting, documentation, and QOL.
 
 ### Changed
+- FloatConvTemplate file
+- Platform.py file  
 - Bump the CMake version to 3.24 as required for the chimera-sdk
 - Bump GVSoC's version and add chimera simulation target
 - Rename the generic source util to utils to avoid name collision with chimera-sdk
-- FloatConvTemplate file
-- Platform.py file  
 - Moved PULP SDK from Victor-Jung/pulp-sdk branch deeploy to pulp-platform/pulp-sdk branch main.
 - Memory arena buffers are now declared at the beginning of the `InitNetwork` function
 - Tiling profiling is now an ON/OFF version where you get the I/O DMA time for each DMA call
