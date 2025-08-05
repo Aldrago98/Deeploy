@@ -13,7 +13,6 @@
             "cwd": "${workspaceFolder}/DeeployTest",
             "justMyCode": false,
             "args": "-p${input:platformUntiled} -t${input:model} ${input:additionalArgsUntiled}"
-            
         },
         {
             "name": "Deeploy Generate Tiled",
