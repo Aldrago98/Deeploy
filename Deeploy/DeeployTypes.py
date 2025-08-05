@@ -1561,7 +1561,7 @@ class NodeBinding():
         self._nodeName = operatorRepresentation['nodeName']
         return ctxt
 
-    def typeCheck(self, ctxt: NetworkContext, node: gs.Node,
+       def typeCheck(self, ctxt: NetworkContext, node: gs.Node,
                   operatorRepresentation: OperatorRepresentation) -> Tuple[NetworkContext, bool]:
         """Runs the binding-level typechecker on a node
 
@@ -1579,6 +1579,7 @@ class NodeBinding():
         Tuple[NetworkContext, bool]
             Updated and NetworkContext and true if the typing rule
             matches the node
+
         """
         newCtxt, ret = self.typeChecker.typeCheck(ctxt.copy(), node, operatorRepresentation)
         if ret:
@@ -1705,7 +1706,7 @@ class NodeMapper():
         """
         self.discardedBindings = set()
 
-    def typeCheck(self, ctxt: NetworkContext, node: gs.Graph) -> Tuple[NetworkContext, bool]:
+   def typeCheck(self, ctxt: NetworkContext, node: gs.Graph) -> Tuple[NetworkContext, bool]:
         """Tries to elect a binder object whose typeChecker allows the node configuration
 
         Parameters
@@ -1726,6 +1727,7 @@ class NodeMapper():
 
             if binder in self.discardedBindings:
                 continue
+
             newCtxt, ret = binder.typeCheck(ctxt.copy(), node, self.parser.operatorRepresentation)
 
             if not ret:
@@ -1868,8 +1870,10 @@ class ONNXLayer():
             channels_first = default_channels_first
         else:
             channels_first = self.mapper.parser.operatorRepresentation['channels_first']
+
         newInputShapes, newOutputShapes = self.computeShapes(inputShapes, outputShapes,
                                                              self.mapper.parser.operatorRepresentation, channels_first)
+
         for node, newShape in zip(self.node.inputs + self.node.outputs, newInputShapes + newOutputShapes):
             if ctxt.is_local(node.name):
                 ctxt.localObjects[node.name].shape = newShape
@@ -1953,6 +1957,7 @@ class ONNXLayer():
             newCtxt = ctxt.copy()
 
             newCtxt, ret = mapper._parse(newCtxt, self.node, default_channels_first, ioParse)
+
             ioParse = not ret
 
             if not ret:
@@ -1960,8 +1965,11 @@ class ONNXLayer():
                 continue
 
             self.mapper = mapper
+
             self.broadcast(newCtxt, default_channels_first)
+
             newCtxt, ret = mapper._parseCtxt(newCtxt, self.node, default_channels_first)
+
             if not ret:
                 self.discardedMappers.add(mapper)
                 continue
