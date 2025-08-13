@@ -54,6 +54,28 @@ class PULP2DFloatConvIm2ColTemplate(NodeTemplate):
         operatorRepresentation['ctxtBufferSize'] = im2col_dim
         return ctxt, operatorRepresentation, [im2col_name]
 
+class PULP1DFloatConvIm2ColTemplate(NodeTemplate):
+
+    def __init__(self, templateStr):
+        super().__init__(templateStr)
+
+    @staticmethod
+    def computeTransientBuffersSize(
+            ctxt: NetworkContext,
+            operatorRepresentation: OperatorRepresentation) -> List[Tuple[str, Union[int, IntVar]]]:
+        # For 1D: buffer size = 4 bytes * 8 * (in_channels * kernel_y)
+        im2col_dim = 4 * 8 * (operatorRepresentation['ch_im_in'] * operatorRepresentation['dim_kernel_y'])
+        im2col_name = operatorRepresentation['nodeName'] + "_buffer"
+        return [(im2col_name, im2col_dim)]
+
+    def hoistTransientBuffers(self, ctxt: NetworkContext,
+                              operatorRepresentation: OperatorRepresentation) -> Tuple[NetworkContext, Dict, List[str]]:
+        im2col_name, im2col_dim = PULP1DFloatConvIm2ColTemplate.computeTransientBuffersSize(
+            ctxt, operatorRepresentation)[0]
+        ctxt.hoistTransientBuffer(im2col_name, im2col_dim)
+        operatorRepresentation['ctxtBuffer'] = im2col_name
+        operatorRepresentation['ctxtBufferSize'] = im2col_dim
+        return ctxt, operatorRepresentation, [im2col_name]
 
 reference2DTemplate = NodeTemplate("""
 // 2D FP Conv HWC with ChannelOut parallelism (Name: ${nodeName}, Op: ${nodeOp})
@@ -106,5 +128,29 @@ for (uint32_t n=0; n<${batch}; ++n) {
 
     ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_x} * ${dim_im_in_y};
     ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_x} * ${dim_im_out_y};
+}
+""")
+
+
+
+reference1DIm2ColTemplate = PULP1DFloatConvIm2ColTemplate("""
+${data_in_type.typeName} ref_${data_out}_${data_in} = ${data_in};
+${data_out_type.typeName} ref_${data_out}_${data_out} = ${data_out};
+
+for (uint32_t n=0; n<${batch}; ++n) {
+    PULP_Conv1d_Im2Col_fp${data_in_type.referencedType.typeWidth}_fp${weight_type.referencedType.typeWidth}_fp${data_out_type.referencedType.typeWidth}_HWC(
+        ref_${data_out}_${data_in},
+        ${dim_im_in_y},
+        ${ch_im_in},
+        ${weight},
+        ${ch_im_out},
+        ${dim_kernel_y},
+        ${stride_y},
+        ref_${data_out}_${data_out},
+        ${ctxtBuffer}
+    );
+
+    ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};
+    ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_y};
 }
 """)

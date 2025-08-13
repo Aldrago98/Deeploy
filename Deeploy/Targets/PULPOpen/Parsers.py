@@ -30,7 +30,7 @@ import onnx_graphsurgeon as gs
 
 from Deeploy.DeeployTypes import NetworkContext
 from Deeploy.Targets.Generic.Parsers import Conv2DParser, GEMMParser, RQSConv1DParser, RQSConv2DParser, \
-    RQSParserInterface
+    RQSParserInterface, BatchNormParser, ConvTransposeParser, Conv1DParser
 
 
 class PULPConv2DParser(RQSConv2DParser):
@@ -408,3 +408,35 @@ class PULPTallGEMMParser(PULPGEMMParser):
             return ctxt, False
 
         return newCtxt, True
+
+
+class PULPBatchNormParser(BatchNormParser):
+    def parseNode(self, node: gs.Node) -> bool:
+        # Optionally add PULP-specific checks here
+        return super().parseNode(node)
+
+    def parseNodeCtxt(self,
+                      ctxt: NetworkContext,
+                      node: gs.Node,
+                      channels_first: bool = True) -> Tuple[NetworkContext, bool]:
+        # Optionally add PULP-specific context handling here
+        return super().parseNodeCtxt(ctxt, node, channels_first)
+
+class PULPConvTransposeParser(ConvTransposeParser):
+    def parseNode(self, node: gs.Node) -> bool:
+        # Add PULPOpen-specific parsing logic if needed
+        return super().parseNode(node)
+
+    def parseNodeCtxt(self, ctxt: NetworkContext, node: gs.Node, channels_first: bool = True) -> Tuple[NetworkContext, bool]:
+        # Add PULPOpen-specific context logic if needed
+        return super().parseNodeCtxt(ctxt, node, channels_first)
+    
+
+class PULPFPConv1DParser(Conv1DParser):
+    def parseNode(self, node: gs.Node) -> bool:
+        # Add PULPOpen-specific checks if needed
+        return super().parseNode(node)
+
+    def parseNodeCtxt(self, ctxt: NetworkContext, node: gs.Node, channels_first: bool = True) -> Tuple[NetworkContext, bool]:
+        # Add PULPOpen-specific context logic if needed (e.g., tiling info)
+        return super().parseNodeCtxt(ctxt, node, channels_first)

@@ -26,7 +26,8 @@
 from typing import List, Tuple
 
 from Deeploy.DeeployTypes import NodeMapper, Shape
-from Deeploy.Targets.Generic.Layers import RQGEMMLayer, RQSConvLayer
+from Deeploy.Targets.Generic.Layers import RQGEMMLayer, RQSConvLayer, \
+     ConvTransposeLayer, BatchNormalizationLayer
 
 
 class PULPRQSConvLayer(RQSConvLayer):
@@ -62,3 +63,21 @@ class PULPRQSGEMMLayer(RQGEMMLayer):
         inputShapes[3] = [inputShapes[1][channelDim]]  # Channels out dimension of Kernel
 
         return (inputShapes, outputShapes)
+
+
+class PULPBatchNormalizationLayer(BatchNormalizationLayer):
+    def __init__(self, maps: List[NodeMapper]):
+        super().__init__(maps)
+
+    def computeShapes(self, inputShapes: Shape, outputShapes: Shape, operatorRepresentation,
+                      channels_first) -> Tuple[Shape, Shape]:
+        
+        return super().computeShapes(inputShapes, outputShapes, operatorRepresentation, channels_first)
+    
+class PULPConvTransposeLayer(ConvTransposeLayer):
+    def __init__(self, maps: List[NodeMapper]):
+        super().__init__(maps)
+
+    def computeShapes(self, inputShapes: Shape, outputShapes: Shape, operatorRepresentation, channels_first) -> Tuple[Shape, Shape]:
+        # Add PULPOpen-specific shape logic here if needed
+        return super().computeShapes(inputShapes, outputShapes, operatorRepresentation, channels_first)

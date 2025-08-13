@@ -260,3 +260,114 @@ class MaxPoolCTileConstraint(TileConstraint):
         variableReplacementSchedule = VariableReplacementScheme(replacements, replacementTypes)
 
         return variableReplacementSchedule, tilingSchedule
+
+
+class MaxPool1DTileConstraint(TileConstraint):
+
+    @staticmethod
+    def addGeometricalConstraint(tilerModel: TilerModel, parseDict: Dict, ctxt: NetworkContext) -> TilerModel:
+        inputBuffer = ctxt.lookup(name=parseDict['data_in'])
+        outputBuffer = ctxt.lookup(name=parseDict['data_out'])
+
+        strides = parseDict["strides"]
+        padding = parseDict["pads"]
+        kernelShape = parseDict['kernel_shape']
+
+        # Add I/O dimensions to the model as variables
+        for bufferName in [inputBuffer.name, outputBuffer.name]:
+            tilerModel.addTensorDimToModel(ctxt, bufferName)
+
+        inputBatchVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=0)
+        inputLengthVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=1)
+        inputChannelVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=2)
+
+        outputBatchVar = tilerModel.getTensorDimVar(tensorName=outputBuffer.name, dimIdx=0)
+        outputLengthVar = tilerModel.getTensorDimVar(tensorName=outputBuffer.name, dimIdx=1)
+        outputChannelVar = tilerModel.getTensorDimVar(tensorName=outputBuffer.name, dimIdx=2)
+
+        # Map output dims to inputs dims
+        tilerModel.addConstraint(outputBatchVar == inputBatchVar)
+        tilerModel.addConstraint(outputChannelVar == inputChannelVar)
+
+        effectiveLength = inputLengthVar + ((padding[0] + padding[1]) * (inputLengthVar == inputBuffer.shape[1]))
+        tilerModel.addConstraint(
+            outputLengthVar == (effectiveLength - (kernelShape[0] - 1) - 1) // strides[0] + 1
+        )
+
+        return tilerModel
+
+    @staticmethod
+    def addPolicyConstraint(tilerModel: TilerModel, parseDict: Dict, ctxt: NetworkContext) -> TilerModel:
+        inputBuffer = ctxt.lookup(name=parseDict['data_in'])
+        inputLengthVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=1)
+        inputChannelVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=2)
+        strides = parseDict["strides"]
+
+        tilerModel.addConstraint(inputChannelVar == parseDict['ch_im_in'])
+        tilerModel.addConstraint(inputLengthVar >= parseDict['dim_kernel_y'])
+        tilerModel.addConstraint((inputLengthVar % strides[0]) == 0)
+
+        return tilerModel
+
+    @classmethod
+    def serializeTilingSolution(
+        cls, tilingSolution: NodeMemoryConstraint, absoluteOutputCubes: List[AbsoluteHyperRectangle],
+        targetMemLevel: str, ctxt: NetworkContext,
+        operatorRepresentation: OperatorRepresentation
+    ) -> Tuple[VariableReplacementScheme, TilingSchedule]:
+        outputCubes = [cube.rectangle for cube in absoluteOutputCubes]
+
+        addrNames = ['data_in', 'data_out']
+        inputBaseOffsets, outputBaseOffsets = cls.extractBaseAddr(
+            tilingSolution, targetMemLevel, operatorRepresentation, addrNames
+        )
+        varOut = operatorRepresentation['data_out']
+
+        inputInCubes = []
+        replacements: Dict[str, List[int]] = {
+            "dim_im_in_y": [],
+            "dim_im_out_y": [],
+            "ch_im_in": [],
+            "padding_y_left": [],
+            "padding_y_right": []
+        }
+
+        replacementTypes = {
+            "dim_im_in_y": PointerClass(uint16_t),
+            "dim_im_out_y": PointerClass(uint16_t),
+            "ch_im_in": PointerClass(uint16_t),
+            "padding_y_left": PointerClass(uint8_t),
+            "padding_y_right": PointerClass(uint8_t)
+        }
+
+        kernelShape = operatorRepresentation['kernel_shape']
+        pads = operatorRepresentation['pads']
+        strides = operatorRepresentation['strides']
+
+        for cube in outputCubes:
+            (BatchOffset, YOffset, COffset) = cube.offset
+            (BatchSize, YSize, CSize) = cube.dims
+
+            # Compute input cube and paddings for 1D
+            inputYOffset = max(YOffset * strides[0] - pads[0], 0)
+            inputYSize = YSize * strides[0] + (kernelShape[0] - 1)
+            tilePadLeft = pads[0] if YOffset == 0 else 0
+            tilePadRight = pads[1] if (YOffset + YSize == ctxt.lookup(varOut).shape[1]) else 0
+
+            InCube = HyperRectangle((BatchOffset, inputYOffset, COffset), (BatchSize, inputYSize, CSize))
+
+            replacements['dim_im_in_y'].append(InCube.dims[1])
+            replacements['dim_im_out_y'].append(YSize)
+            replacements['ch_im_in'].append(CSize)
+            replacements['padding_y_left'].append(tilePadLeft)
+            replacements['padding_y_right'].append(tilePadRight)
+
+            inputInCubes.append(InCube)
+
+        inputLoadSchedule = [{"data_in": a} for a in inputInCubes]
+        outputLoadSchedule = [{"data_out": out} for out in outputCubes]
+
+        tilingSchedule = TilingSchedule(inputBaseOffsets, outputBaseOffsets, inputLoadSchedule, outputLoadSchedule)
+        variableReplacementSchedule = VariableReplacementScheme(replacements, replacementTypes)
+
+        return variableReplacementSchedule, tilingSchedule
