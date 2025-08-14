@@ -260,7 +260,7 @@ class MaxPool1DParser(MaxPoolParser):
             # 1D: pads should be length 2, kernel_shape length 1, strides length 1
             if len(pads) == 2 and len(kernel_shape) == 1 and len(strides) == 1:
                 wellFormed = True
-                self.operatorRepresentation['padding_y'] = int(pads[0])
+                self.operatorRepresentation['padding_y_left'] = int(pads[0])
                 self.operatorRepresentation['padding_y_right'] = int(pads[1])
                 self.operatorRepresentation['stride_y'] = int(strides[0])
                 self.operatorRepresentation['dim_kernel_y'] = int(kernel_shape[0])

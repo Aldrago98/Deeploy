@@ -146,7 +146,10 @@ for (uint32_t n=0; n<${batch}; ++n) {
         ${ch_im_out},
         ${dim_kernel_y},
         ${stride_y},
+        ${bias},
         ref_${data_out}_${data_out},
+        ${padding_y_left},
+        ${padding_y_right},
         ${ctxtBuffer}
     );
 

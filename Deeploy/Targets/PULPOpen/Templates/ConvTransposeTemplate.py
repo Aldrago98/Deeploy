@@ -1,5 +1,6 @@
 
-from Deeploy.DeeployTypes import NodeTemplate
+from typing import Dict, List, Tuple, Union
+from Deeploy.DeeployTypes import NetworkContext, NodeTemplate, OperatorRepresentation
 class _ConvTranspose1D_Template(NodeTemplate):
 
     def __init__(self, templateStr):

@@ -33,3 +33,10 @@ void PULP_MaxPool2d_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,
                                   uint32_t SP, float32_t *__restrict__ pDstC,
                                   uint32_t pad_top, uint32_t pad_bottom,
                                   uint32_t pad_left, uint32_t pad_right);
+
+
+void PULP_MaxPool1d_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,
+                                  uint32_t W, uint32_t C,
+                                  uint32_t K, uint32_t S,
+                                  float32_t *__restrict__ pDstC,
+                                  uint32_t pad_left, uint32_t pad_right)

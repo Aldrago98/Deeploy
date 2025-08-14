@@ -438,5 +438,28 @@ class PULPFPConv1DParser(Conv1DParser):
         return super().parseNode(node)
 
     def parseNodeCtxt(self, ctxt: NetworkContext, node: gs.Node, channels_first: bool = True) -> Tuple[NetworkContext, bool]:
-        # Add PULPOpen-specific context logic if needed (e.g., tiling info)
-        return super().parseNodeCtxt(ctxt, node, channels_first)
+        newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
+        if ret:
+            data_in = newCtxt.lookup(self.operatorRepresentation['data_in'])
+            data_out = newCtxt.lookup(self.operatorRepresentation['data_out'])
+            weight = newCtxt.lookup(self.operatorRepresentation['weight'])
+
+            self.operatorRepresentation['batch'] = data_in.shape[0]
+            if channels_first:
+                self.operatorRepresentation['ch_im_in'] = data_in.shape[1]
+                self.operatorRepresentation['dim_im_in_y'] = data_in.shape[2]
+                self.operatorRepresentation['ch_im_out'] = data_out.shape[1]
+                self.operatorRepresentation['dim_im_out_y'] = data_out.shape[2]
+            else:
+                self.operatorRepresentation['ch_im_in'] = data_in.shape[2]
+                self.operatorRepresentation['dim_im_in_y'] = data_in.shape[1]
+                self.operatorRepresentation['ch_im_out'] = data_out.shape[2]
+                self.operatorRepresentation['dim_im_out_y'] = data_out.shape[1]
+
+            self.operatorRepresentation['dim_kernel_y'] = weight.shape[2] if channels_first else weight.shape[1]
+            self.operatorRepresentation['stride_y'] = self.operatorRepresentation['strides'][0]
+            self.operatorRepresentation['padding_y_left'] = self.operatorRepresentation['pads'][0]
+            self.operatorRepresentation['padding_y_right'] = self.operatorRepresentation['pads'][1]
+
+            return newCtxt, True
+        return ctxt, False

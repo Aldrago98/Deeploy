@@ -154,3 +154,71 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
     }
   }
 }
+
+void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
+    const float32_t *__restrict__ pSrcA,   // Input: [W, C]
+    uint32_t W,                            // Input width
+    uint32_t C,                            // Input channels
+    const float32_t *__restrict__ pSrcB,   // Weights: [C_out, C, K]
+    uint32_t C_out,                        // Output channels
+    uint32_t K,                            // Kernel size
+    uint32_t stride,                       // Stride
+    const float32_t *__restrict__ bias,    // Bias: [C_out]
+    float32_t *__restrict__ pDstC,         // Output: [W_out, C_out]
+    uint32_t pad_left,                     // Padding left
+    uint32_t pad_right,                    // Padding right
+    float32_t *__restrict__ pContextBuffer // Im2Col buffer (per-core)
+) {
+    int8_t core_id = pi_core_id();
+    int8_t log2Core = log2(NUM_CORES);
+
+    uint16_t ch_out_chunk =
+        (C_out >> log2Core) + ((C_out & (NUM_CORES - 1)) != 0);
+    uint16_t ch_out_start = MIN(ch_out_chunk * core_id, C_out);
+    uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, C_out);
+    uint16_t ch_out_count = ch_out_stop - ch_out_start;
+
+    if (ch_out_count == 0) {
+        return;
+    }
+
+    const float32_t *weight_ptr = pSrcB + ch_out_start * C * K;
+
+    uint32_t W_out = (W + pad_left + pad_right - K) / stride + 1;
+    uint32_t im2col_size_per_core = C * K;
+    float32_t *im2col_buffer = pContextBuffer + core_id * im2col_size_per_core;
+
+    for (uint32_t w_out = 0; w_out < W_out; ++w_out) {
+        int32_t w_in_start = w_out * stride - pad_left;
+
+        // Fill im2col buffer
+        for (uint32_t k = 0; k < K; ++k) {
+            int32_t w_in = w_in_start + k;
+            for (uint32_t c = 0; c < C; ++c) {
+                if (w_in >= 0 && w_in < (int32_t)W) {
+                    im2col_buffer[k * C + c] = pSrcA[w_in * C + c];
+                } else {
+                    im2col_buffer[k * C + c] = 0.0f;
+                }
+            }
+        }
+
+        // Compute output for each output channel assigned to this core
+        for (uint32_t f = 0; f < ch_out_count; ++f) {
+            float32_t sum = 0.0f;
+            const float32_t *local_weight_ptr = weight_ptr + f * (C * K);
+
+            for (uint32_t k = 0; k < K; ++k) {
+                for (uint32_t c = 0; c < C; ++c) {
+                    sum += im2col_buffer[k * C + c] * local_weight_ptr[k * C + c];
+                }
+            }
+
+            if (bias_ptr) {
+                sum += bias_ptr[f];
+            }
+            uint32_t out_idx = w_out * C_out + (ch_out_start + f);
+            pDstC[out_idx] = sum;
+        }
+    }
+}

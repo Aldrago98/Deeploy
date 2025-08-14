@@ -84,3 +84,40 @@ void PULP_MaxPool2d_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,
     }
   }
 }
+
+
+void PULP_MaxPool1d_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,
+                                  uint32_t W, uint32_t C,
+                                  uint32_t K, uint32_t S,
+                                  float32_t *__restrict__ pDstC,
+                                  uint32_t pad_left, uint32_t pad_right) {
+  int8_t core_id = pi_core_id();
+  int8_t log2Core = log2(NUM_CORES);
+
+  uint16_t ch_chunk = (C >> log2Core) + ((C & (NUM_CORES - 1)) != 0);
+  uint16_t ch_start = MIN(ch_chunk * core_id, C);
+  uint16_t ch_stop = MIN(ch_start + ch_chunk, C);
+
+  uint32_t W_out = (W + pad_left + pad_right - K) / S + 1;
+
+  for (uint32_t w_out = 0; w_out < W_out; ++w_out) {
+    for (uint32_t c = ch_start; c < ch_stop; ++c) {
+      float32_t max_val = -inf;
+
+      int32_t w_in_start = w_out * S - pad_left;
+      for (uint32_t k = 0; k < K; ++k) {
+        int32_t w_in = w_in_start + k;
+        if (w_in < 0 || w_in >= (int32_t)W) {
+          continue;
+        }
+        uint32_t input_idx = w_in * C + c;
+        float32_t val = pSrcA[input_idx];
+        if (val > max_val) {
+          max_val = val;
+        }
+      }
+      uint32_t output_idx = w_out * C + c;
+      pDstC[output_idx] = max_val;
+    }
+  }
+}

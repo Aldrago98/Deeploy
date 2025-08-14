@@ -43,3 +43,18 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
     uint32_t Q, uint32_t SP, uint32_t SQ, float32_t *__restrict__ pDstC,
     uint32_t pad_top, uint32_t pad_bottom, uint32_t pad_left,
     uint32_t pad_right, float32_t *__restrict__ pContextBuffer);
+
+void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
+    const float32_t *__restrict__ pSrcA,   // Input: [W, C]
+    uint32_t W,                            // Input width
+    uint32_t C,                            // Input channels
+    const float32_t *__restrict__ pSrcB,   // Weights: [C_out, C, K]
+    uint32_t C_out,                        // Output channels
+    uint32_t K,                            // Kernel size
+    uint32_t stride,                       // Stride
+    const float32_t *__restrict__ bias,    // Bias: [C_out]
+    float32_t *__restrict__ pDstC,         // Output: [W_out, C_out]
+    uint32_t pad_left,                     // Padding left
+    uint32_t pad_right,                    // Padding right
+    float32_t *__restrict__ pContextBuffer // Im2Col buffer (per-core)
+)
