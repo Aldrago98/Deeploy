@@ -153,7 +153,7 @@ for (uint32_t n=0; n<${batch}; ++n) {
         ${ctxtBuffer}
     );
 
-    ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};
-    ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_y};
+    //ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};
+    //ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_y};
 }
 """)

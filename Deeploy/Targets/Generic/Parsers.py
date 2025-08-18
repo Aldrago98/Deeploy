@@ -2760,7 +2760,9 @@ class ConvTranspose1DParser(ConvTransposeParser):
                 len(node.attrs['dilations']) == 1,
             ])
         if ret:
-
+            pads = self.operatorRepresentation['pads']
+            self.operatorRepresentation['padding_y_left'] = int(pads[0])
+            self.operatorRepresentation['padding_y_right'] = int(pads[1])
             self.operatorRepresentation['kernel_shape'] = node.attrs['kernel_shape']
             self.operatorRepresentation['dim_kernel_y'] = int(self.operatorRepresentation['kernel_shape'][0])
             self.operatorRepresentation['dilation_y'] = int(self.operatorRepresentation['dilations'][0])

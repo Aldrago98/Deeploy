@@ -58,14 +58,17 @@ BEGIN_SINGLE_CORE
     ${data_out_type.typeName} ref_${data_out}_${data_out} = ${data_out};
 
     for (uint32_t n=0; n<${batch}; ++n) {
-        ConvTranspose1d_fp32(
-            ref_${data_out}_${data_in}, ${ch_im_in}, ${dim_im_in_y},
+        PULP_ConvTranspose1d_fp32_fp32_HWC(
+            ref_${data_out}_${data_in}, ${dim_im_in_y}, ${ch_im_in},
             ${weight}, ${ch_im_out}, ${dim_kernel_y},
             ${stride_y},
-            ${bias}, ${has_bias},
-            ref_${data_out}_${data_out}, ${dim_im_out_y}
+            ${bias}, 
+            ref_${data_out}_${data_out},
+            ${dim_im_out_y},
+            ${padding_y_left}, ${padding_y_right}
         );
-        
+        // ref_${data_out}_${data_in} += ${batchOffsetIn};
+        // ref_${data_out}_${data_out} += ${batchOffsetOut};
     }
 END_SINGLE_CORE
 """)

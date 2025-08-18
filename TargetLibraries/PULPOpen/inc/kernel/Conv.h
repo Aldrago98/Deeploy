@@ -57,4 +57,4 @@ void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
     uint32_t pad_left,                     // Padding left
     uint32_t pad_right,                    // Padding right
     float32_t *__restrict__ pContextBuffer // Im2Col buffer (per-core)
-)
+);

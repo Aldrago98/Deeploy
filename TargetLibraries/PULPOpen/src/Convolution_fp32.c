@@ -214,8 +214,8 @@ void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
                 }
             }
 
-            if (bias_ptr) {
-                sum += bias_ptr[f];
+            if (bias) {
+                sum += bias[f];
             }
             uint32_t out_idx = w_out * C_out + (ch_out_start + f);
             pDstC[out_idx] = sum;
