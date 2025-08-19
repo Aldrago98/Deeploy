@@ -198,10 +198,11 @@ void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
                 if (w_in >= 0 && w_in < (int32_t)W) {
                     im2col_buffer[k * C + c] = pSrcA[w_in * C + c];
                 } else {
-                    im2col_buffer[k * C + c] = 0.0f;
+                    im2col_buffer[k * C + c] = 0.0f;  
                 }
             }
         }
+   
 
         // Compute output for each output channel assigned to this core
         for (uint32_t f = 0; f < ch_out_count; ++f) {
@@ -211,14 +212,18 @@ void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
             for (uint32_t k = 0; k < K; ++k) {
                 for (uint32_t c = 0; c < C; ++c) {
                     sum += im2col_buffer[k * C + c] * local_weight_ptr[k * C + c];
+                    
                 }
             }
 
             if (bias) {
-                sum += bias[f];
+                sum += bias[ch_out_start + f];
             }
-            uint32_t out_idx = w_out * C_out + (ch_out_start + f);
+            uint32_t out_idx = w_out * C_out +(ch_out_start + f);
+            
             pDstC[out_idx] = sum;
         }
     }
 }
+
+

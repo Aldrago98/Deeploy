@@ -419,8 +419,14 @@ class PULPBatchNormParser(BatchNormParser):
                       ctxt: NetworkContext,
                       node: gs.Node,
                       channels_first: bool = True) -> Tuple[NetworkContext, bool]:
-        # Optionally add PULP-specific context handling here
-        return super().parseNodeCtxt(ctxt, node, channels_first)
+    
+        newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
+        if ret:
+            data_in = newCtxt.lookup(self.operatorRepresentation['data_in'])
+            data_out = newCtxt.lookup(self.operatorRepresentation['data_out'])
+            self.operatorRepresentation['dim_im_in_y'] = data_in.shape[1] if not channels_first else data_in.shape[2]
+            self.operatorRepresentation['ch_im_in'] = data_in.shape[2] if not channels_first else data_in.shape[1]
+        return newCtxt, ret
 
 class PULPConvTransposeParser(ConvTransposeParser):
     def parseNode(self, node: gs.Node) -> bool:

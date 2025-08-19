@@ -52,5 +52,6 @@
 #include "kernel/gemv.h"
 #include "kernel/iRMSnorm.h"
 #include "kernel/TransposeConv.h"
+#include "kernel/BatchNorm.h"
 
 #endif // __DEEPLOY_MATH_HEADER_
