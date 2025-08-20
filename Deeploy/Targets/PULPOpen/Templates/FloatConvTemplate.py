@@ -138,7 +138,7 @@ ${data_in_type.typeName} ref_${data_out}_${data_in} = ${data_in};
 ${data_out_type.typeName} ref_${data_out}_${data_out} = ${data_out};
 
 for (uint32_t n=0; n<${batch}; ++n) {
-    PULP_Conv1d_Im2Col_fp${data_in_type.referencedType.typeWidth}_fp${weight_type.referencedType.typeWidth}_fp${data_out_type.referencedType.typeWidth}_HWC(
+    PULP_Conv1d_fp${data_in_type.referencedType.typeWidth}_fp${weight_type.referencedType.typeWidth}_fp${data_out_type.referencedType.typeWidth}_HWC(
         ref_${data_out}_${data_in},
         ${dim_im_in_y},
         ${ch_im_in},
@@ -149,8 +149,8 @@ for (uint32_t n=0; n<${batch}; ++n) {
         ${bias},
         ref_${data_out}_${data_out},
         ${padding_y_left},
-        ${padding_y_right},
-        ${ctxtBuffer}
+        ${padding_y_right}
+        
     );
 
     ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};

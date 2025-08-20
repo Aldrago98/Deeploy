@@ -155,7 +155,7 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
   }
 }
 
-void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
+/* void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
     const float32_t *__restrict__ pSrcA,   // Input: [W, C]
     uint32_t W,                            // Input width
     uint32_t C,                            // Input channels
@@ -224,6 +224,67 @@ void PULP_Conv1d_Im2Col_fp32_fp32_fp32_HWC(
             pDstC[out_idx] = sum;
         }
     }
+} */
+
+
+void PULP_Conv1d_fp32_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,    // Input: [L, C]
+                                    uint32_t L,                            // Input length   
+                                    uint32_t C,                           // Input channels  
+                                    const float32_t *__restrict__ pSrcB, // Weights: [F_total, C, K]
+                                    uint32_t F_total,                   // Output channels
+                                    uint32_t K,                        // Kernel size
+                                    uint32_t S,                       // Stride
+                                    const float32_t *__restrict__ pBias, // può essere NULL
+                                    float32_t *__restrict__ pDstC,       // Output: [L_out, F_total]
+                                    uint32_t pad_left,                  // Padding left 
+                                    uint32_t pad_right)                 // Padding right
+                                    {
+
+  int8_t core_id = pi_core_id();
+  int8_t log2Core = log2(NUM_CORES);
+
+  uint16_t ch_out_chunk =
+      (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
+  uint16_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
+  uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
+  uint16_t ch_out_count = ch_out_stop - ch_out_start;
+
+  if (ch_out_count == 0) {
+    return;
+  }
+
+  const float32_t *weight_ptr = pSrcB + ch_out_start * C * K;
+
+  // Output length
+  uint32_t L_out = (L + pad_left + pad_right - K) / S + 1;
+
+  for (uint32_t l = 0; l < L_out; ++l) {
+    for (uint32_t f = 0; f < ch_out_count; ++f) {
+      float32_t sum = 0.0f;
+
+      // convoluzione
+      for (uint32_t k = 0; k < K; ++k) {
+        for (uint32_t c = 0; c < C; ++c) {
+          int32_t l_in = l * S + k - pad_left;
+
+          if (l_in < 0 || l_in >= (int32_t)L) {
+            continue;
+          }
+
+          uint32_t input_idx = l_in * C + c;
+          uint32_t weight_idx = f * (K * C) + k * C + c;
+
+          sum += pSrcA[input_idx] * weight_ptr[weight_idx];
+        }
+      }
+
+      // aggiunta del bias se disponibile
+      if (pBias != NULL) {
+        sum += pBias[ch_out_start + f];
+      }
+
+      uint32_t output_idx = l * F_total + (ch_out_start + f);
+      pDstC[output_idx] = sum;
+    }
+  }
 }
-
-
