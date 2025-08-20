@@ -45,7 +45,6 @@ for (uint32_t n=0; n<${batch}; ++n) {
 }
 """)
 
-
 reference1DTemplate = NodeTemplate("""
 /* 1D Float MaxPool Channel Parallel (Name: ${nodeName}, Op: ${nodeOp}) */
 

@@ -32,8 +32,8 @@ from Deeploy.AbstractDataTypes import PointerClass
 from Deeploy.CommonExtensions.CodeTransformationPasses.Closure import ClosureGeneration, MemoryAwareClosureGeneration
 from Deeploy.CommonExtensions.CodeTransformationPasses.MemoryAllocation import ArgumentStructGeneration, \
     MemoryManagementGeneration
-from Deeploy.CommonExtensions.DataTypes import IntegerDataTypes, SignedIntegerDataTypes,FloatDataTypes, float32_t, int8_t, int32_t, \
-    uint8_t
+from Deeploy.CommonExtensions.DataTypes import FloatDataTypes, IntegerDataTypes, SignedIntegerDataTypes, float32_t, \
+    int8_t, int32_t, uint8_t
 from Deeploy.DeeployTypes import CodeTransformation, NodeBinding, NodeTemplate
 from Deeploy.FutureExtension.Bindings.AutoFutureBinding import AutoFutureBinding
 from Deeploy.FutureExtension.CodeTransformationPasses.FutureCodeTransformation import FutureGeneration
@@ -48,14 +48,14 @@ from Deeploy.Targets.PULPOpen.CodeTransformationPasses.PULPClusterTiling import 
 from Deeploy.Targets.PULPOpen.CodeTransformationPasses.PULPL3Tiling import PULPL3Tiling
 from Deeploy.Targets.PULPOpen.CodeTransformationPasses.PULPProfileUntiled import PULPProfileUntiled
 from Deeploy.Targets.PULPOpen.DataTypes import PULPDMAFuture
-from Deeploy.Targets.PULPOpen.Templates import ConvTemplate, FloatAddTemplate, FloatConvTemplate, FloatGELUTemplate, \
-    FloatGemmTemplate, FloatLayernormTemplate, FloatMatMulTemplate, FloatMaxPoolTemplate, FloatMulTemplate, \
-    FloatReluTemplate, FloatSoftmaxTemplate, GEMMTemplate, MatrixVectorTemplate, MaxPool2DTemplate, MulTemplate, \
-    ReduceMeanTemplate, RequantShiftTemplate, RQAddTemplate, RQSiHardswishTemplate, SGDTemplate, SliceTemplate, \
-    SoftmaxCrossEntropyLossTemplate, TallGEMMTemplate, TransposeTemplate, UniformRequantShiftTemplate, \
-    iRMSNormTemplate, iSoftmaxTemplate, ConvTransposeTemplate, BatchNormalizationTemplate
-from Deeploy.Targets.PULPOpen.TypeCheckers import PULPConvChecker, PULPLinearChecker, PULPMaxPoolChecker, \
-    PULPRequantShiftChecker, PULPBatchNormChecker
+from Deeploy.Targets.PULPOpen.Templates import BatchNormalizationTemplate, ConvTemplate, ConvTransposeTemplate, \
+    FloatAddTemplate, FloatConvTemplate, FloatGELUTemplate, FloatGemmTemplate, FloatLayernormTemplate, \
+    FloatMatMulTemplate, FloatMaxPoolTemplate, FloatMulTemplate, FloatReluTemplate, FloatSoftmaxTemplate, \
+    GEMMTemplate, MatrixVectorTemplate, MaxPool2DTemplate, MulTemplate, ReduceMeanTemplate, RequantShiftTemplate, \
+    RQAddTemplate, RQSiHardswishTemplate, SGDTemplate, SliceTemplate, SoftmaxCrossEntropyLossTemplate, \
+    TallGEMMTemplate, TransposeTemplate, UniformRequantShiftTemplate, iRMSNormTemplate, iSoftmaxTemplate
+from Deeploy.Targets.PULPOpen.TypeCheckers import PULPBatchNormChecker, PULPConvChecker, PULPLinearChecker, \
+    PULPMaxPoolChecker, PULPRequantShiftChecker
 from Deeploy.TilingExtension.CodeTransformationPasses.TilingVariableReplacement import TilingVariableReplacement
 
 _clusterEntryClosureCallTemplate = NodeTemplate("""
@@ -258,8 +258,8 @@ PULPMaxPool2DBindings = [
 ]
 
 PULPMaxPool1DBindings = [
-    NodeBinding(PULPMaxPoolChecker([PointerClass(type)], [PointerClass(type)]), FloatMaxPoolTemplate.reference1DTemplate,
-                ForkTransformer) for type in FloatDataTypes
+    NodeBinding(PULPMaxPoolChecker([PointerClass(type)], [PointerClass(type)]),
+                FloatMaxPoolTemplate.reference1DTemplate, ForkTransformer) for type in FloatDataTypes
 ]
 
 PULPConv1DBinding = NodeBinding(
@@ -448,9 +448,11 @@ PULPConvTransposeBindings = [
         ForkTransformer) for type in FloatDataTypes
 ]
 
-PULPFloatConv1DBindings = [NodeBinding(ConvChecker(
+PULPFloatConv1DBindings = [
+    NodeBinding(ConvChecker(
         [PointerClass(type), PointerClass(type), PointerClass(type)], [PointerClass(type)]),
-                FloatConvTemplate.reference1DIm2ColTemplate, ForkTransformer) for type in FloatDataTypes] + [
+                FloatConvTemplate.reference1DIm2ColTemplate, ForkTransformer) for type in FloatDataTypes
+] + [
     NodeBinding(ConvChecker([PointerClass(int8_t), PointerClass(int8_t)], [PointerClass(int32_t)]),
                 ConvTemplate.PULPConv1D_8_Template, ForkTransformer)
 ]

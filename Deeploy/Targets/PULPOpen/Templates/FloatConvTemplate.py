@@ -54,6 +54,7 @@ class PULP2DFloatConvIm2ColTemplate(NodeTemplate):
         operatorRepresentation['ctxtBufferSize'] = im2col_dim
         return ctxt, operatorRepresentation, [im2col_name]
 
+
 class PULP1DFloatConvIm2ColTemplate(NodeTemplate):
 
     def __init__(self, templateStr):
@@ -76,6 +77,7 @@ class PULP1DFloatConvIm2ColTemplate(NodeTemplate):
         operatorRepresentation['ctxtBuffer'] = im2col_name
         operatorRepresentation['ctxtBufferSize'] = im2col_dim
         return ctxt, operatorRepresentation, [im2col_name]
+
 
 reference2DTemplate = NodeTemplate("""
 // 2D FP Conv HWC with ChannelOut parallelism (Name: ${nodeName}, Op: ${nodeOp})
@@ -149,7 +151,8 @@ for (uint32_t n=0; n<${batch}; ++n) {
         ${bias},
         ref_${data_out}_${data_out},
         ${padding_y_left},
-        ${padding_y_right}
+        ${padding_y_right},
+        ${ctxtBuffer} 
         
     );
 

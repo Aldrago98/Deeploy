@@ -266,8 +266,8 @@ class MaxPool1DTileConstraint(TileConstraint):
 
     @staticmethod
     def addGeometricalConstraint(tilerModel: TilerModel, parseDict: Dict, ctxt: NetworkContext) -> TilerModel:
-        inputBuffer = ctxt.lookup(name=parseDict['data_in'])
-        outputBuffer = ctxt.lookup(name=parseDict['data_out'])
+        inputBuffer = ctxt.lookup(name = parseDict['data_in'])
+        outputBuffer = ctxt.lookup(name = parseDict['data_out'])
 
         strides = parseDict["strides"]
         padding = parseDict["pads"]
@@ -277,30 +277,28 @@ class MaxPool1DTileConstraint(TileConstraint):
         for bufferName in [inputBuffer.name, outputBuffer.name]:
             tilerModel.addTensorDimToModel(ctxt, bufferName)
 
-        inputBatchVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=0)
-        inputLengthVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=1)
-        inputChannelVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=2)
+        inputBatchVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 0)
+        inputLengthVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 1)
+        inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 2)
 
-        outputBatchVar = tilerModel.getTensorDimVar(tensorName=outputBuffer.name, dimIdx=0)
-        outputLengthVar = tilerModel.getTensorDimVar(tensorName=outputBuffer.name, dimIdx=1)
-        outputChannelVar = tilerModel.getTensorDimVar(tensorName=outputBuffer.name, dimIdx=2)
+        outputBatchVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 0)
+        outputLengthVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 1)
+        outputChannelVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 2)
 
         # Map output dims to inputs dims
         tilerModel.addConstraint(outputBatchVar == inputBatchVar)
         tilerModel.addConstraint(outputChannelVar == inputChannelVar)
 
         effectiveLength = inputLengthVar + ((padding[0] + padding[1]) * (inputLengthVar == inputBuffer.shape[1]))
-        tilerModel.addConstraint(
-            outputLengthVar == (effectiveLength - (kernelShape[0] - 1) - 1) // strides[0] + 1
-        )
+        tilerModel.addConstraint(outputLengthVar == (effectiveLength - (kernelShape[0] - 1) - 1) // strides[0] + 1)
 
         return tilerModel
 
     @staticmethod
     def addPolicyConstraint(tilerModel: TilerModel, parseDict: Dict, ctxt: NetworkContext) -> TilerModel:
-        inputBuffer = ctxt.lookup(name=parseDict['data_in'])
-        inputLengthVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=1)
-        inputChannelVar = tilerModel.getTensorDimVar(tensorName=inputBuffer.name, dimIdx=2)
+        inputBuffer = ctxt.lookup(name = parseDict['data_in'])
+        inputLengthVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 1)
+        inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 2)
         strides = parseDict["strides"]
 
         tilerModel.addConstraint(inputChannelVar == parseDict['ch_im_in'])
@@ -311,16 +309,14 @@ class MaxPool1DTileConstraint(TileConstraint):
 
     @classmethod
     def serializeTilingSolution(
-        cls, tilingSolution: NodeMemoryConstraint, absoluteOutputCubes: List[AbsoluteHyperRectangle],
-        targetMemLevel: str, ctxt: NetworkContext,
-        operatorRepresentation: OperatorRepresentation
-    ) -> Tuple[VariableReplacementScheme, TilingSchedule]:
+            cls, tilingSolution: NodeMemoryConstraint, absoluteOutputCubes: List[AbsoluteHyperRectangle],
+            targetMemLevel: str, ctxt: NetworkContext,
+            operatorRepresentation: OperatorRepresentation) -> Tuple[VariableReplacementScheme, TilingSchedule]:
         outputCubes = [cube.rectangle for cube in absoluteOutputCubes]
 
         addrNames = ['data_in', 'data_out']
-        inputBaseOffsets, outputBaseOffsets = cls.extractBaseAddr(
-            tilingSolution, targetMemLevel, operatorRepresentation, addrNames
-        )
+        inputBaseOffsets, outputBaseOffsets = cls.extractBaseAddr(tilingSolution, targetMemLevel,
+                                                                  operatorRepresentation, addrNames)
         varOut = operatorRepresentation['data_out']
 
         inputInCubes = []

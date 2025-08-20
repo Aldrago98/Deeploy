@@ -457,8 +457,8 @@ class Conv2DTileConstraint(TileConstraint):
         return variableReplacementSchedule, tilingSchedule
 
 
-
 class Conv1DTileConstraint(TileConstraint):
+
     @staticmethod
     def addGeometricalConstraint(tilerModel, parseDict, ctxt):
         # Add tensor dimension variables and constraints for 1D Conv
@@ -480,18 +480,14 @@ class Conv1DTileConstraint(TileConstraint):
         inputBatchVar = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = 0)
         inputChanneltVar = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = 1)
         inputIm_y_Var = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = 2)
-        
 
         weightOutChannelVar = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 0)
         weightInChannelVar = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 1)
         weightkernel_y_Var = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 2)
-        
 
         outputBatchVar = tilerModel.getTensorDimVar(tensorName = outputBufferName, dimIdx = 0)
         outputChannelVar = tilerModel.getTensorDimVar(tensorName = outputBufferName, dimIdx = 1)
         outputIm_y_Var = tilerModel.getTensorDimVar(tensorName = outputBufferName, dimIdx = 2)
-        
-        
 
         # Map output dims to inputs dims
         tilerModel.addConstraint(outputBatchVar == inputBatchVar)  # Batch
@@ -500,10 +496,8 @@ class Conv1DTileConstraint(TileConstraint):
         inputBuffer = ctxt.lookup(inputBufferName)
 
         effectiveIm_y = inputIm_y_Var + ((padding[0] + padding[1]) * (inputIm_y_Var == inputBuffer.shape[1]))
-        
 
         tilerModel.addConstraint((outputIm_y_Var == (effectiveIm_y - (weightkernel_y_Var - 1) - 1) // strides[0] + 1))
-        
 
         return tilerModel
 
@@ -564,10 +558,7 @@ class Conv1DTileConstraint(TileConstraint):
         inputYOffset = max(outputYOffset * stride - padLeft, 0)
         inputYSize = outputYSize * stride + (kernelShape[0] - 1) - (tilePadLeft + tilePadRight)
         #   Build the input cube (batch, y, channel)
-        InCube = HyperRectangle(
-        (outputBatchOffset, inputYOffset, 0),
-        (outputBatchSize, inputYSize, inputCSize)
-        )
+        InCube = HyperRectangle((outputBatchOffset, inputYOffset, 0), (outputBatchSize, inputYSize, inputCSize))
         return None, None
 
     @classmethod
@@ -612,9 +603,8 @@ class Conv1DTileConstraint(TileConstraint):
             (BatchOffset, YOffset, COffset) = cube.offset
             (BatchSize, YSize, CSize) = cube.dims
 
-            InCube, padding_tuple = cls.computeInputCube(
-                (weightK,), pads, strides, weightC, cube, ctxt.lookup(varOut).shape
-            )
+            InCube, padding_tuple = cls.computeInputCube((weightK,), pads, strides, weightC, cube,
+                                                         ctxt.lookup(varOut).shape)
 
             padding_left, padding_right = padding_tuple
 

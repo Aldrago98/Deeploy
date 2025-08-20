@@ -29,8 +29,8 @@ from typing import Tuple
 import onnx_graphsurgeon as gs
 
 from Deeploy.DeeployTypes import NetworkContext
-from Deeploy.Targets.Generic.Parsers import Conv2DParser, GEMMParser, RQSConv1DParser, RQSConv2DParser, \
-    RQSParserInterface, BatchNormParser, ConvTransposeParser, Conv1DParser
+from Deeploy.Targets.Generic.Parsers import BatchNormParser, Conv1DParser, Conv2DParser, ConvTransposeParser, \
+    GEMMParser, RQSConv1DParser, RQSConv2DParser, RQSParserInterface
 
 
 class PULPConv2DParser(RQSConv2DParser):
@@ -411,6 +411,7 @@ class PULPTallGEMMParser(PULPGEMMParser):
 
 
 class PULPBatchNormParser(BatchNormParser):
+
     def parseNode(self, node: gs.Node) -> bool:
         # Optionally add PULP-specific checks here
         return super().parseNode(node)
@@ -419,7 +420,7 @@ class PULPBatchNormParser(BatchNormParser):
                       ctxt: NetworkContext,
                       node: gs.Node,
                       channels_first: bool = True) -> Tuple[NetworkContext, bool]:
-    
+
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if ret:
             data_in = newCtxt.lookup(self.operatorRepresentation['data_in'])
@@ -428,12 +429,17 @@ class PULPBatchNormParser(BatchNormParser):
             self.operatorRepresentation['ch_im_in'] = data_in.shape[2] if not channels_first else data_in.shape[1]
         return newCtxt, ret
 
+
 class PULPConvTransposeParser(ConvTransposeParser):
+
     def parseNode(self, node: gs.Node) -> bool:
         # Add PULPOpen-specific parsing logic if needed
         return super().parseNode(node)
 
-    def parseNodeCtxt(self, ctxt: NetworkContext, node: gs.Node, channels_first: bool = True) -> Tuple[NetworkContext, bool]:
+    def parseNodeCtxt(self,
+                      ctxt: NetworkContext,
+                      node: gs.Node,
+                      channels_first: bool = True) -> Tuple[NetworkContext, bool]:
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if ret:
             data_in = newCtxt.lookup(self.operatorRepresentation['data_in'])
@@ -460,14 +466,18 @@ class PULPConvTransposeParser(ConvTransposeParser):
 
             return newCtxt, True
         return ctxt, False
-    
+
 
 class PULPFPConv1DParser(Conv1DParser):
+
     def parseNode(self, node: gs.Node) -> bool:
         # Add PULPOpen-specific checks if needed
         return super().parseNode(node)
 
-    def parseNodeCtxt(self, ctxt: NetworkContext, node: gs.Node, channels_first: bool = True) -> Tuple[NetworkContext, bool]:
+    def parseNodeCtxt(self,
+                      ctxt: NetworkContext,
+                      node: gs.Node,
+                      channels_first: bool = True) -> Tuple[NetworkContext, bool]:
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if ret:
             data_in = newCtxt.lookup(self.operatorRepresentation['data_in'])

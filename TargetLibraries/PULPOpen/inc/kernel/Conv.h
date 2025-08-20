@@ -44,10 +44,22 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
     uint32_t pad_top, uint32_t pad_bottom, uint32_t pad_left,
     uint32_t pad_right, float32_t *__restrict__ pContextBuffer);
 
-void PULP_Conv1d_fp32_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,
-                                    uint32_t L, uint32_t C,
-                                    const float32_t *__restrict__ pSrcB,
-                                    uint32_t F_total, uint32_t K, uint32_t S,
-                                    const float32_t *__restrict__ pBias, // può essere NULL
-                                    float32_t *__restrict__ pDstC,
-                                    uint32_t pad_left, uint32_t pad_right);
+// standard and efficient signature Conv1d
+
+/* void PULP_Conv1d_fp32_fp32_fp32_HWC(
+    const float32_t *__restrict__ pSrcA, uint32_t L, uint32_t C,
+    const float32_t *__restrict__ pSrcB, uint32_t F_total, uint32_t K,
+    uint32_t S,
+    const float32_t *__restrict__ pBias, // può essere NULL
+    float32_t *__restrict__ pDstC, uint32_t pad_left, uint32_t pad_right); */
+
+void PULP_Conv1d_fp32_fp32_fp32_HWC(
+    const float32_t *__restrict__ pSrcA, // [L, C]
+    uint32_t L, uint32_t C,
+    const float32_t *__restrict__ pSrcB, // [F_total, K, C] o [F_total, C, K] -> qui usiamo [F_total, K, C]
+    uint32_t F_total, uint32_t K, uint32_t S,
+    const float32_t *__restrict__ pBias, // può essere NULL
+    float32_t *__restrict__ pDstC,       // [L_out, F_total]
+    uint32_t pad_left, uint32_t pad_right,
+    float32_t *__restrict__ pContextBuffer // Im2Col buffer (per-core) 
+    );

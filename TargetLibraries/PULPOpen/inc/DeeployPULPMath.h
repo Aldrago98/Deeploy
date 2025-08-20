@@ -40,6 +40,7 @@
 
 #include "pmsis.h"
 
+#include "kernel/BatchNorm.h"
 #include "kernel/Conv.h"
 #include "kernel/GELU.h"
 #include "kernel/Layernorm.h"
@@ -48,10 +49,9 @@
 #include "kernel/RQiHardswish.h"
 #include "kernel/RequantShift.h"
 #include "kernel/Softmax.h"
+#include "kernel/TransposeConv.h"
 #include "kernel/UniformRequantShift.h"
 #include "kernel/gemv.h"
 #include "kernel/iRMSnorm.h"
-#include "kernel/TransposeConv.h"
-#include "kernel/BatchNorm.h"
 
 #endif // __DEEPLOY_MATH_HEADER_
