@@ -47,7 +47,7 @@ from Deeploy.Targets.PULPOpen.Bindings import BasicBatchNormBindings, PULPAddBin
     PULPRQAddBindings, PULPRQSBindings, PULPRQSConv2DBindings, PULPRQSDWConv2DBindings, PULPRQSGEMMBindings, \
     PULPRQSiHardswishBindings, PULPRQSMatrixVecBindings, PULPRQSTallGEMMBindings, PULPSGDBindings, \
     PULPSoftmaxBindings, PULPSoftmaxCrossEntropyLossBindings, PULPSoftmaxCrossEntropyLossGradBindings, \
-    PULPSoftmaxGradBindings, PULPTransposeBindings, PULPUniformRQSBindings
+    PULPSoftmaxGradBindings, PULPTransposeBindings, PULPUniformRQSBindings, PULPConvTransposeBindings
 from Deeploy.Targets.PULPOpen.TileConstraints.BatchTileConstraint import BatchNorm1DTileConstraint
 from Deeploy.Targets.PULPOpen.TileConstraints.ConvTileConstraint import Conv1DTileConstraint, Conv2DTileConstraint, \
     RQConv2DTileConstraint
@@ -68,6 +68,8 @@ from Deeploy.TilingExtension.TilerExtension import TilingReadyNodeBindings
 
 PULPBatchNorm1DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = BasicBatchNormBindings,
                                                              tileConstraint = BatchNorm1DTileConstraint())
+PULPConvTranspose1DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings=PULPConvTransposeBindings,
+                                                                tileConstraint=Conv1DTileConstraint())
 
 PULPRQSConv2DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPRQSConv2DBindings,
                                                            tileConstraint = RQConv2DTileConstraint())

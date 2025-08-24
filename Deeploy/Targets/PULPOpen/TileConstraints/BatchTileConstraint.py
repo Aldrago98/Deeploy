@@ -22,12 +22,12 @@ class BatchNorm1DTileConstraint(TileConstraint):
             tilerModel.addTensorDimToModel(ctxt, bufferName)
 
         inputBatchVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 0)
-        inputLengthVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 1)
-        inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 2)
+        inputLengthVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 2)
+        inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 1)
 
         outputBatchVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 0)
-        outputLengthVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 1)
-        outputChannelVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 2)
+        outputLengthVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 2)
+        outputChannelVar = tilerModel.getTensorDimVar(tensorName = outputBuffer.name, dimIdx = 1)
 
         # BatchNorm non cambia dimensioni
         tilerModel.addConstraint(outputBatchVar == inputBatchVar)
@@ -39,8 +39,8 @@ class BatchNorm1DTileConstraint(TileConstraint):
     @staticmethod
     def addPolicyConstraint(tilerModel: TilerModel, parseDict: Dict, ctxt: NetworkContext) -> TilerModel:
         inputBuffer = ctxt.lookup(name = parseDict['data_in'])
-        inputLengthVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 1)
-        inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 2)
+        inputLengthVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 2)
+        inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBuffer.name, dimIdx = 1)
 
         # BatchNorm richiede che i canali coincidano con parametri gamma/beta
         tilerModel.addConstraint(inputChannelVar == parseDict['ch_im_in'])

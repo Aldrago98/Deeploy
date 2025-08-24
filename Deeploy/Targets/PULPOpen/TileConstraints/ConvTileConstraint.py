@@ -519,11 +519,10 @@ class Conv1DTileConstraint(TileConstraint):
         padding = parseDict["pads"]
 
         # RW: Conv only tiled on outchannel
-        tilerModel.addConstraint(1 == parseDict['dim_im_in_x'])
+
         tilerModel.addConstraint(inputIm_y_Var == parseDict['dim_im_in_y'])
         tilerModel.addConstraint(inputChannelVar == parseDict['ch_im_in'])
 
-        tilerModel.addConstraint(1 == parseDict['dim_kernel_x'])
         tilerModel.addConstraint(weightkernel_y_Var == parseDict['dim_kernel_y'])
         tilerModel.addConstraint(weightInChannelVar == parseDict['ch_im_in'])
 
@@ -538,7 +537,7 @@ class Conv1DTileConstraint(TileConstraint):
         weightBuffer = ctxt.lookup(name = parseDict['weight'])
 
         symbolicParseDict = parseDict.copy()
-        symbolicParseDict['dim_im_in_x'] = 1
+
         symbolicParseDict['dim_kernel_y'] = tilerModel.getTensorDimVar(weightBuffer.name, 2)
         return {}
 
@@ -576,16 +575,14 @@ class Conv1DTileConstraint(TileConstraint):
         inputInCubes = []
         inputWeightCubes = []
         replacements: Dict[str, List[int]] = {
-            "dim_im_in_x": [],
             "dim_im_in_y": [],
             "dim_im_out_y": [],
             "ch_im_out": [],
             "padding_y_left": [],
-            "padding_x_right": []
+            "padding_y_right": []
         }
 
         replacementTypes = {
-            "dim_im_in_x": PointerClass(uint16_t),
             "dim_im_in_y": PointerClass(uint16_t),
             "dim_im_out_y": PointerClass(uint16_t),
             "ch_im_out": PointerClass(uint16_t),
@@ -608,7 +605,6 @@ class Conv1DTileConstraint(TileConstraint):
 
             padding_left, padding_right = padding_tuple
 
-            replacements['dim_im_in_x'].append(InCube.dims[1])
             replacements['dim_im_in_y'].append(InCube.dims[1])
             replacements['dim_im_out_y'].append(YSize)
             replacements['ch_im_out'].append(CSize)

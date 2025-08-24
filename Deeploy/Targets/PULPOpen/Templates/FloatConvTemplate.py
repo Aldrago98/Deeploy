@@ -133,8 +133,6 @@ for (uint32_t n=0; n<${batch}; ++n) {
 }
 """)
 
-
-
 reference1DIm2ColTemplate = PULP1DFloatConvIm2ColTemplate("""
 ${data_in_type.typeName} ref_${data_out}_${data_in} = ${data_in};
 ${data_out_type.typeName} ref_${data_out}_${data_out} = ${data_out};
@@ -152,7 +150,8 @@ for (uint32_t n=0; n<${batch}; ++n) {
         ref_${data_out}_${data_out},
         ${padding_y_left},
         ${padding_y_right},
-        ${ctxtBuffer} 
+        ${ctxtBuffer}
+        
         
     );
 

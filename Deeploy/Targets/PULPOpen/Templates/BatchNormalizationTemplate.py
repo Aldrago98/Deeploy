@@ -10,8 +10,9 @@ PULP_BatchNorm1d_fp32(
     ${variance},
     ${data_out},
     ${batch_size},
-    ${dim_im_in_y},
-    ${ch_im_in}
+    ${ch_im_in},
+    ${dim_im_in_y}
+    
 );
-printf("Batch Norm PULP");
+
 """)

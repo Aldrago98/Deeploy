@@ -15,48 +15,65 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
     uint32_t pad_left,                      // Padding left
     uint32_t pad_right)                     // Padding right
 {
-    int8_t core_id = pi_core_id();
-    int8_t log2Core = log2(NUM_CORES);
+  /* int core_id = pi_core_id();
+  const int num_cores = NUM_CORES;
+  int8_t log2Core = log2(NUM_CORES);
 
-    uint16_t ch_out_chunk = (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
-    uint16_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
-    uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
-    uint16_t ch_out_count = ch_out_stop - ch_out_start;
+  uint16_t ch_out_chunk =
+      (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
+  uint16_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
+  uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
+  uint16_t ch_out_count = ch_out_stop - ch_out_start; */
 
-    if (ch_out_count == 0) return;
-
-    // Inizializza l'output locale a zero
-    for (uint32_t l = 0; l < L_out; ++l) {
-        for (uint32_t f = ch_out_start; f < ch_out_stop; ++f) {
-            pDstC[l * F_total + f] = 0.0f;
-        }
+  for (uint32_t c = 0; c < F_total; ++c) {
+    for (uint32_t w = 0; w < L_out; ++w) {
+      pDstC[c * L_out + w] = 0.0f;
     }
+  }
+  // Convoluzione trasposta
 
-    // Loop principale della transposed convolution
-    for (uint32_t cin = 0; cin < C; ++cin) {
-        for (uint32_t l_in = 0; l_in < L; ++l_in) {
-            float32_t val = pSrcA[l_in * C + cin];
+  for (uint32_t cin = 0; cin < C; ++cin) {
+    for (uint32_t l_in = 0; l_in < L; ++l_in) {
+      uint32_t in_idx = cin * L + l_in;
+      float32_t val = pSrcA[in_idx];
 
-            for (uint32_t k = 0; k < K; ++k) {
-                int32_t l_out = l_in * stride + k - pad_left;
+      for (uint32_t k = 0; k < K; ++k) {
+        int l_out = l_in * stride + k - pad_left;
+        if (l_out < 0 || l_out >= (int)L_out)
+          continue;
 
-                if (l_out < 0 || l_out >= (int32_t)L_out) continue;
+        for (uint32_t cout = 0; cout < F_total; ++cout) {
+          uint32_t wgt_idx =
+              cout * (F_total * K) + cout * K + k; // [Cout, Cin, K]
+          uint32_t out_idx = cout * L_out + l_out; // [Cout, L_out]
 
-                for (uint32_t cout = ch_out_start; cout < ch_out_stop; ++cout) {
-                    // weight index: [cin, cout, k]
-                    float32_t wgt = pWeights[cin * (F_total * K) + cout * K + k];
-                    pDstC[l_out * F_total + cout] += val * wgt;
-                }
-            }
+          float32_t wgt = pWeights[wgt_idx];
+          pDstC[out_idx] += val * wgt;
+          
+          printf("l_in=%u l_out=%d cout=%u cin=%u k=%u | in[%u]=%f "
+                   "wgt[%u]=%f out[%u]=%f\n",
+                   l_in, l_out, cout, cin, k, in_idx, val, wgt_idx, wgt,
+                   out_idx, pDstC[out_idx]);
+          
         }
+      }
     }
+  }
 
-    // Aggiunta del bias se disponibile
-    if (pBias != NULL) {
-        for (uint32_t l = 0; l < L_out; ++l) {
-            for (uint32_t f = ch_out_start; f < ch_out_stop; ++f) {
-                pDstC[l * F_total + (ch_out_start + f)] += pBias[ch_out_start + f];
-            }
+  // Bias (una volta per output channel)
+  if (pBias != NULL) {
+    for (uint32_t cout = 0; cout < F_total; ++cout) {
+      for (uint32_t l_out = 0; l_out < L_out; ++l_out) {
+        uint32_t out_idx = cout * L_out + l_out;
+        pDstC[out_idx] += pBias[cout];
+        if (l_out < 16) {
+          printf("Adding bias: l_out=%u cout=%u bias=%f -> out[%u]=%f\n", l_out,
+                 cout, pBias[cout],out_idx,
+                 pDstC[0 + out_idx]);
         }
+      }
     }
+  }
 }
+
+

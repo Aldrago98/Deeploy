@@ -30,6 +30,8 @@
 #include "DeeployPULPMath.h"
 #include "pmsis.h"
 
+
+
 void PULP_Conv2d_fp32_fp32_fp32_HWC(const float32_t *__restrict__ pSrcA,
                                     uint32_t H, uint32_t W, uint32_t C,
                                     const float32_t *__restrict__ pSrcB,
@@ -155,7 +157,7 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
   }
 }
 
-// standard Conv1d 
+// standard Conv1d
 
 /* void PULP_Conv1d_fp32_fp32_fp32_HWC(
     const float32_t *__restrict__ pSrcA, // Input: [L, C]
@@ -218,62 +220,65 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
       pDstC[output_idx] = sum;
     }
   }
-} */
-
-
-
+}
+ */
 // efficient Conv1d
 // sfrutta un unroll a 4/8 su C
 
 /* void PULP_Conv1d_fp32_fp32_fp32_HWC(
     const float32_t *__restrict__ pSrcA, // [L, C]
     uint32_t L, uint32_t C,
-    const float32_t *__restrict__ pSrcB, // [F_total, K, C] o [F_total, C, K] -> qui usiamo [F_total, K, C]
+    const float32_t *__restrict__ pSrcB, // [F_total, K, C] o [F_total, C, K] ->
+                                         // qui usiamo [F_total, K, C]
     uint32_t F_total, uint32_t K, uint32_t S,
     const float32_t *__restrict__ pBias, // può essere NULL
     float32_t *__restrict__ pDstC,       // [L_out, F_total]
-    uint32_t pad_left, uint32_t pad_right)
-{
-  const int core_id  = pi_core_id();
+    uint32_t pad_left, uint32_t pad_right) {
+  const int core_id = pi_core_id();
   const int log2Core = log2(NUM_CORES);
 
-  const uint32_t ch_out_chunk = (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
+  const uint32_t ch_out_chunk =
+      (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
   const uint32_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
-  const uint32_t ch_out_stop  = MIN(ch_out_start + ch_out_chunk, F_total);
+  const uint32_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
   const uint32_t ch_out_count = ch_out_stop - ch_out_start;
 
-  if (ch_out_count == 0) return;
+  if (ch_out_count == 0)
+    return;
 
   const uint32_t L_out = (L + pad_left + pad_right - K) / S + 1;
-  const float32_t * __restrict__ weight_ptr = pSrcB + ch_out_start * (K * C);
+  const float32_t *__restrict__ weight_ptr = pSrcB + ch_out_start * (K * C);
 
   for (uint32_t l = 0; l < L_out; ++l) {
 
     // range k valido per questo l (niente branch dentro c)
     const int32_t base_in = (int32_t)(l * S) - (int32_t)pad_left;
     uint32_t k_start = 0;
-    if (base_in < 0) k_start = (uint32_t)(-base_in);                  // primo k che entra in [0, L)
+    if (base_in < 0)
+      k_start = (uint32_t)(-base_in); // primo k che entra in [0, L)
     uint32_t k_end = K;
-    if (base_in + (int32_t)K > (int32_t)L) k_end = (uint32_t)(L - base_in);
+    if (base_in + (int32_t)K > (int32_t)L)
+      k_end = (uint32_t)(L - base_in);
 
     for (uint32_t f = 0; f < ch_out_count; ++f) {
       float32_t acc = (pBias ? pBias[ch_out_start + f] : 0.0f);
 
       // porzione di pesi del filtro f
-      const float32_t * __restrict__ w_f = weight_ptr + f * (K * C);
+      const float32_t *__restrict__ w_f = weight_ptr + f * (K * C);
 
       // k valido
       for (uint32_t k = k_start; k < k_end; ++k) {
-        const float32_t * __restrict__ xk = pSrcA + (base_in + (int32_t)k) * C; // [C]
-        const float32_t * __restrict__ wk = w_f + k * C;                        // [C]
+        const float32_t *__restrict__ xk =
+            pSrcA + (base_in + (int32_t)k) * C;         // [C]
+        const float32_t *__restrict__ wk = w_f + k * C; // [C]
 
         // dot product su C (unroll a 4/8 se vuoi)
         uint32_t c = 0;
         for (; c + 3 < C; c += 4) {
-          acc += xk[c+0] * wk[c+0];
-          acc += xk[c+1] * wk[c+1];
-          acc += xk[c+2] * wk[c+2];
-          acc += xk[c+3] * wk[c+3];
+          acc += xk[c + 0] * wk[c + 0];
+          acc += xk[c + 1] * wk[c + 1];
+          acc += xk[c + 2] * wk[c + 2];
+          acc += xk[c + 3] * wk[c + 3];
         }
         for (; c < C; ++c) {
           acc += xk[c] * wk[c];
@@ -285,76 +290,94 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
   }
 } */
 
-
-
-
 void PULP_Conv1d_fp32_fp32_fp32_HWC(
     const float32_t *__restrict__ pSrcA, // [L, C]
     uint32_t L, uint32_t C,
-    const float32_t *__restrict__ pSrcB, // [F_total, K, C] o [F_total, C, K] -> qui usiamo [F_total, K, C]
-    uint32_t F_total, uint32_t K, uint32_t S,
-    const float32_t *__restrict__ pBias, // può essere NULL
-    float32_t *__restrict__ pDstC,       // [L_out, F_total]
-    uint32_t pad_left, uint32_t pad_right,
+    const float32_t *__restrict__ pSrcB, // [F_total, C, K]
+    uint32_t F_total, uint32_t K, uint32_t S, 
+    const float32_t *__restrict__ pBias, // può essere NULL 
+    float32_t *__restrict__ pDstC,
+        // [L_out, F_total] 
+    uint32_t pad_left, uint32_t pad_right, 
     float32_t *__restrict__ pContextBuffer // Im2Col buffer (per-core) 
-    ) {
-  int8_t core_id = pi_core_id();
-  int8_t log2Core = log2(NUM_CORES);
+  ) 
+  { 
 
-  uint16_t ch_out_chunk =
-      (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
-  uint16_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
-  uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
-  uint16_t ch_out_count = ch_out_stop - ch_out_start;
+    int8_t core_id = pi_core_id(); 
+    int8_t log2Core = log2(NUM_CORES);
 
-  if (ch_out_count == 0) {
-    return;
-  }
+    uint16_t ch_out_chunk = (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
+    uint16_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
+    uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
+    uint16_t ch_out_count = ch_out_stop - ch_out_start; 
+    
 
-  const float32_t *weight_ptr = pSrcB + ch_out_start * C * 1 * K;
-
-  uint32_t im2col_size_per_core = C * 1 * K;
-  float32_t *im2col_buffer = pContextBuffer + core_id * im2col_size_per_core;
-
-  uint32_t H_out = 1;
-  uint32_t W_out = (L + pad_left + pad_right - K) / S + 1;
-  uint32_t kernel_size = 1 * K * C;
-
-  for (uint32_t h_out = 0; h_out < H_out; ++h_out) {
-    for (uint32_t w_out = 0; w_out < W_out; ++w_out) {
-      int32_t h_in_start = h_out * 1;
-      int32_t w_in_start = w_out * S - pad_left;
-
-      for (uint32_t p = 0; p < 1; ++p) {
-        int32_t h_in = h_in_start + p;
-
-        for (uint32_t q = 0; q < K; ++q) {
-          int32_t w_in = w_in_start + q;
-
-          for (uint32_t c = 0; c < C; ++c) {
-            if (h_in >= 0 && h_in < (int32_t)1 && w_in >= 0 &&
-                w_in < (int32_t)L) {
-              uint32_t in_idx = (h_in * L + w_in) * C + c;
-              im2col_buffer[p * K * C + q * C + c] = pSrcA[in_idx];
-            } else {
-              im2col_buffer[p * K * C + q * C + c] = 0.0f;
-            }
-          }
-        }
-      }
-
-      for (uint32_t f = 0; f < ch_out_count; ++f) {
-        float32_t sum = pBias[ch_out_start + f];  // inizializza con il bias
-        const float32_t *local_weight_ptr = weight_ptr + f * kernel_size;
-
-        for (uint32_t k = 0; k < kernel_size; k++) {
-          sum += im2col_buffer[k] * local_weight_ptr[k];
-        }
-
-        uint32_t out_idx =
-            (h_out * W_out + w_out) * F_total + (ch_out_start + f);
-        pDstC[out_idx] = sum;
-      }
+    if (ch_out_count == 0) {
+      return;
     }
-  }
+    
+    const float32_t *weight_ptr = pSrcB + ch_out_start * C  * K;
+
+    uint32_t im2col_size_per_core = C * K;
+    float32_t *im2col_buffer =pContextBuffer + core_id * im2col_size_per_core;
+    
+    //uint32_t H_out = 1;
+    int32_t W_out = (L + pad_left + pad_right - K) / S + 1;
+    uint32_t kernel_size = K * C;
+    for (uint32_t i = 0; i < im2col_size_per_core; ++i) {im2col_buffer[i] = 0.0f;}
+    __sync_synchronize();  // barriera di memoria
+      for (uint32_t w_out = 0; w_out < W_out; ++w_out) {
+        //int32_t h_in_start = h_out * 1;
+        int32_t w_in_start = w_out * S - pad_left;
+        __sync_synchronize();  // barriera di memoria
+        
+          //int32_t h_in = h_in_start + p;
+          
+          for (uint32_t q = 0; q < K; ++q) {
+            int32_t w_in = w_in_start + q;
+            //printf("l_out: %d, w_out: %d, w_in_start: %d, q: %d, w_in: %d\n", w_out, w_out, w_in_start, q, w_in);
+            //printf("p: %d, q: %d, w_in: %d
+            __sync_synchronize();  // barriera di memoria
+            for (uint32_t c = 0; c < C; ++c) {
+              if (w_in >= 0 || w_in < (int32_t)L) {
+                
+                
+                uint32_t in_idx = (w_in) * C + c;
+                float32_t buff_in = pSrcA[in_idx];
+                im2col_buffer[q * C + c] = buff_in ;
+                
+              } else {
+               
+                im2col_buffer[q * C + c] = 0.0f;
+                
+              }
+             
+            }
+            __sync_synchronize();  // barriera di memoria
+          }
+        
+        __sync_synchronize();  // barriera di memoria
+        for (uint32_t f = 0; f < ch_out_count; ++f) {
+         
+            float32_t sum = (pBias != NULL) ? pBias[ch_out_start + f] : 0.0f;
+          
+          
+          const float32_t *local_weight_ptr = weight_ptr + f * kernel_size;
+          // Debug: stampiamo solo per i primi 2 w_out e primo filtro
+        
+          for (uint32_t k = 0; k < kernel_size; k++) {
+            
+            sum += im2col_buffer[k] * local_weight_ptr[k];
+            __sync_synchronize();  // barriera di memoria
+          }
+          
+          uint32_t out_idx = (w_out) * F_total + (ch_out_start + f);
+              if (out_idx ==0 ) {
+                //printf("bias[%d]: %f\n", ch_out_start + f, pBias[ch_out_start + f]);
+              }
+          pDstC[out_idx] = sum;
+        }
+    }
+  __sync_synchronize();  // barriera di memoria
+
 }

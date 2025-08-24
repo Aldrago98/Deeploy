@@ -49,10 +49,7 @@ class _ConvTranspose1D_Template(NodeTemplate):
 
 
 referenceTemplate = _ConvTranspose1D_Template("""
-<%
-batchOffsetIn = ch_im_in * dim_im_in_y
-batchOffsetOut = ch_im_out * dim_im_out_y
-%>
+
 
 // 1D Transposed Conv (Name: ${nodeName}, Op: ${nodeOp})
 BEGIN_SINGLE_CORE
@@ -66,11 +63,13 @@ BEGIN_SINGLE_CORE
             ${stride_y},
             ${bias}, 
             ref_${data_out}_${data_out},
-            ${dim_im_out_y},
-            ${padding_y_left}, ${padding_y_right}
+            //${dim_im_out_y},
+            ${padding_y_left}, ${padding_y_right},
+            ${contextBuffer}
+                                              
         );
-        // ref_${data_out}_${data_in} += ${batchOffsetIn};
-        // ref_${data_out}_${data_out} += ${batchOffsetOut};
+        ref_${data_out}_${data_in} += ${batchOffsetIn};
+        ref_${data_out}_${data_out} += ${batchOffsetOut};
     }
 END_SINGLE_CORE
 """)

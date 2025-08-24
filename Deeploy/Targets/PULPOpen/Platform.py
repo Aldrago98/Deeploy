@@ -68,7 +68,7 @@ from Deeploy.Targets.PULPOpen.Tiler import PULPAddTilingReadyBindings, PULPBatch
     PULPRQSiHardswishTilingReadyBindings, PULPRQSMatrixVecTilingReadyBindings, PULPRQSTallGEMMTilingReadyBindings, \
     PULPRQSTilingReadyBindings, PULPSGDTilingReadyBindings, PULPSoftmaxCrossEntropyGradTilingReadyBindings, \
     PULPSoftmaxCrossEntropyTilingReadyBindings, PULPSoftmaxGradTilingReadyBindings, PULPSoftmaxTilingReadyBindings, \
-    PULPTransposeTilingReadyBindings, PULPUniformRQSTilingReadyBindings
+    PULPTransposeTilingReadyBindings, PULPUniformRQSTilingReadyBindings, PULPConvTranspose1DTilingReadyBindings
 from Deeploy.Targets.PULPOpen.TopologyOptimizationPasses.Passes import PULPAddRequantMergePass, \
     PULPConvRequantMergePass, PULPGEMMRequantMergePass, PULPMatMulRequantMergePass
 
@@ -111,7 +111,7 @@ SoftmaxMapper = NodeMapper(SoftmaxParser(), PULPSoftmaxTilingReadyBindings)
 SoftmaxGradMapper = NodeMapper(SoftmaxGradParser(), PULPSoftmaxGradTilingReadyBindings)
 Softmax_int8_Mapper = NodeMapper(iSoftmaxParser(), PULPSoftmaxTilingReadyBindings)
 BatchNormalizationMapper = NodeMapper(PULPBatchNormParser(), PULPBatchNorm1DTilingReadyBindings)
-ConvTransposeMapper = NodeMapper(PULPConvTransposeParser(), PULPConvTransposeBindings)
+ConvTransposeMapper = NodeMapper(PULPConvTransposeParser(), PULPConvTranspose1DTilingReadyBindings)
 ConcatMapper = NodeMapper(ConcatParser(), PULPConcatTilingReadyBindings)
 
 SliceMapper = NodeMapper(SliceParser(), PULPDMASliceBindings)

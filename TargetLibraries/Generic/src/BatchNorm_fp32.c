@@ -18,6 +18,12 @@ void BatchNorm_fp32(const float32_t *input, const float32_t *gamma,
         float32_t x = input[index];
         float32_t norm = (x - c_mean) / denom;
         output[index] = c_gamma * norm + c_beta;
+        printf("n=%d l=%d c=%d idx=%d\n",
+                            n, l, c, index + c);
+                    printf("   x=%.6f mean=%.6f var=%.6f denom=%.6f\n",
+                           x, mean[c], var[c], denom);
+                    printf("   norm=%.6f gamma=%.6f beta=%.6f -> y=%.6f\n",
+                           norm, gamma[c], beta[c], output[index]);
       }
     }
   }

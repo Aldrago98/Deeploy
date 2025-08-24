@@ -413,20 +413,25 @@ class PULPTallGEMMParser(PULPGEMMParser):
 class PULPBatchNormParser(BatchNormParser):
 
     def parseNode(self, node: gs.Node) -> bool:
-        # Optionally add PULP-specific checks here
-        return super().parseNode(node)
+        
+        # Save the attributes, default values are provided if not present
+        self.operatorRepresentation['epsilon'] = node.attrs.get('epsilon', 1e-5)
+        self.operatorRepresentation['momentum'] = node.attrs.get('momentum', 0.9)
+        self.operatorRepresentation['training_mode'] = node.attrs.get('training_mode', 0)
+        return True
 
     def parseNodeCtxt(self,
                       ctxt: NetworkContext,
                       node: gs.Node,
                       channels_first: bool = True) -> Tuple[NetworkContext, bool]:
-
+        inputs = ['data_in', 'scale', 'bias', 'mean', 'variance']
+        outputs = ['data_out']
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if ret:
             data_in = newCtxt.lookup(self.operatorRepresentation['data_in'])
             data_out = newCtxt.lookup(self.operatorRepresentation['data_out'])
-            self.operatorRepresentation['dim_im_in_y'] = data_in.shape[1] if not channels_first else data_in.shape[2]
-            self.operatorRepresentation['ch_im_in'] = data_in.shape[2] if not channels_first else data_in.shape[1]
+            self.operatorRepresentation['dim_im_in_y'] = data_in.shape[2]
+            self.operatorRepresentation['ch_im_in'] = data_in.shape[1]
         return newCtxt, ret
 
 
