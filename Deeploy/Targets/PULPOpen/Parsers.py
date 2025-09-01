@@ -459,6 +459,7 @@ class PULPConvTransposeParser(ConvTransposeParser):
                 self.operatorRepresentation['dim_im_out_y'] = data_out.shape[2]
                 self.operatorRepresentation['dim_kernel_y'] = weight.shape[2]
             else:
+                print("WARNING: Channels last not fully tested for ConvTranspose1D!")
                 self.operatorRepresentation['ch_im_in'] = data_in.shape[2]
                 self.operatorRepresentation['dim_im_in_y'] = data_in.shape[1]
                 self.operatorRepresentation['ch_im_out'] = data_out.shape[2]
@@ -468,7 +469,7 @@ class PULPConvTransposeParser(ConvTransposeParser):
             self.operatorRepresentation['stride_y'] = self.operatorRepresentation['strides'][0]
             self.operatorRepresentation['padding_y_left'] = self.operatorRepresentation['pads'][0]
             self.operatorRepresentation['padding_y_right'] = self.operatorRepresentation['pads'][1]
-
+            print(f"dim_im_out_y: {self.operatorRepresentation['dim_im_out_y']}, dim_im_in_y: {self.operatorRepresentation['dim_im_in_y']}, dim_kernel_y: {self.operatorRepresentation['dim_kernel_y']}, stride_y: {self.operatorRepresentation['stride_y']}, padding_y_left: {self.operatorRepresentation['padding_y_left']}, padding_y_right: {self.operatorRepresentation['padding_y_right']}")
             return newCtxt, True
         return ctxt, False
 

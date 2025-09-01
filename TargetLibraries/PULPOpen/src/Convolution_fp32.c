@@ -339,7 +339,7 @@ void PULP_Conv1d_fp32_fp32_fp32_HWC(
             //printf("p: %d, q: %d, w_in: %d
             __sync_synchronize();  // barriera di memoria
             for (uint32_t c = 0; c < C; ++c) {
-              if (w_in >= 0 || w_in < (int32_t)L) {
+              if (w_in >= 0 && w_in < (int32_t)L) {
                 
                 
                 uint32_t in_idx = (w_in) * C + c;

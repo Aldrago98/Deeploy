@@ -63,11 +63,8 @@ BEGIN_SINGLE_CORE
             ${stride_y},
             ${bias}, 
             ref_${data_out}_${data_out},
-            //${dim_im_out_y},
-            ${padding_y_left}, ${padding_y_right},
-            ${contextBuffer}
-                                              
-        );
+            ${dim_im_out_y},
+            ${padding_y_left}, ${padding_y_right});
         ref_${data_out}_${data_in} += ${batchOffsetIn};
         ref_${data_out}_${data_out} += ${batchOffsetOut};
     }

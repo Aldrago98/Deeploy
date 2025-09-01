@@ -2709,6 +2709,7 @@ class ConvTransposeParser(NodeParser):
         elif len(out_shape) == 4:
             self.operatorRepresentation['dim_im_out_x'] = out_shape[2]
             self.operatorRepresentation['dim_im_out_y'] = out_shape[3]
+            print(f"len = 4 dim_im_out_y = {self.operatorRepresentation['dim_im_out_y']}")
 
         stride_x, stride_y = 1, 1
         if "strides" in node.attrs:
