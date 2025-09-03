@@ -32,7 +32,6 @@ class _ConvTranspose1D_Template(NodeTemplate):
         operatorRepresentation["dim_im_in_y"] = data_in.shape[2]
 
         operatorRepresentation["ch_im_out"] = data_out.shape[1]
-        operatorRepresentation["dim_im_out_y"] = data_out.shape[2]
 
         # weights and kernel
         weight = ctxt.lookup(operatorRepresentation["weight"])
@@ -44,7 +43,9 @@ class _ConvTranspose1D_Template(NodeTemplate):
         # Bias (optional)
         operatorRepresentation["has_bias"] = "true" if "bias" in operatorRepresentation else "false"
         operatorRepresentation["bias"] = operatorRepresentation.get("bias", "NULL")
-
+        operatorRepresentation["dim_im_out_y"] = (operatorRepresentation["dim_im_in_y"] - 1) * operatorRepresentation[
+            "stride_y"] - 2 * operatorRepresentation['padding_y_left'] + (operatorRepresentation['dim_kernel_y'] -
+                                                                          1) + 1  #data_out.shape[2]
         return ctxt, operatorRepresentation, []
 
 

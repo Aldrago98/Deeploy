@@ -2661,6 +2661,7 @@ class BatchNormParser(NodeParser):
         self.operatorRepresentation['batch_size'] = input_shape[0]
         self.operatorRepresentation['channel_size'] = input_shape[1]
         self.operatorRepresentation['window_size'] = input_shape[2]
+        print(f" Window size = {self.operatorRepresentation['window_size']}")
 
         return ctxt, True
 
@@ -2696,6 +2697,7 @@ class ConvTransposeParser(NodeParser):
         self.operatorRepresentation['data_in'] = node.inputs[0].name
         self.operatorRepresentation['weight'] = node.inputs[1].name
         self.operatorRepresentation['data_out'] = node.outputs[0].name
+        print(f"node.outputs = {node.outputs}")
         if len(node.inputs) == 3:
             self.operatorRepresentation['bias'] = node.inputs[2].name
             self.operatorRepresentation['has_bias'] = True

@@ -15,7 +15,7 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
     uint32_t pad_left,                      // Padding left
     uint32_t pad_right)                     // Padding right
 {
-  /* int core_id = pi_core_id();
+  int core_id = pi_core_id();
   const int num_cores = NUM_CORES;
   int8_t log2Core = log2(NUM_CORES);
 
@@ -23,7 +23,7 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
       (F_total >> log2Core) + ((F_total & (NUM_CORES - 1)) != 0);
   uint16_t ch_out_start = MIN(ch_out_chunk * core_id, F_total);
   uint16_t ch_out_stop = MIN(ch_out_start + ch_out_chunk, F_total);
-  uint16_t ch_out_count = ch_out_stop - ch_out_start; */
+  uint16_t ch_out_count = ch_out_stop - ch_out_start;
 
   for (uint32_t c = 0; c < F_total; ++c) {
     for (uint32_t w = 0; w < L_out; ++w) {
@@ -31,7 +31,9 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
     }
   }
   // Convoluzione trasposta
-
+  printf("Starting ConvTranspose1D: L=%u C=%u F_total=%u K=%u L_out=%u "
+         "pad_left=%u pad_right=%u stride=%u\n",
+         L, C, F_total, K, L_out, pad_left, pad_right, stride);
   for (uint32_t cin = 0; cin < C; ++cin) {
     for (uint32_t l_in = 0; l_in < L; ++l_in) {
       uint32_t in_idx = cin * L + l_in;
@@ -49,12 +51,6 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
 
           float32_t wgt = pWeights[wgt_idx];
           pDstC[out_idx] += val * wgt;
-          
-          printf("l_in=%u l_out=%d cout=%u cin=%u k=%u | in[%u]=%f "
-                   "wgt[%u]=%f out[%u]=%f\n",
-                   l_in, l_out, cout, cin, k, in_idx, val, wgt_idx, wgt,
-                   out_idx, pDstC[out_idx]);
-          
         }
       }
     }
@@ -66,14 +62,14 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
       for (uint32_t l_out = 0; l_out < L_out; ++l_out) {
         uint32_t out_idx = cout * L_out + l_out;
         pDstC[out_idx] += pBias[cout];
-        if (l_out < 16) {
-          printf("Adding bias: l_out=%u cout=%u bias=%f -> out[%u]=%f\n", l_out,
-                 cout, pBias[cout],out_idx,
-                 pDstC[0 + out_idx]);
-        }
+        // if (l_out < 20) {
+        //   printf("Adding bias: l_out=%u cout=%u bias=%f -> out[%u]=%f\n",
+        //   l_out,
+        //          cout, pBias[cout],out_idx,
+        //          pDstC[0 + out_idx]);
+        // }
+        printf("out[%u]=%f\n", out_idx, pDstC[out_idx]);
       }
     }
   }
 }
-
-

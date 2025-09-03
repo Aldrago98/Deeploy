@@ -11,7 +11,7 @@ PULP_BatchNorm1d_fp32(
     ${data_out},
     ${batch_size},
     ${ch_im_in},
-    ${dim_im_in_y}
+    ${window_size}
     
 );
 
