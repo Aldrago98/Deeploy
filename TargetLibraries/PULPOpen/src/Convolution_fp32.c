@@ -223,7 +223,7 @@ void PULP_Conv2d_Im2Col_fp32_fp32_fp32_HWC(
 // efficient Conv1d
 // sfrutta un unroll a 4/8 su C
 
-void PULP_Conv1d_fp32_fp32_fp32_HWC(
+/* void PULP_Conv1d_fp32_fp32_fp32_HWC(
     const float32_t *__restrict__ pSrcA, // [L, C]
     uint32_t L, uint32_t C,
     const float32_t *__restrict__ pSrcB, // [F_total, K, C] o [F_total, C, K] ->
@@ -287,9 +287,9 @@ void PULP_Conv1d_fp32_fp32_fp32_HWC(
       pDstC[l * F_total + (ch_out_start + f)] = acc;
     }
   }
-}
+} */
 
-/* void PULP_Conv1d_fp32_fp32_fp32_HWC(
+void PULP_Conv1d_fp32_fp32_fp32_HWC(
     const float32_t *__restrict__ pSrcA, // [L, C]
     uint32_t L, uint32_t C,
     const float32_t *__restrict__ pSrcB, // [F_total, C, K]
@@ -375,4 +375,4 @@ void PULP_Conv1d_fp32_fp32_fp32_HWC(
     }
   }
   __sync_synchronize(); // barriera di memoria
-} */
+}
