@@ -60,6 +60,10 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
   if (pBias != NULL) {
     for (uint32_t cout = 0; cout < F_total; ++cout) {
       for (uint32_t l_out = 0; l_out < L_out; ++l_out) {
+        #pragma nounroll
+          for (int j = 0; j < 3; j++) {
+            asm volatile("nop" ::);
+          }
         uint32_t out_idx = cout * L_out + l_out;
         pDstC[out_idx] += pBias[cout];
         // if (l_out < 20) {

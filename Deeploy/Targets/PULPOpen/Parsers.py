@@ -432,7 +432,7 @@ class PULPBatchNormParser(BatchNormParser):
             data_out = newCtxt.lookup(self.operatorRepresentation['data_out'])
             self.operatorRepresentation['dim_im_in_y'] = data_in.shape[2]
             self.operatorRepresentation['ch_im_in'] = data_in.shape[1]
-            print(f" dim data_in: {data_in.shape}, data_out: {data_out.shape}")
+            print(f"Batch Norm: dim data_in: {data_in.shape}, data_out: {data_out.shape}")
         return newCtxt, ret
 
 
@@ -472,7 +472,7 @@ class PULPConvTransposeParser(ConvTransposeParser):
             print(f" dim data_in: {data_in.shape}, data_out: {data_out.shape}, weight: {weight.shape}")
 
             print(
-                f"dim_im_out_y: {self.operatorRepresentation['dim_im_out_y']}, ch_im_out: {self.operatorRepresentation['ch_im_out']}, dim_im_in_y: {self.operatorRepresentation['dim_im_in_y']}, dim_kernel_y: {self.operatorRepresentation['dim_kernel_y']}, stride_y: {self.operatorRepresentation['stride_y']}, padding_y_left: {self.operatorRepresentation['padding_y_left']}, padding_y_right: {self.operatorRepresentation['padding_y_right']}"
+                f"Conv Transpose: dim_im_out_y: {self.operatorRepresentation['dim_im_out_y']}, ch_im_out: {self.operatorRepresentation['ch_im_out']}, dim_im_in_y: {self.operatorRepresentation['dim_im_in_y']}, dim_kernel_y: {self.operatorRepresentation['dim_kernel_y']}, stride_y: {self.operatorRepresentation['stride_y']}, padding_y_left: {self.operatorRepresentation['padding_y_left']}, padding_y_right: {self.operatorRepresentation['padding_y_right']}"
             )
             return newCtxt, True
         return ctxt, False

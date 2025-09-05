@@ -325,35 +325,54 @@ void PULP_Conv1d_fp32_fp32_fp32_HWC(
   for (uint32_t i = 0; i < im2col_size_per_core; ++i) {
     im2col_buffer[i] = 0.0f;
   }
-  __sync_synchronize(); // barriera di memoria
+    #pragma nounroll
+          for (int j = 0; j < 3; j++) {
+            asm volatile("nop" ::);
+          }
   for (uint32_t w_out = 0; w_out < W_out; ++w_out) {
     // int32_t h_in_start = h_out * 1;
     int32_t w_in_start = w_out * S - pad_left;
-    __sync_synchronize(); // barriera di memoria
+    #pragma nounroll
+          for (int j = 0; j < 3; j++) {
+            asm volatile("nop" ::);
+          }
 
     // int32_t h_in = h_in_start + p;
 
     for (uint32_t q = 0; q < K; ++q) {
       int32_t w_in = w_in_start + q;
+     
+      // SCHEREMO: PULP specific hack
+      // SCHEREMO: Need to trigger a HW loop with at least 3 nops
+       #pragma nounroll
+        for (int j = 0; j < 3; j++) {
+          asm volatile("nop" ::);
+        }
+      
       // printf("l_out: %d, w_out: %d, w_in_start: %d, q: %d, w_in: %d\n",
-      // w_out, w_out, w_in_start, q, w_in); printf("p: %d, q: %d, w_in: %d
-      __sync_synchronize(); // barriera di memoria
+      // w_out, w_out, w_in_start, q, w_in); 
+      // printf("p: %d, q: %d, w_in: %d");
+      
       for (uint32_t c = 0; c < C; ++c) {
         if (w_in >= 0 && w_in < (int32_t)L) {
 
           uint32_t in_idx = (w_in)*C + c;
           float32_t buff_in = pSrcA[in_idx];
           im2col_buffer[q * C + c] = buff_in;
-
+          #pragma nounroll
+          for (int j = 0; j < 3; j++) {
+            asm volatile("nop" ::);
+          }
         } else {
 
           im2col_buffer[q * C + c] = 0.0f;
         }
+
       }
-      __sync_synchronize(); // barriera di memoria
+     
     }
 
-    __sync_synchronize(); // barriera di memoria
+    
     for (uint32_t f = 0; f < ch_out_count; ++f) {
 
       float32_t sum = (pBias != NULL) ? pBias[ch_out_start + f] : 0.0f;
@@ -364,15 +383,18 @@ void PULP_Conv1d_fp32_fp32_fp32_HWC(
       for (uint32_t k = 0; k < kernel_size; k++) {
 
         sum += im2col_buffer[k] * local_weight_ptr[k];
-        __sync_synchronize(); // barriera di memoria
+       #pragma nounroll
+          for (int j = 0; j < 3; j++) {
+            asm volatile("nop" ::);
+          }
       }
 
       uint32_t out_idx = (w_out)*F_total + (ch_out_start + f);
       if (out_idx == 0) {
-        // printf("bias[%d]: %f\n", ch_out_start + f, pBias[ch_out_start + f]);
+        //printf("bias[%d]: %f\n", ch_out_start + f, pBias[ch_out_start + f]);
       }
       pDstC[out_idx] = sum;
     }
   }
-  __sync_synchronize(); // barriera di memoria
+ 
 }
