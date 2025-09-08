@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Siracusa Test Adder",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "testRunner_siracusa.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/DeeployTest",
+            "justMyCode": false,
+            "args": "-t Tests/testMiniModel"
+        },
+
+        {
             "name": "Deeploy Generate Untiled",
             "type": "debugpy",
             "request": "launch",
