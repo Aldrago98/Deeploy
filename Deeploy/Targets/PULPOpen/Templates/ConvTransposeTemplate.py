@@ -43,9 +43,7 @@ class _ConvTranspose1D_Template(NodeTemplate):
         # Bias (optional)
         operatorRepresentation["has_bias"] = "true" if "bias" in operatorRepresentation else "false"
         operatorRepresentation["bias"] = operatorRepresentation.get("bias", "NULL")
-        operatorRepresentation["dim_im_out_y"] = (operatorRepresentation["dim_im_in_y"] - 1) * operatorRepresentation[
-            "stride_y"] - 2 * operatorRepresentation['padding_y_left'] + (operatorRepresentation['dim_kernel_y'] -
-                                                                          1) + 1  #data_out.shape[2]
+        operatorRepresentation["dim_im_out_y"] = data_out.shape[2]
         return ctxt, operatorRepresentation, []
 
 
@@ -53,7 +51,7 @@ referenceTemplate = _ConvTranspose1D_Template("""
 
 
 // 1D Transposed Conv (Name: ${nodeName}, Op: ${nodeOp})
-BEGIN_SINGLE_CORE
+
     ${data_in_type.typeName} ref_${data_out}_${data_in} = ${data_in};
     ${data_out_type.typeName} ref_${data_out}_${data_out} = ${data_out};
 
@@ -66,8 +64,10 @@ BEGIN_SINGLE_CORE
             ref_${data_out}_${data_out},
             ${dim_im_out_y},
             ${padding_y_left}, ${padding_y_right});
-        ref_${data_out}_${data_in} += ${batchOffsetIn};
-        ref_${data_out}_${data_out} += ${batchOffsetOut};
+                                              
+        ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};
+        ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_y};
     }
-END_SINGLE_CORE
+
+
 """)

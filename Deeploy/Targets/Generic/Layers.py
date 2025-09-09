@@ -684,7 +684,7 @@ class ConvTransposeLayer(ONNXLayer):
                 # For 1D: weight_shape = [C_in, C_out // group, kW]
                 # For 2D: weight_shape = [C_in, C_out // group, kH, kW]
                 ch_out = weight_shape[-2] * group
-                newOutputShapes[0][-1] = ch_out
+                newOutputShapes[0][-2] = ch_out
 
         return newInputShapes, newOutputShapes
 

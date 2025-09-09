@@ -390,6 +390,7 @@ void PULP_Conv1d_fp32_fp32_fp32_HWC(
       }
 
       uint32_t out_idx = (w_out)*F_total + (ch_out_start + f);
+      //printf("out[%d]: %f\n", out_idx, sum);
       if (out_idx == 0) {
         //printf("bias[%d]: %f\n", ch_out_start + f, pBias[ch_out_start + f]);
       }

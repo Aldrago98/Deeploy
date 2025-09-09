@@ -20,9 +20,9 @@ void PULP_BatchNorm1d_fp32(const float32_t *input, const float32_t *gamma,
   if (ch_out_count == 0) {
     return;
   }
-  printf("Core %d: C=%d, chunk=%d, start=%d, stop=%d, count=%d\n",
-         core_id, C, ch_out_chunk, ch_out_start, ch_out_stop, ch_out_count);
-  printf("  (N=%d, C=%d, L=%d)\n", N, C, L);
+  // printf("Core %d: C=%d, chunk=%d, start=%d, stop=%d, count=%d\n",
+  //        core_id, C, ch_out_chunk, ch_out_start, ch_out_stop, ch_out_count);
+  // printf("  (N=%d, C=%d, L=%d)\n", N, C, L);
   for (int c = ch_out_start; c < ch_out_stop; ++c) {
     for (int n = 0; n < N; ++n) {
       for (int l = 0; l < L; ++l) {
@@ -49,14 +49,14 @@ void PULP_BatchNorm1d_fp32(const float32_t *input, const float32_t *gamma,
         // printf("  (n=%d, c=%d, l=%d) idx=%d | x=%.6f "
         //     "-> norm=%.6f -> y=%.6f\n",
         //    n, c, l, idx, x, norm, y);
-        if (pi_core_id() == 0) {
-          printf("[core %d] n=%d l=%d c=%d idx=%d\n", pi_core_id(), n, l, c,
-                 idx);
-          printf("   x=%.6f mean=%.6f var=%.6f denom=%.6f\n", x, mean[c],
-                 var[c], denom);
-          printf("   norm=%.6f gamma=%.6f beta=%.6f -> y=%.6f\n", norm,
-                 gamma[c], beta[c], y);
-        }
+        // if (pi_core_id() == 0) {
+        //   printf("[core %d] n=%d l=%d c=%d idx=%d\n", pi_core_id(), n, l, c,
+        //          idx);
+        //   printf("   x=%.6f mean=%.6f var=%.6f denom=%.6f\n", x, mean[c],
+        //          var[c], denom);
+        //   printf("   norm=%.6f gamma=%.6f beta=%.6f -> y=%.6f\n", norm,
+        //          gamma[c], beta[c], y);
+        // }
       }
     }
   }
