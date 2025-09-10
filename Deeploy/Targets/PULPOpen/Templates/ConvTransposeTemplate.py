@@ -65,8 +65,8 @@ referenceTemplate = _ConvTranspose1D_Template("""
             ${dim_im_out_y},
             ${padding_y_left}, ${padding_y_right});
                                               
-        ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};
-        ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_y};
+        //ref_${data_out}_${data_in} += ${ch_im_in} * ${dim_im_in_y};
+        //ref_${data_out}_${data_out} += ${ch_im_out} * ${dim_im_out_y};
     }
 
 

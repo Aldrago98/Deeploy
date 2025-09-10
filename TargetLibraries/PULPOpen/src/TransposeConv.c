@@ -27,6 +27,10 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
 
   for (uint32_t c = 0; c < F_total; ++c) {
     for (uint32_t w = 0; w < L_out; ++w) {
+#pragma nounroll
+      for (int j = 0; j < 3; j++) {
+        asm volatile("nop" ::);
+      }
       pDstC[c * L_out + w] = 0.0f;
     }
   }
@@ -38,18 +42,28 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
     for (uint32_t l_in = 0; l_in < L; ++l_in) {
       uint32_t in_idx = cin * L + l_in;
       float32_t val = pSrcA[in_idx];
-
+#pragma nounroll
+      for (int j = 0; j < 3; j++) {
+        asm volatile("nop" ::);
+      }
       for (uint32_t k = 0; k < K; ++k) {
         int l_out = l_in * stride + k - pad_left;
-        if (l_out < 0 || l_out >= (int)L_out)
+        if (l_out < 0 || l_out >= (int32_t)L_out)
           continue;
-
+#pragma nounroll
+        for (int j = 0; j < 3; j++) {
+          asm volatile("nop" ::);
+        }
         for (uint32_t cout = 0; cout < F_total; ++cout) {
           uint32_t wgt_idx =
-              cout * (F_total * K) + cout * K + k; // [Cout, Cin, K]
+              cin * (F_total * K) + cout * K + k;  // [Cin, Cout, K]
           uint32_t out_idx = cout * L_out + l_out; // [Cout, L_out]
 
           float32_t wgt = pWeights[wgt_idx];
+#pragma nounroll
+          for (int j = 0; j < 3; j++) {
+            asm volatile("nop" ::);
+          }
           pDstC[out_idx] += val * wgt;
         }
       }
@@ -57,23 +71,23 @@ void PULP_ConvTranspose1d_fp32_fp32_HWC(
   }
 
   // Bias (una volta per output channel)
-  if (pBias != NULL) {
-    for (uint32_t cout = 0; cout < F_total; ++cout) {
-      for (uint32_t l_out = 0; l_out < L_out; ++l_out) {
-        #pragma nounroll
-          for (int j = 0; j < 3; j++) {
-            asm volatile("nop" ::);
-          }
-        uint32_t out_idx = cout * L_out + l_out;
-        pDstC[out_idx] += pBias[cout];
-        // if (l_out < 20) {
-        //   printf("Adding bias: l_out=%u cout=%u bias=%f -> out[%u]=%f\n",
-        //   l_out,
-        //          cout, pBias[cout],out_idx,
-        //          pDstC[0 + out_idx]);
-        // }
-        printf("out[%u]=%f\n", out_idx, pDstC[out_idx]);
+
+  for (uint32_t cout = 0; cout < ch_out_count; ++cout) {
+    float32_t init = (pBias != NULL) ? pBias[cout + ch_out_start] : 0.0f;
+    for (uint32_t l_out = 0; l_out < L_out; ++l_out) {
+#pragma nounroll
+      for (int j = 0; j < 3; j++) {
+        asm volatile("nop" ::);
       }
+      uint32_t out_idx = (ch_out_start + cout) * L_out + l_out;
+      pDstC[out_idx] += init;
+      // if (l_out < 20) {
+      //   printf("Adding bias: l_out=%u cout=%u bias=%f -> out[%u]=%f\n",
+      //   l_out,
+      //          cout, pBias[cout],out_idx,
+      //          pDstC[0 + out_idx]);
+      // }
+      printf("out[%u]=%f\n", out_idx, pDstC[out_idx]);
     }
   }
 }

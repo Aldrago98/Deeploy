@@ -469,6 +469,11 @@ class PULPConvTransposeParser(ConvTransposeParser):
             self.operatorRepresentation['stride_y'] = self.operatorRepresentation['strides'][0]
             self.operatorRepresentation['padding_y_left'] = self.operatorRepresentation['pads'][0]
             self.operatorRepresentation['padding_y_right'] = self.operatorRepresentation['pads'][1]
+            if len(node.inputs) == 3:
+                self.operatorRepresentation['bias'] = node.inputs[2].name
+                self.operatorRepresentation['has_bias'] = True
+            else:
+                self.operatorRepresentation['has_bias'] = False
             print(f" dim data_in: {data_in.shape}, data_out: {data_out.shape}, weight: {weight.shape}")
 
             print(
