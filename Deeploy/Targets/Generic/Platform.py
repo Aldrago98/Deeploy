@@ -32,7 +32,7 @@ from Deeploy.Targets.Generic.Parsers import AddParser, AveragePool1DParser, Aver
     GlobalAveragePoolParser, GlobalMaxPoolParser, GroupNormParser, HardSigmoidParser, HardSwishParser, \
     InstanceNormParser, IntegerDivParser, ITAMaxParser, ITAPartialMaxParser, LayerNormParser, MatMulParser, \
     MaxPool1DParser, MulParser, Pad1DParser, Pad2DParser, PowParser, QuantParser, ReduceLogSumExpParser, \
-    ReduceMeanParser, ReduceSumParser, ReluParser, RequantShiftParser, ReshapeParser, RQIntegerDivParser, \
+    ReduceMeanParser, ReduceSumParser, ReluParser, ConvTranspose2DParser, RequantShiftParser, ReshapeParser, RQIntegerDivParser, \
     RQSiGELUParser, SigmoidParser, SliceParser, SoftmaxParser, SqrtParser, SubParser, SwishParser, TransposeParser, \
     UnsqueezeParser, iLayerNormParser, iSoftmaxParser
 from Deeploy.Targets.Generic.Templates import AllocateTemplate, FreeTemplate
