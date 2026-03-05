@@ -8,7 +8,8 @@ from Deeploy.DeeployTypes import ConstantBuffer, DeploymentEngine, DeploymentPla
     StructBuffer, TopologyOptimizer, TransientBuffer, VariableBuffer
 from Deeploy.Targets.Generic.Bindings import BasicAddBindings, BasicAveragePool1DBindings, BasicAveragePool2DBindings, \
     BasicBatchNormBindings, BasicCeilBindings, BasicClipBindings, BasicConcatBindings, BasicConv1DBindings, \
-    BasicConv2DBindings, BasicConvTranspose1DBindings, BasicConvTranspose2DBindings, \
+    BasicConv2DBindings, BasicConvTranspose1DBindings, BasicConvTranspose1D2DBindings, BasicConvTranspose2DBindings, \
+    \
     BasicDebugPrintBindings, BasicDequantBindings, BasicDivBindings, \
     BasicDWConv1DBinding, BasicDWConv2DBindings, BasicExpBindings, BasicFloorBindings, BasicGatherBindings, \
     BasicGELUBindings, BasicGEMMBindings, BasicGlobalAveragePoolBindings, BasicGlobalMaxPoolBindings, \
@@ -31,7 +32,7 @@ from Deeploy.Targets.Generic.Parsers import AddParser, AveragePool1DParser, Aver
     GenericDWConv1DParser, GenericDWConv2DParser, GenericGEMMParser, GenericMaxPool2DParser, GlobalAveragePoolParser, \
     GlobalMaxPoolParser, GroupNormParser, HardSigmoidParser, HardSwishParser, InstanceNormParser, IntegerDivParser, \
     ITAMaxParser, ITAPartialMaxParser, LayerNormParser, MatMulParser, MaxPool1DParser, MulParser, Pad1DParser, \
-    Pad2DParser, PowParser, QuantParser, ReduceMeanParser, ReduceLogSumExpParser, ReduceSumParser, ReluParser, ConvTranspose2DParser, RequantShiftParser, \
+    Pad2DParser, PowParser, QuantParser, ReduceMeanParser, ReduceLogSumExpParser, ReduceSumParser, ReluParser, ConvTranspose2DParser, ConvTranspose2DParser, RequantShiftParser, \
     ReshapeParser, RQIntegerDivParser, RQSiGELUParser, SigmoidParser, SliceParser, SoftmaxParser, SqrtParser, \
     SubParser, SwishParser, TransposeParser, UnsqueezeParser, iLayerNormParser, iSoftmaxParser
 from Deeploy.Targets.Generic.Templates import AllocateTemplate, FreeTemplate

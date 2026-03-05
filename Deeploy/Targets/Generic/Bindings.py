@@ -351,10 +351,28 @@ BasicConvTranspose1DBindings = [
 ]
 
 BasicConvTranspose2DBindings = [
+BasicConvTranspose1DBindings = [
     NodeBinding(
         ConvChecker(
             [PointerClass(type), PointerClass(type), PointerClass(type)],  # input, weight, bias
             [PointerClass(type)]),
+        ConvTransposeTemplate.reference1DTemplate,
+        BasicTransformer) for type in FloatDataTypes
+] + [
+    NodeBinding(
+        ConvChecker(
+            [PointerClass(type), PointerClass(type)],  # input, weight
+            [PointerClass(type)]),
+        ConvTransposeTemplate.reference1DTemplate,
+        BasicTransformer) for type in FloatDataTypes
+]
+
+BasicConvTranspose2DBindings = [
+    NodeBinding(
+        ConvChecker(
+            [PointerClass(type), PointerClass(type), PointerClass(type)],  # input, weight, bias
+            [PointerClass(type)]),
+        ConvTransposeTemplate.reference2DTemplate,
         ConvTransposeTemplate.reference2DTemplate,
         BasicTransformer) for type in FloatDataTypes
 ] + [
@@ -362,6 +380,7 @@ BasicConvTranspose2DBindings = [
         ConvChecker(
             [PointerClass(type), PointerClass(type)],  # input, weight
             [PointerClass(type)]),
+        ConvTransposeTemplate.reference2DTemplate,
         ConvTransposeTemplate.reference2DTemplate,
         BasicTransformer) for type in FloatDataTypes
 ]
