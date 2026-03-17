@@ -34,7 +34,7 @@ from Deeploy.Targets.Generic.Parsers import AddParser, AveragePool1DParser, Aver
     ITAMaxParser, ITAPartialMaxParser, LayerNormParser, MatMulParser, MaxPool1DParser, MulParser, Pad1DParser, \
     Pad2DParser, PowParser, QuantParser, ReduceMeanParser, ReduceLogSumExpParser, ReduceSumParser, ReluParser, ConvTranspose2DParser, ConvTranspose2DParser, RequantShiftParser, \
     ReshapeParser, RQIntegerDivParser, RQSiGELUParser, SigmoidParser, SliceParser, SoftmaxParser, SqrtParser, \
-    SubParser, SwishParser, TransposeParser, UnsqueezeParser, iLayerNormParser, iSoftmaxParser
+    SubParser, SwishParser, TransposeParser, UnsqueezeParser, iLayerNormParser, iSoftmaxParser, ConvTranspose2DParser
 from Deeploy.Targets.Generic.Templates import AllocateTemplate, FreeTemplate
 from Deeploy.Targets.Generic.TopologyOptimizationPasses.Passes import DequantPatternPass, ExtractPaddingFromConvPass, \
     ExtractPaddingFromPoolPass, MatMulAddMergePass, MergeConstAddAndRequantPass, QuantPatternPass, \

@@ -3159,8 +3159,11 @@ class ConvTranspose2DParser(ConvTransposeParser):
 
 class ConvTranspose2DParser(ConvTransposeParser):
 
-    def __init__(self):
-        super().__init__()
+    def parseNode(self, node: gs.Node) -> bool:
+        return super().parseNode(node) and node.op == 'Sqrt'
+
+
+class CeilParser(UnaryElementWiseParser):
 
     def parseNode(self, node: gs.Node) -> bool:
         # 2D ConvTranspose expects 4D input/output and 4D weight
