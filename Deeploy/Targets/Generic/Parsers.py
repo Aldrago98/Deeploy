@@ -3160,8 +3160,7 @@ class ConvTranspose2DParser(ConvTransposeParser):
 
 class ConvTranspose2DParser(ConvTransposeParser):
 
-    def __init__(self):
-        super().__init__()
+class FloorParser(UnaryElementWiseParser):
 
     def parseNode(self, node: gs.Node) -> bool:
         # 2D ConvTranspose expects 4D input/output and 4D weight
