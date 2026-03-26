@@ -27,7 +27,7 @@ from Deeploy.Targets.Generic.Templates import AddTemplate, BatchNormalizationTem
 from Deeploy.Targets.Generic.TypeCheckers import AddChecker, BatchNormChecker, ConcatChecker, ConvChecker, \
     DebugPrintChecker, DequantChecker, DivChecker, DummyChecker, GatherChecker, GELUChecker, GEMMChecker, \
     LayerNormChecker, MatMulChecker, MaxPoolChecker, MulChecker, PadChecker, QuantChecker, ReduceLogSumExpChecker, \
-    ReduceMeanChecker, ReduceSumChecker, ReluChecker, RequantShiftChecker, ReshapeChecker, RQIntegerDivChecker, \
+    ReduceMeanChecker, ReduceLogSumExpChecker, ReduceSumChecker, ReluChecker, RequantShiftChecker, ReshapeChecker, RQIntegerDivChecker, \
     SliceChecker, SoftmaxChecker, TransposeChecker
 
 BasicTransformer = CodeTransformation([ArgumentStructGeneration(), MemoryManagementGeneration(), FutureGeneration()])
@@ -240,6 +240,13 @@ BasicReduceMeanBindings = [
 BasicReduceSumBindings = [
     NodeBinding(ReduceSumChecker([PointerClass(type)], [PointerClass(int32_t)]), ReduceSumTemplate.referenceTemplate,
                 BasicTransformer) for type in SignedIntegerDataTypes
+]
+
+BasicReduceLogSumExpBindings = [
+    NodeBinding(
+        ReduceLogSumExpChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
+        FloatReduceLogSumExpTemplate.referenceTemplate,
+        BasicTransformer)
 ]
 
 BasicReduceLogSumExpBindings = [

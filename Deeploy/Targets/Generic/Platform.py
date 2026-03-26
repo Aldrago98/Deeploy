@@ -14,14 +14,14 @@ from Deeploy.Targets.Generic.Bindings import BasicAddBindings, BasicAveragePool1
     BasicInstanceNormBindings, BasicITAPartialSoftmaxBinding, BasicITASoftmaxBinding, BasicLayerNormBindings, \
     BasicMatMulBindings, BasicMaxPool1DBindings, BasicMaxPool2DBindings, BasicMulBindings, BasicPad1DBindings, \
     BasicPad2DBindings, BasicPowBindings, BasicQuantBindings, BasicReduceLogSumExpBindings, BasicReduceMeanBindings, \
-    BasicReduceSumBindings, BasicReluBinding, BasicReshapeBindings, BasicRQIntegerDivBinding, BasicRQSBindings, \
+    BasicReduceLogSumExpBindings, BasicReduceSumBindings, BasicReluBinding, BasicReshapeBindings, BasicRQIntegerDivBinding, BasicRQSBindings, \
     BasicRQSGELUBinding, BasicSigmoidBindings, BasicSliceBindings, BasicSoftmaxBindings, BasicSqrtBindings, \
     BasicSubBindings, BasicSwishBindings, BasicTransposeBindings, DummyBinding
 from Deeploy.Targets.Generic.Layers import AddLayer, AveragePoolLayer, BatchNormalizationLayer, CeilLayer, ClipLayer, \
     ConcatLayer, ConvLayer, ConvTransposeLayer, DebugPrintLayer, DequantLayer, DivLayer, ExpLayer, FloorLayer, \
     GatherLayer, GELULayer, GEMMLayer, GlobalAveragePoolLayer, GlobalMaxPoolLayer, GroupNormLayer, InstanceNormLayer, \
     ITAMaxLayer, LayerNormLayer, MatMulLayer, MaxPoolLayer, MulLayer, PadLayer, PowLayer, QuantLayer, \
-    ReduceLogSumExpLayer, ReduceMeanLayer, ReduceSumLayer, ReluLayer, RequantShiftLayer, ReshapeLayer, \
+    ReduceLogSumExpLayer, ReduceMeanLayer, ReduceLogSumExpLayer, ReduceSumLayer, ReluLayer, RequantShiftLayer, ReshapeLayer, \
     RQIntegerDivLayer, RQSiGELULayer, SigmoidLayer, SliceLayer, SoftmaxLayer, SqrtLayer, SubLayer, SwishLayer, \
     TransposeLayer
 from Deeploy.Targets.Generic.Parsers import AddParser, AveragePool1DParser, AveragePool2DParser, BatchNormParser, \
@@ -31,7 +31,7 @@ from Deeploy.Targets.Generic.Parsers import AddParser, AveragePool1DParser, Aver
     GlobalAveragePoolParser, GlobalMaxPoolParser, GroupNormParser, HardSigmoidParser, HardSwishParser, \
     InstanceNormParser, IntegerDivParser, ITAMaxParser, ITAPartialMaxParser, LayerNormParser, MatMulParser, \
     MaxPool1DParser, MulParser, Pad1DParser, Pad2DParser, PowParser, QuantParser, ReduceLogSumExpParser, \
-    ReduceMeanParser, ReduceSumParser, ReluParser, ConvTranspose2DParser, RequantShiftParser, ReshapeParser, RQIntegerDivParser, \
+    ReduceMeanParser, ReduceLogSumExpParser, ReduceSumParser, ReluParser, ConvTranspose2DParser, RequantShiftParser, ReshapeParser, RQIntegerDivParser, \
     RQSiGELUParser, SigmoidParser, SliceParser, SoftmaxParser, SqrtParser, SubParser, SwishParser, TransposeParser, \
     UnsqueezeParser, iLayerNormParser, iSoftmaxParser
 from Deeploy.Targets.Generic.Templates import AllocateTemplate, FreeTemplate
