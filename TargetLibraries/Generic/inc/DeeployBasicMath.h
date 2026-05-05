@@ -55,7 +55,6 @@
 #include "kernel/MatMul.h"
 #include "kernel/MaxPool.h"
 #include "kernel/Pow.h"
-#include "kernel/ReduceLogSumExp.h"
 #include "kernel/RMSNorm.h"
 #include "kernel/RQDiv.h"
 #include "kernel/RQGELU.h"

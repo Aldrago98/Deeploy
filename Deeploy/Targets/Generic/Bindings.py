@@ -243,10 +243,8 @@ BasicReduceSumBindings = [
 ]
 
 BasicReduceLogSumExpBindings = [
-    NodeBinding(
-        ReduceLogSumExpChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
-        FloatReduceLogSumExpTemplate.referenceTemplate,
-        BasicTransformer)
+    NodeBinding(ReduceLogSumExpChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
+                FloatReduceLogSumExpTemplate.referenceTemplate, BasicTransformer)
 ]
 
 BasicReduceLogSumExpBindings = [
