@@ -103,11 +103,11 @@ class NeurekaDWConv2DParser(NeurekaConv2DBaseParser):
 
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if not ret:
-            return False
+            return ctxt, False
 
         weight = newCtxt.lookup(self.operatorRepresentation['weight'])
         if not (len(weight.shape) == 4):
-            return False
+            return newCtxt, False
 
         return newCtxt, True
 
@@ -156,11 +156,11 @@ class NeurekaPWConv2DParser(NeurekaConv2DBaseParser):
 
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if not ret:
-            return False
+            return ctxt, False
 
         weight = newCtxt.lookup(self.operatorRepresentation['weight'])
         if not (len(weight.shape) == 3):
-            return False
+            return newCtxt, False
 
         return newCtxt, True
 
@@ -208,11 +208,11 @@ class NeurekaDenseConv2DParser(NeurekaConv2DBaseParser):
 
         newCtxt, ret = super().parseNodeCtxt(ctxt, node, channels_first)
         if not ret:
-            return False
+            return ctxt, False
 
         weight = newCtxt.lookup(self.operatorRepresentation['weight'])
-        if not (len(weight.shape) == 4):
-            return False
+        if not (len(weight.shape) == 3):
+            return newCtxt, False
 
         return newCtxt, True
 
