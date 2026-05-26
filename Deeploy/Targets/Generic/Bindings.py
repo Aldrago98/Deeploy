@@ -246,8 +246,12 @@ BasicReduceLogSumExpBindings = [
                 FloatReduceLogSumExpTemplate.referenceTemplate, BasicTransformer)
 ]
 
-BasicReluBinding = NodeBinding(ReluChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
-                               FloatReluTemplate.referenceTemplate, BasicTransformer)
+BasicReluBinding = [
+    NodeBinding(ReluChecker([PointerClass(int8_t)], [PointerClass(int8_t)]),
+                IntegerReluTemplate.referenceTemplate, BasicTransformer),
+    NodeBinding(ReluChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
+                FloatReluTemplate.referenceTemplate, BasicTransformer),
+]
 
 BasicReshapeBindings = [
     NodeBinding(ReshapeChecker([PointerClass(type), PointerClass(int32_t)], [PointerClass(type)]),

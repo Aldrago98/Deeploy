@@ -224,6 +224,12 @@ def create_config_from_args(args: argparse.Namespace,
             gen_args_list.append(f"--cores={args.cores}")
         elif hasattr(args, 'num_cores'):
             gen_args_list.append(f"--cores={args.num_cores}")
+        if getattr(args, 'neureka_wmem', False):
+            gen_args_list.append("--neureka-wmem")
+        if getattr(args, 'enable_3x3', False):
+            gen_args_list.append("--enable-3x3")
+        if getattr(args, 'enableStrides', False):
+            gen_args_list.append("--enableStrides")
         if hasattr(args, 'defaultMemLevel') and args.defaultMemLevel:
             gen_args_list.append(f"--defaultMemLevel={args.defaultMemLevel}")
         if hasattr(args, 'doublebuffer') and args.doublebuffer:

@@ -39,9 +39,6 @@ class NeurekaDenseConv2DTileConstraint(TileConstraint):
         inputChannelVar = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = 3)
 
         weightOutChannelVar = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 0)
-        weightInChannelMajorVar = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 1)
-        weightBitsVar = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 2)
-        weightBandwidthVar = tilerModel.getTensorDimVar(tensorName = weightBufferName, dimIdx = 3)
 
         outputBatchVar = tilerModel.getTensorDimVar(tensorName = outputBufferName, dimIdx = 0)
         outputHeightVar = tilerModel.getTensorDimVar(tensorName = outputBufferName, dimIdx = 1)
@@ -72,6 +69,8 @@ class NeurekaDenseConv2DTileConstraint(TileConstraint):
         inputHeightVar = tilerModel.getTensorDimVar(tensorName = parseDict['data_in'], dimIdx = 1)
         inputWidthVar = tilerModel.getTensorDimVar(tensorName = parseDict['data_in'], dimIdx = 2)
         inputChannelVar = tilerModel.getTensorDimVar(tensorName = parseDict['data_in'], dimIdx = 3)
+        weightInChannelMajorVar = tilerModel.getTensorDimVar(tensorName = parseDict['weight'], dimIdx = 1)
+        weightPackedBandwidthVar = tilerModel.getTensorDimVar(tensorName = parseDict['weight'], dimIdx = 2)
 
         strides = parseDict["strides"]
 
@@ -79,6 +78,8 @@ class NeurekaDenseConv2DTileConstraint(TileConstraint):
         tilerModel.addConstraint((inputWidthVar % strides[1]) == 0)
 
         tilerModel.addConstraint(inputChannelVar == inputChannelVar.Max())
+        tilerModel.addConstraint(weightInChannelMajorVar == weightInChannelMajorVar.Max())
+        tilerModel.addConstraint(weightPackedBandwidthVar == weightPackedBandwidthVar.Max())
 
         tilerModel.addConstraint(inputHeightVar == inputHeightVar.Max(), strategy = PerformanceHint(1))
         tilerModel.addConstraint(inputWidthVar == inputWidthVar.Max(), strategy = PerformanceHint(1))

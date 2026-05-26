@@ -15,7 +15,7 @@ from Deeploy.Targets.Generic.TileConstraints.RQSiHardswishTileConstraint import 
 from Deeploy.Targets.Generic.TileConstraints.TransposeTileConstraint import TransposeTileConstraint
 from Deeploy.Targets.Generic.TileConstraints.UnaryTileConstraint import UnaryTileConstraint
 from Deeploy.Targets.Generic.TileConstraints.UntiledTileConstraint import UntiledTileConstraint
-from Deeploy.Targets.PULPOpen.Bindings import PULPAddBindings, PULPBatchNormBindings, PULPConcatBindings, \
+from Deeploy.Targets.PULPOpen.Bindings import BasicDequantBindings, BasicQuantBindings, PULPAddBindings, PULPBatchNormBindings, PULPConcatBindings, \
     PULPFloatConv2DBindings, PULPFloatConvTranspose2DBindings, PULPFloatDWConv2DBindings, PULPFloatGELUBinding, \
     PULPFloatGELUGradBinding, PULPFloatGEMMBindings, PULPGatherBindings, PULPiHardswishBindings, PULPiRMSNormBindings, \
     PULPiRQSGELUBindings, PULPLayernormBinding, PULPLayernormGradBinding, PULPMatMulBindings, PULPMaxPool1DBindings, \
@@ -133,7 +133,7 @@ PULPiRQSGELUTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPiRQ
 PULPMulTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPMulBindings,
                                                      tileConstraint = MulTileConstraint())
 
-PULPReluTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = [PULPReluBinding],
+PULPReluTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPReluBinding,
                                                       tileConstraint = UnaryTileConstraint())
 
 PULPLayernormTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = [PULPLayernormBinding],
@@ -179,6 +179,16 @@ PULPReduceMeanTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPR
 
 PULPBatchNormTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPBatchNormBindings,
                                                            tileConstraint = UntiledTileConstraint())
+
+_PULPQuantBindings = copy.deepcopy(BasicQuantBindings)
+
+PULPQuantTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = _PULPQuantBindings,
+                                                       tileConstraint = UntiledTileConstraint())
+
+_PULPDequantBindings = copy.deepcopy(BasicDequantBindings)
+
+PULPDequantTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = _PULPDequantBindings,
+                                                         tileConstraint = UntiledTileConstraint())
 
 PULPPad1DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPPad1DBindings,
                                                        tileConstraint = UntiledTileConstraint())

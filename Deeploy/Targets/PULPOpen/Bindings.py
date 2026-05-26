@@ -17,7 +17,7 @@ from Deeploy.FutureExtension.CodeTransformationPasses.FutureCodeTransformation i
 from Deeploy.MemoryLevelExtension.CodeTransformationPasses.Closure import MemoryAwareClosureGeneration
 from Deeploy.Targets.Generic.Templates import AddTemplate, BatchNormalizationTemplate, ConcatTemplate, \
     DequantTemplate, FloatPadTemplate, FloatReduceLogSumExpTemplate, FloatReduceSumTemplate, GatherTemplate, \
-    PadTemplate, QuantTemplate, RQSiGELUTemplate, SliceTemplate, iHardswishTemplate
+    PadTemplate, QuantTemplate, RQSiGELUTemplate, SliceTemplate, iHardswishTemplate, IntegerReluTemplate
 from Deeploy.Targets.Generic.TypeCheckers import AddChecker, BatchNormChecker, ConcatChecker, ConvChecker, \
     DequantChecker, GatherChecker, GELUChecker, GEMMChecker, HardswishChecker, LayerNormChecker, MatMulChecker, \
     MulChecker, PadChecker, QuantChecker, ReduceLogSumExpChecker, ReduceMeanChecker, ReluChecker, ReshapeChecker, \
@@ -469,8 +469,12 @@ PULPMulBindings = [
                 FloatMulTemplate.referenceTemplate, ForkTransformer)
 ]
 
-PULPReluBinding = NodeBinding(ReluChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
-                              FloatReluTemplate.referenceTemplate, ForkTransformer)
+PULPReluBinding = [
+    NodeBinding(ReluChecker([PointerClass(int8_t)], [PointerClass(int8_t)]),
+                IntegerReluTemplate.referenceTemplate, ForkTransformer),
+    NodeBinding(ReluChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
+                FloatReluTemplate.referenceTemplate, ForkTransformer),
+]
 
 PULPLayernormBinding = NodeBinding(
     LayerNormChecker(
