@@ -416,7 +416,13 @@ class PadParser(NodeParser):
         ret = all(['mode' in node.attrs, len(node.outputs) == 1])
 
         if ret:
-            self.operatorRepresentation['mode'] = node.attrs['mode']
+            mode = node.attrs['mode']
+            if isinstance(mode, bytes):
+                mode = mode.decode("utf-8")
+            if mode not in ("constant", "edge", "replicate"):
+                return False
+
+            self.operatorRepresentation['mode'] = mode
             self.operatorRepresentation['value'] = 0
 
             if 'pads' in node.attrs and len(node.inputs) == 1:

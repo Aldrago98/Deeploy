@@ -20,6 +20,7 @@ batchOffsetOut = dim_im_out_ch * dim_im_out_x * dim_im_out_y
 
 // 2D Pad (Name: ${nodeName}, Op: ${nodeOp})
 BEGIN_SINGLE_CORE
+    % if mode == "constant":
     for (uint32_t i = 0; i < ${data_out_size}; i++) {
         ${data_out}[i] = ${value};
     }
@@ -49,6 +50,63 @@ BEGIN_SINGLE_CORE
             offset_in_${data_out}_${data_in} += ${addoffsetIn};
         }
     }
+    %endif
+    % else:
+    % if channels_first:
+    // NCHW Layout
+    for(uint32_t n=0; n<${batch}; n++){
+        for (uint32_t c=0; c<${dim_im_in_ch}; ++c) {
+            for(uint32_t oh=0; oh<${dim_im_out_x}; oh++){
+                int32_t ih = (int32_t)oh - ${pad_y};
+                if (ih < 0) {
+                    ih = 0;
+                }
+                if (ih >= ${dim_im_in_x}) {
+                    ih = ${dim_im_in_x} - 1;
+                }
+                for(uint32_t ow=0; ow<${dim_im_out_y}; ow++){
+                    int32_t iw = (int32_t)ow - ${pad_x};
+                    if (iw < 0) {
+                        iw = 0;
+                    }
+                    if (iw >= ${dim_im_in_y}) {
+                        iw = ${dim_im_in_y} - 1;
+                    }
+                    uint32_t out_idx_${data_out}_${data_in} = n*${batchOffsetOut} + c*${dim_im_out_x}*${dim_im_out_y} + oh*${dim_im_out_y} + ow;
+                    uint32_t in_idx_${data_out}_${data_in} = n*${dim_im_in_ch}*${dim_im_in_x}*${dim_im_in_y} + c*${dim_im_in_x}*${dim_im_in_y} + ih*${dim_im_in_y} + iw;
+                    ${data_out}[out_idx_${data_out}_${data_in}] = ${data_in}[in_idx_${data_out}_${data_in}];
+                }
+            }
+        }
+    }
+    % else:
+    // NHWC Layout
+    for(uint32_t n=0; n<${batch}; n++){
+        for(uint32_t oh=0; oh<${dim_im_out_x}; oh++){
+            int32_t ih = (int32_t)oh - ${pad_y};
+            if (ih < 0) {
+                ih = 0;
+            }
+            if (ih >= ${dim_im_in_x}) {
+                ih = ${dim_im_in_x} - 1;
+            }
+            for(uint32_t ow=0; ow<${dim_im_out_y}; ow++){
+                int32_t iw = (int32_t)ow - ${pad_x};
+                if (iw < 0) {
+                    iw = 0;
+                }
+                if (iw >= ${dim_im_in_y}) {
+                    iw = ${dim_im_in_y} - 1;
+                }
+                for (uint32_t c=0; c<${dim_im_in_ch}; ++c) {
+                    uint32_t out_idx_${data_out}_${data_in} = n*${batchOffsetOut} + oh*${dim_im_out_y}*${dim_im_out_ch} + ow*${dim_im_out_ch} + c;
+                    uint32_t in_idx_${data_out}_${data_in} = n*${dim_im_in_x}*${dim_im_in_y}*${dim_im_in_ch} + ih*${dim_im_in_y}*${dim_im_in_ch} + iw*${dim_im_in_ch} + c;
+                    ${data_out}[out_idx_${data_out}_${data_in}] = ${data_in}[in_idx_${data_out}_${data_in}];
+                }
+            }
+        }
+    }
+    %endif
     %endif
 END_SINGLE_CORE
 """)
