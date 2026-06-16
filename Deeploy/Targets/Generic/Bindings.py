@@ -17,16 +17,17 @@ from Deeploy.Targets.Generic.Templates import AddTemplate, BatchNormalizationTem
     FloatDWConvTemplate, FloatExpTemplate, FloatFloorTemplate, FloatGELUTemplate, FloatGemmTemplate, \
     FloatGlobalAveragePoolTemplate, FloatGlobalMaxPoolTemplate, FloatGroupNormTemplate, FloatHardSigmoidTemplate, \
     FloatHardSwishTemplate, FloatInstanceNormTemplate, FloatLayernormTemplate, FloatMatMulTemplate, \
-    FloatMaxPoolTemplate, FloatMulTemplate, FloatPadTemplate, FloatPowTemplate, FloatReduceMeanTemplate, \
-    FloatReluTemplate, FloatSigmoidTemplate, FloatSoftmaxTemplate, FloatSqrtTemplate, FloatSubTemplate, \
-    FloatSwishTemplate, GatherTemplate, GemmTemplate, IntegerDivTemplate, ITAMaxTemplate, ITAPartialMaxTemplate, \
-    MatMulTemplate, MaxPoolTemplate, MulTemplate, PadTemplate, QuantTemplate, ReduceMeanTemplate, ReduceSumTemplate, \
-    RequantShiftTemplate, ReshapeTemplate, RQIntegerDivTemplate, RQSiGELUTemplate, SliceTemplate, SubTemplate, \
-    TransposeTemplate, iGELUTemplate, iLayernormTemplate, iRMSNormTemplate, iSoftmaxTemplate, FloatReduceLogSumExpTemplate
+    FloatMaxPoolTemplate, FloatMulTemplate, FloatPadTemplate, FloatPowTemplate, FloatReduceLogSumExpTemplate, \
+    FloatReduceMeanTemplate, FloatReluTemplate, FloatSigmoidTemplate, FloatSoftmaxTemplate, FloatSqrtTemplate, \
+    FloatSubTemplate, FloatSwishTemplate, GatherTemplate, GemmTemplate, IntegerDivTemplate, IntegerReluTemplate, \
+    ITAMaxTemplate, ITAPartialMaxTemplate, MatMulTemplate, MaxPoolTemplate, MulTemplate, PadTemplate, QuantTemplate, \
+    ReduceMeanTemplate, ReduceSumTemplate, RequantShiftTemplate, ReshapeTemplate, RQIntegerDivTemplate, \
+    RQSiGELUTemplate, SliceTemplate, SubTemplate, TransposeTemplate, iGELUTemplate, iLayernormTemplate, \
+    iRMSNormTemplate, iSoftmaxTemplate
 from Deeploy.Targets.Generic.TypeCheckers import AddChecker, BatchNormChecker, ConcatChecker, ConvChecker, \
     DebugPrintChecker, DequantChecker, DivChecker, DummyChecker, GatherChecker, GELUChecker, GEMMChecker, \
     LayerNormChecker, MatMulChecker, MaxPoolChecker, MulChecker, PadChecker, QuantChecker, ReduceLogSumExpChecker, \
-    ReduceLogSumExpChecker, ReduceMeanChecker, ReduceSumChecker, ReluChecker, RequantShiftChecker, ReshapeChecker, RQIntegerDivChecker, \
+    ReduceMeanChecker, ReduceSumChecker, ReluChecker, RequantShiftChecker, ReshapeChecker, RQIntegerDivChecker, \
     SliceChecker, SoftmaxChecker, TransposeChecker
 
 BasicTransformer = CodeTransformation([ArgumentStructGeneration(), MemoryManagementGeneration(), FutureGeneration()])
@@ -247,10 +248,10 @@ BasicReduceLogSumExpBindings = [
 ]
 
 BasicReluBinding = [
-    NodeBinding(ReluChecker([PointerClass(int8_t)], [PointerClass(int8_t)]),
-                IntegerReluTemplate.referenceTemplate, BasicTransformer),
-    NodeBinding(ReluChecker([PointerClass(float32_t)], [PointerClass(float32_t)]),
-                FloatReluTemplate.referenceTemplate, BasicTransformer),
+    NodeBinding(ReluChecker([PointerClass(int8_t)], [PointerClass(int8_t)]), IntegerReluTemplate.referenceTemplate,
+                BasicTransformer),
+    NodeBinding(ReluChecker([PointerClass(float32_t)], [PointerClass(float32_t)]), FloatReluTemplate.referenceTemplate,
+                BasicTransformer),
 ]
 
 BasicReshapeBindings = [
@@ -355,28 +356,10 @@ BasicConvTranspose1DBindings = [
 ]
 
 BasicConvTranspose2DBindings = [
-BasicConvTranspose1DBindings = [
     NodeBinding(
         ConvChecker(
             [PointerClass(type), PointerClass(type), PointerClass(type)],  # input, weight, bias
             [PointerClass(type)]),
-        ConvTransposeTemplate.reference1DTemplate,
-        BasicTransformer) for type in FloatDataTypes
-] + [
-    NodeBinding(
-        ConvChecker(
-            [PointerClass(type), PointerClass(type)],  # input, weight
-            [PointerClass(type)]),
-        ConvTransposeTemplate.reference1DTemplate,
-        BasicTransformer) for type in FloatDataTypes
-]
-
-BasicConvTranspose2DBindings = [
-    NodeBinding(
-        ConvChecker(
-            [PointerClass(type), PointerClass(type), PointerClass(type)],  # input, weight, bias
-            [PointerClass(type)]),
-        ConvTransposeTemplate.reference2DTemplate,
         ConvTransposeTemplate.reference2DTemplate,
         BasicTransformer) for type in FloatDataTypes
 ] + [
@@ -384,7 +367,6 @@ BasicConvTranspose2DBindings = [
         ConvChecker(
             [PointerClass(type), PointerClass(type)],  # input, weight
             [PointerClass(type)]),
-        ConvTransposeTemplate.reference2DTemplate,
         ConvTransposeTemplate.reference2DTemplate,
         BasicTransformer) for type in FloatDataTypes
 ]
