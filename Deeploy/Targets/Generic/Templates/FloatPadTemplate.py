@@ -73,7 +73,7 @@ BEGIN_SINGLE_CORE
                         iw = ${dim_im_in_y} - 1;
                     }
                     uint32_t out_idx_${data_out}_${data_in} = n*${batchOffsetOut} + c*${dim_im_out_x}*${dim_im_out_y} + oh*${dim_im_out_y} + ow;
-                    uint32_t in_idx_${data_out}_${data_in} = n*${dim_im_in_ch}*${dim_im_in_x}*${dim_im_in_y} + c*${dim_im_in_x}*${dim_im_in_y} + ih*${dim_im_in_y} + iw;
+                    uint32_t in_idx_${data_out}_${data_in} = n*${dim_im_in_ch}*${dim_im_in_x}*${dim_im_in_y} + c*${dim_im_in_x}*${dim_im_in_y} + ((uint32_t)ih)*${dim_im_in_y} + (uint32_t)iw;
                     ${data_out}[out_idx_${data_out}_${data_in}] = ${data_in}[in_idx_${data_out}_${data_in}];
                 }
             }
@@ -100,7 +100,7 @@ BEGIN_SINGLE_CORE
                 }
                 for (uint32_t c=0; c<${dim_im_in_ch}; ++c) {
                     uint32_t out_idx_${data_out}_${data_in} = n*${batchOffsetOut} + oh*${dim_im_out_y}*${dim_im_out_ch} + ow*${dim_im_out_ch} + c;
-                    uint32_t in_idx_${data_out}_${data_in} = n*${dim_im_in_x}*${dim_im_in_y}*${dim_im_in_ch} + ih*${dim_im_in_y}*${dim_im_in_ch} + iw*${dim_im_in_ch} + c;
+                    uint32_t in_idx_${data_out}_${data_in} = n*${dim_im_in_x}*${dim_im_in_y}*${dim_im_in_ch} + ((uint32_t)ih)*${dim_im_in_y}*${dim_im_in_ch} + ((uint32_t)iw)*${dim_im_in_ch} + c;
                     ${data_out}[out_idx_${data_out}_${data_in}] = ${data_in}[in_idx_${data_out}_${data_in}];
                 }
             }
