@@ -58,3 +58,44 @@ void ConvTranspose2d_fp32(const float32_t *input, uint32_t C_in, uint32_t H_in,
     }
   }
 }
+
+void ConvTranspose2d_s8_s8_s32_NCHW(
+    const int8_t *input, uint32_t C_in, uint32_t H_in, uint32_t W_in,
+    const int8_t *weight, uint32_t C_out, uint32_t K_h, uint32_t K_w,
+    uint32_t stride_h, uint32_t stride_w, const int32_t *bias, bool has_bias,
+    int32_t *output, uint32_t H_out, uint32_t W_out) {
+
+  for (uint32_t c = 0; c < C_out; ++c) {
+    int32_t init = has_bias ? bias[c] : 0;
+    for (uint32_t h = 0; h < H_out; ++h) {
+      for (uint32_t w = 0; w < W_out; ++w) {
+        output[(c * H_out + h) * W_out + w] = init;
+      }
+    }
+  }
+
+  for (uint32_t cout = 0; cout < C_out; ++cout) {
+    for (uint32_t cin = 0; cin < C_in; ++cin) {
+      for (uint32_t h_in = 0; h_in < H_in; ++h_in) {
+        for (uint32_t w_in = 0; w_in < W_in; ++w_in) {
+          int32_t val = input[(cin * H_in + h_in) * W_in + w_in];
+          for (uint32_t kh = 0; kh < K_h; ++kh) {
+            uint32_t h_out = h_in * stride_h + kh;
+            if (h_out >= H_out) {
+              continue;
+            }
+            for (uint32_t kw = 0; kw < K_w; ++kw) {
+              uint32_t w_out = w_in * stride_w + kw;
+              if (w_out >= W_out) {
+                continue;
+              }
+              int32_t wgt =
+                  weight[((cin * C_out + cout) * K_h + kh) * K_w + kw];
+              output[(cout * H_out + h_out) * W_out + w_out] += val * wgt;
+            }
+          }
+        }
+      }
+    }
+  }
+}

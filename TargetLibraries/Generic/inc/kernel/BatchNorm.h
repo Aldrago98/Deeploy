@@ -13,4 +13,9 @@ void BatchNorm_fp32(const float32_t *input, const float32_t *gamma,
                     const float32_t *var, float32_t *output, int N, int C,
                     int L, float epsilon, int channels_first);
 
+void BatchNorm_s8(const int8_t *input, const int8_t *gamma,
+                  const int8_t *beta, const int8_t *mean, const int8_t *var,
+                  int8_t *output, int N, int C, int L, float epsilon,
+                  int channels_first);
+
 #endif // BATCHNORM_H

@@ -13,3 +13,13 @@ BEGIN_SINGLE_CORE
     );
 END_SINGLE_CORE
 """)
+
+integerTemplate = NodeTemplate("""
+// Integer BatchNorm (Name: ${nodeName}, Op: ${nodeOp})
+BEGIN_SINGLE_CORE
+    BatchNorm_s${data_in_type.referencedType.typeWidth}(
+        ${data_in}, ${scale}, ${bias}, ${mean}, ${variance},
+        ${data_out}, ${batch_size}, ${channel_size}, ${window_size}, ${epsilon}, ${channels_first}
+    );
+END_SINGLE_CORE
+""")

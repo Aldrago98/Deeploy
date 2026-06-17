@@ -12,17 +12,23 @@ DEFAULT_CORES = 8
 # Format: dict of {test_name: [L1_sizes]}
 L2_SINGLEBUFFER_KERNELS = {
     "Kernels/Integer/GEMM/Regular_RQPerColumn": [16000],
+    "Kernels/Integer/BatchNorm": [2000],
     "Kernels/Integer/Conv/PW_2D": [32000],
     "Kernels/Integer/Conv/PW_2D_RQ/Regular_RQ": [32000],
     "Kernels/Integer/Conv/PW_2D_RQ/Unsigned_RQ": [32000],
+    "Kernels/Integer/ConvTranspose2D": [2000],
+    "Kernels/Integer/MaxPool/Regular_2D": [64000],
 }
 
 # L2 double-buffer kernel tests
 L2_DOUBLEBUFFER_KERNELS = {
     "Kernels/Integer/GEMM/Regular_RQPerColumn": [16000],
+    "Kernels/Integer/BatchNorm": [2000],
     "Kernels/Integer/Conv/PW_2D": [32000],
     "Kernels/Integer/Conv/PW_2D_RQ/Regular_RQ": [32000],
     "Kernels/Integer/Conv/PW_2D_RQ/Unsigned_RQ": [32000],
+    "Kernels/Integer/ConvTranspose2D": [2000],
+    "Kernels/Integer/MaxPool/Regular_2D": [64000],
 }
 
 # L3 single-buffer model tests

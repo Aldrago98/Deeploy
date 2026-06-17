@@ -189,6 +189,16 @@ PULPBatchNormBindings = [
              PointerClass(type)], [PointerClass(type)]), BatchNormalizationTemplate.referenceTemplate, ForkTransformer)
     for type in FloatDataTypes
 ]
+PULPBatchNormBindings += [
+    NodeBinding(
+        BatchNormChecker([
+            PointerClass(int8_t),
+            PointerClass(int8_t),
+            PointerClass(int8_t),
+            PointerClass(int8_t),
+            PointerClass(int8_t)
+        ], [PointerClass(int8_t)]), BatchNormalizationTemplate.integerTemplate, ForkTransformer)
+]
 
 PULPPad1DBindings = [
     NodeBinding(PadChecker([PointerClass(type)], [PointerClass(type)]), PadTemplate.reference1DTemplate,
@@ -281,7 +291,7 @@ PULPFloatDWConv2DBindings = [
         ForkTransformer) for float_type in FloatDataTypes
 ]
 
-PULPFloatConvTranspose2DBindings = [
+PULPConvTranspose2DBindings = [
     NodeBinding(ConvChecker(
         [PointerClass(type), PointerClass(type), PointerClass(type)], [PointerClass(type)]),
                 ConvTransposeTemplate.reference2DTemplate, ForkTransformer) for type in FloatDataTypes
@@ -289,6 +299,15 @@ PULPFloatConvTranspose2DBindings = [
     NodeBinding(ConvChecker([PointerClass(type), PointerClass(type)], [PointerClass(type)]),
                 ConvTransposeTemplate.reference2DTemplate, ForkTransformer) for type in FloatDataTypes
 ]
+PULPConvTranspose2DBindings += [
+    NodeBinding(ConvChecker([PointerClass(int8_t), PointerClass(int8_t), PointerClass(int32_t)],
+                            [PointerClass(int32_t)]),
+                ConvTransposeTemplate.integer2DTemplate, ForkTransformer),
+    NodeBinding(ConvChecker([PointerClass(int8_t), PointerClass(int8_t)], [PointerClass(int32_t)]),
+                ConvTransposeTemplate.integer2DTemplate, ForkTransformer)
+]
+
+PULPFloatConvTranspose2DBindings = PULPConvTranspose2DBindings
 
 PULPRQSMatrixVecBindings = [
     NodeBinding(

@@ -45,4 +45,14 @@ void PULP_ConvTranspose2d_fp32_fp32_fp32_CHW(
     const bool has_bias, float32_t *__restrict__ pDstC, uint32_t H_out,
     uint32_t W_out);
 
+void PULP_ConvTranspose2d_s8_s8_s32_CHW(
+    const int8_t *__restrict__ pSrcA, uint32_t C_in, uint32_t H_in,
+    uint32_t W_in, const int8_t *__restrict__ pSrcB, uint32_t C_out,
+    uint32_t groups, uint32_t K_h, uint32_t K_w, uint32_t stride_h,
+    uint32_t stride_w, uint32_t dilation_h, uint32_t dilation_w,
+    uint32_t pad_top, uint32_t pad_bottom, uint32_t pad_left,
+    uint32_t pad_right, const int32_t *__restrict__ pSrcBias,
+    const bool has_bias, int32_t *__restrict__ pDstC, uint32_t H_out,
+    uint32_t W_out);
+
 #endif // __DEEPLOY_MATH_CONV_KERNEL_HEADER_

@@ -338,6 +338,16 @@ BasicBatchNormBindings = [
              PointerClass(type)], [PointerClass(type)]), BatchNormalizationTemplate.referenceTemplate, BasicTransformer)
     for type in FloatDataTypes
 ]
+BasicBatchNormBindings += [
+    NodeBinding(
+        BatchNormChecker([
+            PointerClass(int8_t),
+            PointerClass(int8_t),
+            PointerClass(int8_t),
+            PointerClass(int8_t),
+            PointerClass(int8_t)
+        ], [PointerClass(int8_t)]), BatchNormalizationTemplate.integerTemplate, BasicTransformer)
+]
 
 BasicConvTranspose1DBindings = [
     NodeBinding(
@@ -369,6 +379,20 @@ BasicConvTranspose2DBindings = [
             [PointerClass(type)]),
         ConvTransposeTemplate.reference2DTemplate,
         BasicTransformer) for type in FloatDataTypes
+]
+BasicConvTranspose2DBindings += [
+    NodeBinding(
+        ConvChecker(
+            [PointerClass(int8_t), PointerClass(int8_t), PointerClass(int32_t)],  # input, weight, bias
+            [PointerClass(int32_t)]),
+        ConvTransposeTemplate.integer2DTemplate,
+        BasicTransformer),
+    NodeBinding(
+        ConvChecker(
+            [PointerClass(int8_t), PointerClass(int8_t)],  # input, weight
+            [PointerClass(int32_t)]),
+        ConvTransposeTemplate.integer2DTemplate,
+        BasicTransformer)
 ]
 
 BasicCeilBindings = [

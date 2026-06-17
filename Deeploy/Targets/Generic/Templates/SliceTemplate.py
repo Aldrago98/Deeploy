@@ -40,6 +40,7 @@ class _SliceTemplate(NodeTemplate):
 
 referenceTemplate = _SliceTemplate("""
 // Slice (Name: ${nodeName}, Op: ${nodeOp})
+BEGIN_SINGLE_CORE
 <%
 dimSteps = []
 dimSteps.append(data_in_size//data_in_shape[0])
@@ -82,4 +83,5 @@ ref_${data_out} += ${transferSize};
 % for axis in range(int(axes[-1])+1):
 }
 % endfor
+END_SINGLE_CORE
 """)

@@ -16,7 +16,7 @@ from Deeploy.Targets.Generic.TileConstraints.TransposeTileConstraint import Tran
 from Deeploy.Targets.Generic.TileConstraints.UnaryTileConstraint import UnaryTileConstraint
 from Deeploy.Targets.Generic.TileConstraints.UntiledTileConstraint import UntiledTileConstraint
 from Deeploy.Targets.PULPOpen.Bindings import BasicDequantBindings, BasicQuantBindings, PULPAddBindings, PULPBatchNormBindings, PULPConcatBindings, \
-    PULPFloatConv2DBindings, PULPFloatConvTranspose2DBindings, PULPFloatDWConv2DBindings, PULPFloatGELUBinding, \
+    PULPConvTranspose2DBindings, PULPFloatConv2DBindings, PULPFloatDWConv2DBindings, PULPFloatGELUBinding, \
     PULPFloatGELUGradBinding, PULPFloatGEMMBindings, PULPGatherBindings, PULPiHardswishBindings, PULPiRMSNormBindings, \
     PULPiRQSGELUBindings, PULPLayernormBinding, PULPLayernormGradBinding, PULPMatMulBindings, PULPMaxPool1DBindings, \
     PULPMaxPool2DBindings, PULPMulBindings, PULPPad1DBindings, PULPPad2DBindings, PULPReduceLogSumExpBindings, \
@@ -62,7 +62,7 @@ PULPConv2DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPFloat
 PULPConv2DUntiledTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPFloatConv2DBindings,
                                                                tileConstraint = UntiledTileConstraint())
 
-PULPConvTranspose2DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPFloatConvTranspose2DBindings,
+PULPConvTranspose2DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPConvTranspose2DBindings,
                                                                  tileConstraint = ConvTranspose2DTileConstraint())
 
 PULPDWConv2DTilingReadyBindings = TilingReadyNodeBindings(nodeBindings = PULPFloatDWConv2DBindings,

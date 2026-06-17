@@ -2983,6 +2983,7 @@ class ConvTransposeParser(NodeParser):
             self.operatorRepresentation['bias'] = node.inputs[2].name
             self.operatorRepresentation['has_bias'] = "true"
         else:
+            self.operatorRepresentation['bias'] = "NULL"
             self.operatorRepresentation['has_bias'] = "false"
         # Get output shape from context
         data_out = ctxt.lookup(node.outputs[0].name)
