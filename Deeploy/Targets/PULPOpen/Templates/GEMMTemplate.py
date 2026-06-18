@@ -41,21 +41,21 @@ if weight_signed:
 else:
     signatureString += '_u8'
 %>
-// PULP NN GEMM
+if (pi_core_id() == 0) {
 int8_t* ref_${data_out}_${A} = ${A};
 int8_t* ref_${data_out}_${B} = ${B};
 int8_t* ref_${data_out}_${data_out} = ${data_out};
 for(int i=0;i<${batch};i++){
 for(int j=0;j<${M};j++){
-// LMACAN: In some edge cases sporadic errors happen if this loop is not added.
-// We believe this is due to missing bubbles in the pipeline that break operator forwarding.
-// Breaking test:
-//   `python deeployRunner_tiled_siracusa.py -t=Tests/Models/Transformer --defaultMemLevel=L3 --doublebuffer --l1=30000`
-#pragma unroll 1
-for(int k=0;k<3;k++){
-  asm volatile("nop" ::);
+for(int o=0;o<${O};o++){
+int32_t sum = 0;
+int8_t* ref_${data_out}_B_o = ref_${data_out}_${B} + (o * ${N});
+for(int n=0;n<${N};n++){
+sum += (int32_t)ref_${data_out}_${A}[n] * (int32_t)ref_${data_out}_B_o[n];
 }
-pulp_nn_linear${signatureString}(ref_${data_out}_${A}, NULL, ref_${data_out}_${data_out}, ref_${data_out}_${B}, ${mul}, ${C}, 1, ${log2D}, ${N}, ${O}, 1, 1);
+int32_t requant = (sum * ${mul}[o] + ${C}[o]) >> ${log2D};
+ref_${data_out}_${data_out}[o] = (int8_t)CLAMP(requant, -128, 127);
+}
 ref_${data_out}_${A} += ${N};
 ref_${data_out}_${data_out} += ${O};
 }
@@ -63,6 +63,8 @@ ref_${data_out}_${data_out} += ${O};
 ref_${data_out}_${B} += ${N} * ${O};
 % endif
 }
+}
+pi_cl_team_barrier();
 """)
 
 
