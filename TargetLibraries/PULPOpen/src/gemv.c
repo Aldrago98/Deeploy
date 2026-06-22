@@ -27,7 +27,7 @@ void gemv_s8_s8_plp(int8_t *pIn, int8_t *pBias, int8_t *pOut, int8_t *pWeight,
   v4s vecB2;
 
   int8_t *pOutBuffer = (int8_t *)pOut + start;
-  int lft_neurons = num_o_neurons & 0x01;
+  int lft_neurons = (stop - start) & 0x01;
   int stop_even = stop - lft_neurons;
 
   int i;
@@ -116,10 +116,10 @@ void gemv_s8_s8_plp(int8_t *pIn, int8_t *pBias, int8_t *pOut, int8_t *pWeight,
       col_cnt--;
     }
     if (flag_batch_norm && flag_relu) {
-      *pOutBuffer = pulp_nn_bn_quant_i8(sum, *pKappa, *pLambda, out_shift);
+      *pOutBuffer = pulp_nn_bn_quant_i8(sum, *k1, *lambda1, out_shift);
       pOutBuffer++;
-      pKappa++;
-      pLambda++;
+      k1++;
+      lambda1++;
     } else {
       if (flag_relu == 1) {
         *pOutBuffer = pulp_nn_quant_i8(sum, out_mult, out_shift);
