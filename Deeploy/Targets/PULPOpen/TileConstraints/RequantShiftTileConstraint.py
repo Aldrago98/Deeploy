@@ -19,6 +19,33 @@ from Deeploy.TilingExtension.TilingCodegen import AbsoluteHyperRectangle, HyperR
 class RequantShiftTileConstraint(TileConstraint):
 
     @staticmethod
+    def _channelDim(shape: Tuple[int, ...]) -> int:
+        nonUnitDims = [idx for idx, dim in enumerate(shape) if dim != 1]
+        if len(nonUnitDims) == 1:
+            return nonUnitDims[0]
+        return len(shape) - 1
+
+    @staticmethod
+    def _inputChannelDim(inputShape: Tuple[int, ...], rqShape: Tuple[int, ...], channelsFirst: bool) -> int:
+        rqChannelDim = RequantShiftTileConstraint._channelDim(rqShape)
+        rqChannels = rqShape[rqChannelDim]
+
+        if len(inputShape) > 1 and inputShape[1] == rqChannels:
+            return 1
+        if inputShape[-1] == rqChannels:
+            return len(inputShape) - 1
+        return 1 if channelsFirst else len(inputShape) - 1
+
+    @staticmethod
+    def _requantCube(cube: HyperRectangle, rqShape: Tuple[int, ...], inputChannelDim: int) -> HyperRectangle:
+        rqChannelDim = RequantShiftTileConstraint._channelDim(rqShape)
+        rqOffset = [0] * len(rqShape)
+        rqDims = list(rqShape)
+        rqOffset[rqChannelDim] = cube.offset[inputChannelDim]
+        rqDims[rqChannelDim] = cube.dims[inputChannelDim]
+        return HyperRectangle(tuple(rqOffset), tuple(rqDims))
+
+    @staticmethod
     def addGeometricalConstraint(tilerModel: TilerModel, parseDict: Dict, ctxt: NetworkContext) -> TilerModel:
 
         inputBufferName = parseDict['data_in']
@@ -30,21 +57,21 @@ class RequantShiftTileConstraint(TileConstraint):
         for bufferName in [inputBufferName, mulBufferName, addBufferName, outputBufferName]:
             tilerModel.addTensorDimToModel(ctxt, bufferName)
 
-        inputShape = ctxt.lookup(inputBufferName).shape
+        inputShape = tuple(ctxt.lookup(inputBufferName).shape)
+        mulShape = tuple(ctxt.lookup(mulBufferName).shape)
+        addShape = tuple(ctxt.lookup(addBufferName).shape)
 
-        mulBufferShapeLen = len(ctxt.lookup(mulBufferName).shape)
-        addBufferShapeLen = len(ctxt.lookup(addBufferName).shape)
+        mulChannelDim = RequantShiftTileConstraint._channelDim(mulShape)
+        addChannelDim = RequantShiftTileConstraint._channelDim(addShape)
 
-        mulChannelVar = tilerModel.getTensorDimVar(tensorName = mulBufferName, dimIdx = mulBufferShapeLen - 1)
-        addChannelVar = tilerModel.getTensorDimVar(tensorName = addBufferName, dimIdx = addBufferShapeLen - 1)
+        mulChannelVar = tilerModel.getTensorDimVar(tensorName = mulBufferName, dimIdx = mulChannelDim)
+        addChannelVar = tilerModel.getTensorDimVar(tensorName = addBufferName, dimIdx = addChannelDim)
 
         tilerModel.addConstraint(mulChannelVar == addChannelVar)
 
         channels_first = parseDict['channels_first']
-        if not channels_first:
-            inChannelVar = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = len(inputShape) - 1)
-        else:
-            inChannelVar = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = 1)
+        inputChannelDim = RequantShiftTileConstraint._inputChannelDim(inputShape, addShape, channels_first)
+        inChannelVar = tilerModel.getTensorDimVar(tensorName = inputBufferName, dimIdx = inputChannelDim)
 
         tilerModel.addConstraint(mulChannelVar == inChannelVar)
 
@@ -67,8 +94,13 @@ class RequantShiftTileConstraint(TileConstraint):
                                                                   operatorRepresentation, addrNames)
 
         inputCubes = outputCubes
+        inputShape = tuple(ctxt.lookup(operatorRepresentation['data_in']).shape)
+        mulShape = tuple(ctxt.lookup(operatorRepresentation['mul']).shape)
+        addShape = tuple(ctxt.lookup(operatorRepresentation['add']).shape)
+        inputChannelDim = cls._inputChannelDim(inputShape, addShape, operatorRepresentation['channels_first'])
 
-        rqCubes = []
+        rqMulCubes = []
+        rqAddCubes = []
 
         replacements = {"size": [], "channel_width": [], "channels": []}
         replacementTypes = {
@@ -79,15 +111,10 @@ class RequantShiftTileConstraint(TileConstraint):
 
         for cube in inputCubes:
 
-            if operatorRepresentation['channels_first']:
-                rqCube = HyperRectangle((cube.offset[1],), (cube.dims[1],))
-                channelDim = cube.dims[1]
-            else:
-                rqCube = HyperRectangle((cube.offset[-1],), (cube.dims[-1],))
-                channelDim = cube.dims[-1]
+            rqMulCubes.append(cls._requantCube(cube, mulShape, inputChannelDim))
+            rqAddCubes.append(cls._requantCube(cube, addShape, inputChannelDim))
 
-            rqCubes.append(rqCube)
-
+            channelDim = cube.dims[inputChannelDim]
             size = np.prod(cube.dims[1:])
             channelWidth = size // channelDim
             channels = channelDim
@@ -99,8 +126,8 @@ class RequantShiftTileConstraint(TileConstraint):
         inputLoadSchedule = []
         outputLoadSchedule = []
 
-        for a, rq in zip(inputCubes, rqCubes):
-            inputLoadSchedule.append({"data_in": a, "add": rq, "mul": rq})
+        for a, rqMul, rqAdd in zip(inputCubes, rqMulCubes, rqAddCubes):
+            inputLoadSchedule.append({"data_in": a, "add": rqAdd, "mul": rqMul})
 
         for out in outputCubes:
             outputLoadSchedule.append({"data_out": out})

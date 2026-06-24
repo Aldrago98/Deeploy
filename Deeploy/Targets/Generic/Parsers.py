@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import math
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 import onnx
@@ -1343,6 +1343,15 @@ class RequantShiftParser(NodeParser, RQSParserInterface):
     def __init__(self):
         super().__init__()
 
+    @staticmethod
+    def _paramChannelCount(shape) -> Optional[int]:
+        nonUnitDims = [dim for dim in shape if dim != 1]
+        if len(nonUnitDims) == 1:
+            return nonUnitDims[0]
+        if len(shape) == 1:
+            return shape[0]
+        return None
+
     def parseNode(self, node: gs.Node) -> (bool):
         if not RQSParserInterface.parseNode(self, node):
             return False
@@ -1352,8 +1361,6 @@ class RequantShiftParser(NodeParser, RQSParserInterface):
                       ctxt: NetworkContext,
                       node: gs.Node,
                       channels_first: bool = True) -> Tuple[NetworkContext, bool]:
-        _ = channels_first
-
         inputs = ['data_in', 'mul', 'add']
         outputs = ['data_out']
 
@@ -1368,11 +1375,24 @@ class RequantShiftParser(NodeParser, RQSParserInterface):
 
         assert len(shape) >= 2, f"Unsupported shape length ({len(shape)}). Supported shape lengths greater then 2"
 
-        # Assumes shape [ Batch, Channels, ...]
+        add_shape = ctxt.lookup(node.inputs[2].name).shape
+        channel_count = self._paramChannelCount(add_shape)
+
+        if channel_count is not None:
+            channels_first_match = shape[1] == channel_count
+            channels_last_match = shape[-1] == channel_count
+
+            if channels_first_match != channels_last_match:
+                channels_first = channels_first_match
+
         self.operatorRepresentation['batch'] = shape[0]
-        self.operatorRepresentation['channels'] = shape[1]
-        self.operatorRepresentation['channel_width'] = np.prod(shape[2:]) if len(shape) > 2 else 1
+        self.operatorRepresentation['channels'] = shape[1] if channels_first else shape[-1]
+        if channels_first:
+            self.operatorRepresentation['channel_width'] = np.prod(shape[2:]) if len(shape) > 2 else 1
+        else:
+            self.operatorRepresentation['channel_width'] = np.prod(shape[1:-1]) if len(shape) > 2 else 1
         self.operatorRepresentation['size'] = np.prod(shape)
+        self.operatorRepresentation['channels_first'] = int(channels_first)
 
         return ctxt, True
 
