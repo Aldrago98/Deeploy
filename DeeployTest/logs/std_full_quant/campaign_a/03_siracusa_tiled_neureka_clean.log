@@ -1,4 +1,4 @@
-[Deeploy] ################## Testing STD_FULL_QUANT on Generic Platform ##################
+[Deeploy] ################## Testing STD_FULL_QUANT on Siracusa_w_neureka Platform ##################
 [Deeploy] ================================================================================
 [Deeploy] Deeploy FrontEnd
 [Deeploy] ================================================================================
@@ -10,11 +10,14 @@
 [Deeploy] - Perform Graph Parsing
 /app/Deeploy/Deeploy/CommonExtensions/TypeCheckers/SignPropTypeChecker.py:33: RuntimeWarning: overflow encountered in scalar subtract
   reference.nLevels = reference.values.max() - reference.values.min()
-[Deeploy]  [92m✔[0m Parsed network with 41 layers after 1 iterations in 132.510 ms
+[Deeploy]  [92m✔[0m Parsed network with 48 layers after 1 iterations in 151.536 ms
 [Deeploy] ================================================================================
 [Deeploy] Deeploy MidEnd
 [Deeploy] ================================================================================
+[Deeploy] - Perform Memory Level Annotation
 [Deeploy] - Map Layers to Bindings
+[Deeploy] - Performing Tiling and Memory Allocation
+[Deeploy]  [92m✔[0m Memory allocation successful!
 [Deeploy] > Export State backend_post_parsing[.onnx|.pkl]
 [Deeploy] ================================================================================
 [Deeploy] Deeploy BackEnd
@@ -28,52 +31,60 @@
 [Deeploy]  - 'input_0': Type: float32_t, nLevels: 4294967296, Signed: True, Offset: 0
 [Deeploy] Output:
 [Deeploy]  - 'output_0': Type: float32_t, nLevels: 4294967296, Signed: True
+[Deeploy] Layer 'encoderPad_input_0_transpose'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'encoderPad'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'encoderPad_encoderPad_output_0_tensor_pre_transpose'
 [Deeploy]   Number of Operations        : 0
 [Deeploy] Layer '_QUANT_PATTERN_PASS_0_Quant'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer '_EXTRACT_CONV_PASS_0_pad'
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer 'encoderconv1Conv'
-[Deeploy]   Number of Operations        : 115200
-[Deeploy] Layer '_encoder_conv1_Conv_RequantShift'
-[Deeploy]   Number of Operations        : 19200
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_0'
+[Deeploy]   Number of Operations        : 116160
 [Deeploy] Layer 'encodermaxpool1MaxPool'
 [Deeploy]   Number of Operations        : 4800
+[Deeploy] Layer 'encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'encoderrelu1Relu'
 [Deeploy]   Number of Operations        : 1600
-[Deeploy] Layer '_EXTRACT_CONV_PASS_1_pad'
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer 'encoderconv2Conv'
-[Deeploy]   Number of Operations        : 1152000
-[Deeploy] Layer '_encoder_conv2_Conv_RequantShift'
-[Deeploy]   Number of Operations        : 9600
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_1'
+[Deeploy]   Number of Operations        : 1152240
 [Deeploy] Layer 'encodermaxpool2MaxPool'
 [Deeploy]   Number of Operations        : 2400
+[Deeploy] Layer 'encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'encoderrelu2Relu'
 [Deeploy]   Number of Operations        : 800
 [Deeploy] Layer 'encoderflattenFlatten'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer 'encoderlinearGemm'
-[Deeploy]   Number of Operations        : 320600
-[Deeploy] Layer '_encoder_linear_Gemm_RequantShift'
-[Deeploy]   Number of Operations        : 600
-[Deeploy] Layer 'decoderlinearGemm'
-[Deeploy]   Number of Operations        : 322400
-[Deeploy] Layer '_decoder_linear_Gemm_RequantShift'
-[Deeploy]   Number of Operations        : 2400
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_2_REQUANTIZED_GEMM_TO_PW_PASS_0encoderflattenFlatten_output_0_tensor_Reshaped_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv'
+[Deeploy]   Number of Operations        : 320003
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_0_REQUANTIZED_GEMM_TO_PW_PASS_0encoderlinearGemm_output_0_requant_int8_tensor_Expanded_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_3_REQUANTIZED_GEMM_TO_PW_PASS_1encoderlinearGemm_output_0_requant_int8_tensor_Reshaped_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv'
+[Deeploy]   Number of Operations        : 320003
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_1_REQUANTIZED_GEMM_TO_PW_PASS_1decoderlinearGemm_output_0_requant_int8_tensor_Expanded_Reshape'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'decoderreshapeReshape'
 [Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'decoderconv_transpose1ConvTranspose'
 [Deeploy]   Number of Operations        : 512000
 [Deeploy] Layer '_decoder_conv_transpose1_ConvTranspose_RequantShift'
 [Deeploy]   Number of Operations        : 4800
-[Deeploy] Layer '_EXTRACT_CONV_PASS_2_pad'
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer 'decoderconv1Conv'
-[Deeploy]   Number of Operations        : 576000
-[Deeploy] Layer '_decoder_conv1_Conv_RequantShift'
-[Deeploy]   Number of Operations        : 4800
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_2'
+[Deeploy]   Number of Operations        : 576240
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'decoderrelu1Relu'
 [Deeploy]   Number of Operations        : 1600
 [Deeploy] Layer '_RECOGNIZE_DEQUANT_PASS_0'
@@ -86,12 +97,12 @@
 [Deeploy]   Number of Operations        : 512000
 [Deeploy] Layer '_decoder_conv_transpose2_ConvTranspose_RequantShift'
 [Deeploy]   Number of Operations        : 9600
-[Deeploy] Layer '_EXTRACT_CONV_PASS_3_pad'
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer 'decoderconv2Conv'
-[Deeploy]   Number of Operations        : 576000
-[Deeploy] Layer '_decoder_conv2_Conv_RequantShift'
-[Deeploy]   Number of Operations        : 9600
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_3'
+[Deeploy]   Number of Operations        : 576960
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'decoderrelu2Relu'
 [Deeploy]   Number of Operations        : 3200
 [Deeploy] Layer '_RECOGNIZE_DEQUANT_PASS_1'
@@ -100,10 +111,16 @@
 [Deeploy]   Number of Operations        : 16000
 [Deeploy] Layer '_QUANT_PATTERN_PASS_2_Quant'
 [Deeploy]   Number of Operations        : 0
-[Deeploy] Layer 'decoderlast_convConv'
-[Deeploy]   Number of Operations        : 6400
-[Deeploy] Layer '_decoder_last_conv_Conv_RequantShift'
-[Deeploy]   Number of Operations        : 960
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_6_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transposed_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_4'
+[Deeploy]   Number of Operations        : 7360
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_6_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transposed_Reshaped_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
 [Deeploy] Layer '_RECOGNIZE_DEQUANT_PASS_2'
 [Deeploy]   Number of Operations        : 0
 [Deeploy] Layer 'decoderSlice'
@@ -111,32 +128,39 @@
 [Deeploy] Layer 'decoderSlice_1'
 [Deeploy]   Number of Operations        : 0
 [Deeploy] --------------------------------------------------------------------------------
-[Deeploy] Number of Ops.                : 4192560
+[Deeploy] Number of Ops.                : 4145766
 [Deeploy] 
 [Deeploy] Memory Usage Report:
-[Deeploy]   Level                 Total (bytes)   (Static + Dynamic)    
-[Deeploy]   ------------------------------------------------------------
-[Deeploy]   None                        382,674   (350,674 +  32,000)  
--- Building for platform 'Generic'
+[Deeploy]   Level          Capacity (bytes)      Total (    Static + Dynamic   ) (Usage )
+[Deeploy]   ------------------------------------------------------------------------------
+[Deeploy]   L3                   64,000,000          0 (         0 +          0) (  0.0%)
+[Deeploy]   L2                    1,024,000    390,392 (   364,792 +     25,600) ( 38.1%)
+[Deeploy]   L1                       64,000     60,172 (       324 +     59,848) ( 94.0%)
+-- Building for platform 'Siracusa_w_neureka'
 -- ============================= Project Configuration ============================
--- [Deeploy]     platform               = Generic
+-- [Deeploy]     platform               = Siracusa_w_neureka
 -- [Deeploy]     use_dma                = 1
 -- ================================================================================
 -- 
--- ============================= Generic Configuration ============================
--- [cMake  ]   CPU                    = 
+-- ============================= Siracusa_w_neureka Configuration ============================
+-- [cMake  ]   ISA                    = rv32imf_xpulpv2
+-- [cMake  ]   Cluster Cores          = 8
+-- [cMake  ]   Fabric Controller      = 1
+-- [cMake  ]   Number of used cores   = 8
 -- ================================================================================
 -- 
+-- [PULP-NNX] Using the N-EUREKA accelerator.
 -- ============================= Simulation Configuration ============================
 -- [Simulator]   QuestaSim              = questa-2022.3
 -- [Simulator]   Verilator              = verilator-4.110
 -- [Simulator]   VCS                    = vcs-2020.12
 -- [Simulator]   banshee_simulation     = OFF
 -- [Simulator]   banshee_configuration  = 
--- [Simulator]   gvsoc_simulation       = OFF
+-- [Simulator]   gvsoc_simulation       = ON
 -- [Simulator]   banshee_stack_size     = 16777216
 -- [Simulator]   num_threads            = 1
 -- ================================================================================
+-- 
 
 
 [1m[96m═══════════════════════════════════════════════════════════════[0m
@@ -146,26 +170,45 @@
 [1mTest Configuration:[0m
   Test Name           : STD_FULL_QUANT
   Test Directory      : /app/Deeploy/DeeployTest/Tests/Models/Autoencoder2D/STD_FULL_QUANT
-  Generation Directory: /app/Deeploy/DeeployTest/TEST_GENERIC/Tests/Models/Autoencoder2D/STD_FULL_QUANT
-  Build Directory     : /app/Deeploy/DeeployTest/TEST_GENERIC/build_master
+  Generation Directory: /app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/Tests/Models/Autoencoder2D/STD_FULL_QUANT
+  Build Directory     : /app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/build_master
 
 [1mPlatform Configuration:[0m
-  Platform            : Generic
-  Simulator           : host
-  Tiling Enabled      : No
+  Platform            : Siracusa_w_neureka
+  Simulator           : gvsoc
+  Tiling Enabled      : Yes
 
 [1mBuild Configuration:[0m
   Toolchain           : LLVM
   Toolchain Directory : /app/install/llvm
+  CMake Arguments     : -DNUM_CORES=8
 
 [1mRuntime Configuration:[0m
   Verbosity Level     : 1
   Debug Mode          : Disabled
+  Generation Arguments: --cores=8 --defaultMemLevel=L2 --l1=64000 --memAllocStrategy=MiniMalloc --searchStrategy=random-max
 
 [1m[96m═══════════════════════════════════════════════════════════════[0m
 
-Initializing network...
-Running network...
+[  1%] Built target pulp-nnx
+[  6%] Built target deeploybasic
+[ 10%] Built target pulp-sdk
+[ 97%] Built target pulp-nn-mixed
+[100%] Built target deeploypulp
+Consolidate compiler generated dependencies of target network
+[100%] Built target network
+Consolidate compiler generated dependencies of target STD_FULL_QUANT
+[100%] Built target STD_FULL_QUANT
+[100%] POST_BUILD
+Error copying file (if different) from "/app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/build_master/*.bin" to "/app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/build_master/gvsoc_workdir/".
+HELLO WORLD:
+Intializing
+Initialized
+Input copied
+Output:
+Runtime: 10065631 cycles
 Errors: 0 out of 160
+[100%] Built target gvsoc_STD_FULL_QUANT
 
 [92m✓ Test STD_FULL_QUANT PASSED - No errors found[0m
+[92m  Runtime: 10065631 cycles[0m

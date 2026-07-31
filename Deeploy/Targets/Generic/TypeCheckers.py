@@ -361,11 +361,11 @@ class ReluChecker(SignPropTypeChecker):
         super().__init__(input_types, output_types)
 
     def _inferNumLevels(self, inputs, operatorRepresentation):
-        return [2**(self.input_types[0].referencedType.typeWidth)]
+        return [inputs[0].nLevels]
 
     def _inferSignedness(self, inputs: List[VariableBuffer],
                          operatorRepresentation: OperatorRepresentation) -> List[bool]:
-        return [False]
+        return [inputs[0]._signed]
 
 
 class SoftmaxChecker(SignPropTypeChecker):

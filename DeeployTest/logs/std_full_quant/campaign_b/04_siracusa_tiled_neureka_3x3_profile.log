@@ -1,0 +1,1483 @@
+[Deeploy] ################## Testing STD_FULL_QUANT on Siracusa_w_neureka Platform ##################
+[Deeploy] ================================================================================
+[Deeploy] Deeploy FrontEnd
+[Deeploy] ================================================================================
+[Deeploy] - Apply Preprocessing
+[Deeploy] > Export State to middleware_pre_lowering[.onnx|.pkl]
+[Deeploy] - Perform Graph Lowering
+[Deeploy] > Export State middleware_post_lowering[.onnx|.pkl]
+[Deeploy]  - Assert all tensors have a shape annotation
+[Deeploy] - Perform Graph Parsing
+/app/Deeploy/Deeploy/CommonExtensions/TypeCheckers/SignPropTypeChecker.py:33: RuntimeWarning: overflow encountered in scalar subtract
+  reference.nLevels = reference.values.max() - reference.values.min()
+[Deeploy]  [92m✔[0m Parsed network with 48 layers after 1 iterations in 148.057 ms
+[Deeploy] ================================================================================
+[Deeploy] Deeploy MidEnd
+[Deeploy] ================================================================================
+[Deeploy] - Perform Memory Level Annotation
+[Deeploy] - Map Layers to Bindings
+[Deeploy] - Performing Tiling and Memory Allocation
+[Deeploy]  [92m✔[0m Memory allocation successful!
+[Deeploy]  > Export Memory Allocation Visualization to /app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/Tests/Models/Autoencoder2D/STD_FULL_QUANT/deeployStates
+[Deeploy] > Export State backend_post_parsing[.onnx|.pkl]
+[Deeploy] ================================================================================
+[Deeploy] Deeploy BackEnd
+[Deeploy] ================================================================================
+[Deeploy] - Performing code transformations and optimization...
+[Deeploy] > Export State backend_post_binding[.onnx|.pkl]
+[Deeploy] ================================================================================
+[Deeploy] Deeploy Code Generation
+[Deeploy] ================================================================================
+[Deeploy] Input:
+[Deeploy]  - 'input_0': Type: float32_t, nLevels: 4294967296, Signed: True, Offset: 0
+[Deeploy] Output:
+[Deeploy]  - 'output_0': Type: float32_t, nLevels: 4294967296, Signed: True
+[Deeploy] Layer 'encoderPad_input_0_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'encoderPad'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'encoderPad_encoderPad_output_0_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_QUANT_PATTERN_PASS_0_Quant'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_0'
+[Deeploy]   Number of Operations        : 116160
+[Deeploy] Layer 'encodermaxpool1MaxPool'
+[Deeploy]   Number of Operations        : 4800
+[Deeploy] Layer 'encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'encoderrelu1Relu'
+[Deeploy]   Number of Operations        : 1600
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_1'
+[Deeploy]   Number of Operations        : 1152240
+[Deeploy] Layer 'encodermaxpool2MaxPool'
+[Deeploy]   Number of Operations        : 2400
+[Deeploy] Layer 'encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'encoderrelu2Relu'
+[Deeploy]   Number of Operations        : 800
+[Deeploy] Layer 'encoderflattenFlatten'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_2_REQUANTIZED_GEMM_TO_PW_PASS_0encoderflattenFlatten_output_0_tensor_Reshaped_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv'
+[Deeploy]   Number of Operations        : 320003
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_0_REQUANTIZED_GEMM_TO_PW_PASS_0encoderlinearGemm_output_0_requant_int8_tensor_Expanded_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_3_REQUANTIZED_GEMM_TO_PW_PASS_1encoderlinearGemm_output_0_requant_int8_tensor_Reshaped_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv'
+[Deeploy]   Number of Operations        : 320003
+[Deeploy] Layer '_REQUANTIZED_GEMM_TO_PW_PASS_1_REQUANTIZED_GEMM_TO_PW_PASS_1decoderlinearGemm_output_0_requant_int8_tensor_Expanded_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderreshapeReshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderconv_transpose1ConvTranspose'
+[Deeploy]   Number of Operations        : 512000
+[Deeploy] Layer '_decoder_conv_transpose1_ConvTranspose_RequantShift'
+[Deeploy]   Number of Operations        : 4800
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_2'
+[Deeploy]   Number of Operations        : 576240
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderrelu1Relu'
+[Deeploy]   Number of Operations        : 1600
+[Deeploy] Layer '_RECOGNIZE_DEQUANT_PASS_0'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderbatchnorm1BatchNormalization'
+[Deeploy]   Number of Operations        : 8000
+[Deeploy] Layer '_QUANT_PATTERN_PASS_1_Quant'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderconv_transpose2ConvTranspose'
+[Deeploy]   Number of Operations        : 512000
+[Deeploy] Layer '_decoder_conv_transpose2_ConvTranspose_RequantShift'
+[Deeploy]   Number of Operations        : 9600
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_3'
+[Deeploy]   Number of Operations        : 576960
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderrelu2Relu'
+[Deeploy]   Number of Operations        : 3200
+[Deeploy] Layer '_RECOGNIZE_DEQUANT_PASS_1'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderbatchnorm2BatchNormalization'
+[Deeploy]   Number of Operations        : 16000
+[Deeploy] Layer '_QUANT_PATTERN_PASS_2_Quant'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_6_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transposed_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_4'
+[Deeploy]   Number of Operations        : 7360
+[Deeploy] Layer '_NEUREKA_RESHAPE_POINTWISE_CONVOLUTION_PASS_6_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transposed_Reshaped_Reshape'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer '_RECOGNIZE_DEQUANT_PASS_2'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderSlice'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] Layer 'decoderSlice_1'
+[Deeploy]   Number of Operations        : 0
+[Deeploy] --------------------------------------------------------------------------------
+[Deeploy] Number of Ops.                : 4145766
+[Deeploy] 
+[Deeploy] Memory Usage Report:
+[Deeploy]   Level          Capacity (bytes)      Total (    Static + Dynamic   ) (Usage )
+[Deeploy]   ------------------------------------------------------------------------------
+[Deeploy]   L3                   64,000,000          0 (         0 +          0) (  0.0%)
+[Deeploy]   L2                    1,024,000    401,552 (   375,952 +     25,600) ( 39.2%)
+[Deeploy]   L1                       64,000     60,172 (       324 +     59,848) ( 94.0%)
+-- Building for platform 'Siracusa_w_neureka'
+-- ============================= Project Configuration ============================
+-- [Deeploy]     platform               = Siracusa_w_neureka
+-- [Deeploy]     use_dma                = 1
+-- ================================================================================
+-- 
+-- ============================= Siracusa_w_neureka Configuration ============================
+-- [cMake  ]   ISA                    = rv32imf_xpulpv2
+-- [cMake  ]   Cluster Cores          = 8
+-- [cMake  ]   Fabric Controller      = 1
+-- [cMake  ]   Number of used cores   = 8
+-- ================================================================================
+-- 
+-- [PULP-NNX] Using the N-EUREKA accelerator.
+-- ============================= Simulation Configuration ============================
+-- [Simulator]   QuestaSim              = questa-2022.3
+-- [Simulator]   Verilator              = verilator-4.110
+-- [Simulator]   VCS                    = vcs-2020.12
+-- [Simulator]   banshee_simulation     = OFF
+-- [Simulator]   banshee_configuration  = 
+-- [Simulator]   gvsoc_simulation       = ON
+-- [Simulator]   banshee_stack_size     = 16777216
+-- [Simulator]   num_threads            = 1
+-- ================================================================================
+-- 
+
+
+[1m[96m═══════════════════════════════════════════════════════════════[0m
+[1m[96m                    Deeploy Test Configuration                 [0m
+[1m[96m═══════════════════════════════════════════════════════════════[0m
+
+[1mTest Configuration:[0m
+  Test Name           : STD_FULL_QUANT
+  Test Directory      : /app/Deeploy/DeeployTest/Tests/Models/Autoencoder2D/STD_FULL_QUANT
+  Generation Directory: /app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/Tests/Models/Autoencoder2D/STD_FULL_QUANT
+  Build Directory     : /app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/build_master
+
+[1mPlatform Configuration:[0m
+  Platform            : Siracusa_w_neureka
+  Simulator           : gvsoc
+  Tiling Enabled      : Yes
+
+[1mBuild Configuration:[0m
+  Toolchain           : LLVM
+  Toolchain Directory : /app/install/llvm
+  CMake Arguments     : -DNUM_CORES=8
+
+[1mRuntime Configuration:[0m
+  Verbosity Level     : 1
+  Debug Mode          : Disabled
+  Generation Arguments: --cores=8 --enable-3x3 --defaultMemLevel=L2 --l1=64000 --profileTiling --memAllocStrategy=MiniMalloc --searchStrategy=random-max --plotMemAlloc --enable-3x3 --profileMicrobenchmark
+
+[1m[96m═══════════════════════════════════════════════════════════════[0m
+
+[  1%] Built target pulp-nnx
+[  6%] Built target deeploybasic
+[ 10%] Built target pulp-sdk
+[ 97%] Built target pulp-nn-mixed
+[100%] Built target deeploypulp
+Consolidate compiler generated dependencies of target network
+[100%] Built target network
+Consolidate compiler generated dependencies of target STD_FULL_QUANT
+[100%] Built target STD_FULL_QUANT
+[100%] POST_BUILD
+Error copying file (if different) from "/app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/build_master/*.bin" to "/app/Deeploy/DeeployTest/TEST_SIRACUSA_W_NEUREKA/build_master/gvsoc_workdir/".
+HELLO WORLD:
+Intializing
+Initialized
+Input copied
+===== Profiling encoderPad_input_0_transpose_L2 =====
+[encoderPad_input_0_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   208 cycles
+[encoderPad_input_0_transpose_L2][SB][0 ops][Tile 0] Kernel     :   616 cycles
+[encoderPad_input_0_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   206 cycles
+[encoderPad_input_0_transpose_L2][SB][0 ops][Tile 0] Total      :  1030 cycles (59.8% Kernel + 40.2% Overhead, 616 + 414)
+
+=== Performance Statistics: encoderPad_input_0_transpose ===
+Cycles:                    1540
+Instructions:               256
+IPC:                      0.166
+
+--- Instruction Mix ---
+Loads:                       53 (20.70%)
+Stores:                      67 (26.17%)
+Branches:                     8 (3.13%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 26
+Jump Stalls:                  0
+I-cache Misses:            1090
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encoderPad_L2 =====
+[encoderPad_L2][SB][0 ops][Tile 0] Pre-Kernel :   234 cycles
+[encoderPad_L2][SB][0 ops][Tile 0] Kernel     :  1576 cycles
+[encoderPad_L2][SB][0 ops][Tile 0] Post-Kernel:   260 cycles
+[encoderPad_L2][SB][0 ops][Tile 0] Total      :  2070 cycles (76.1% Kernel + 23.9% Overhead, 1576 + 494)
+
+=== Performance Statistics: encoderPad ===
+Cycles:                    2521
+Instructions:               967
+IPC:                      0.384
+
+--- Instruction Mix ---
+Loads:                      340 (35.16%)
+Stores:                     358 (37.02%)
+Branches:                    29 (3.00%)
+Taken Branches:              21 (72.41%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                313
+Jump Stalls:                  0
+I-cache Misses:            1017
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encoderPad_encoderPad_output_0_tensor_pre_transpose_L2 =====
+[encoderPad_encoderPad_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   279 cycles
+[encoderPad_encoderPad_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Kernel     :   683 cycles
+[encoderPad_encoderPad_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   277 cycles
+[encoderPad_encoderPad_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Total      :  1239 cycles (55.1% Kernel + 44.9% Overhead, 683 + 556)
+
+=== Performance Statistics: encoderPad_encoderPad_output_0_tensor_pre_transpose ===
+Cycles:                    1612
+Instructions:               299
+IPC:                      0.185
+
+--- Instruction Mix ---
+Loads:                       68 (22.74%)
+Stores:                      87 (29.10%)
+Branches:                     8 (2.68%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 41
+Jump Stalls:                  0
+I-cache Misses:            1045
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _QUANT_PATTERN_PASS_0_Quant_L2 =====
+[_QUANT_PATTERN_PASS_0_Quant_L2][SB][0 ops][Tile 0] Pre-Kernel :   275 cycles
+[_QUANT_PATTERN_PASS_0_Quant_L2][SB][0 ops][Tile 0] Kernel     : 11095 cycles
+[_QUANT_PATTERN_PASS_0_Quant_L2][SB][0 ops][Tile 0] Post-Kernel:   179 cycles
+[_QUANT_PATTERN_PASS_0_Quant_L2][SB][0 ops][Tile 0] Total      : 11549 cycles (96.1% Kernel + 3.9% Overhead, 11095 + 454)
+
+=== Performance Statistics: _QUANT_PATTERN_PASS_0_Quant ===
+Cycles:                   12035
+Instructions:              5279
+IPC:                      0.439
+
+--- Instruction Mix ---
+Loads:                      661 (12.52%)
+Stores:                     355 (6.72%)
+Branches:                   649 (12.29%)
+Taken Branches:             176 (27.12%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                642
+Jump Stalls:                  0
+I-cache Misses:             959
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   200 cycles
+[_MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Kernel     :   691 cycles
+[_MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   179 cycles
+[_MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Total      :  1070 cycles (64.6% Kernel + 35.4% Overhead, 691 + 379)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_0__encoder_conv1_Conv_quant_int8_tensor_transpose ===
+Cycles:                    1475
+Instructions:               289
+IPC:                      0.196
+
+--- Instruction Mix ---
+Loads:                       71 (24.57%)
+Stores:                      84 (29.07%)
+Branches:                     8 (2.77%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 42
+Jump Stalls:                  0
+I-cache Misses:             978
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_0_L2 =====
+[_MERGE_CONVRQ_PASS_0_L2][SB][116160 ops][Tile 0] Pre-Kernel :   798 cycles
+[_MERGE_CONVRQ_PASS_0_L2][SB][116160 ops][Tile 0] Kernel     :  4747 cycles
+[_MERGE_CONVRQ_PASS_0_L2][SB][116160 ops][Tile 0] Post-Kernel:   916 cycles
+[_MERGE_CONVRQ_PASS_0_L2][SB][116160 ops][Tile 0] Total      :  6461 cycles (73.5% Kernel + 26.5% Overhead, 4747 + 1714)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_0 ===
+Cycles:                    2779
+Instructions:               434
+IPC:                      0.156
+
+--- Instruction Mix ---
+Loads:                       64 (14.75%)
+Stores:                     102 (23.50%)
+Branches:                    15 (3.46%)
+Taken Branches:               4 (26.67%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 30
+Jump Stalls:                  0
+I-cache Misses:            1982
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encodermaxpool1MaxPool_L2 =====
+[encodermaxpool1MaxPool_L2][SB][4800 ops][Tile 0] Pre-Kernel :   913 cycles
+[encodermaxpool1MaxPool_L2][SB][4800 ops][Tile 0] Kernel     :  8105 cycles
+[encodermaxpool1MaxPool_L2][SB][4800 ops][Tile 0] Post-Kernel:   299 cycles
+[encodermaxpool1MaxPool_L2][SB][4800 ops][Tile 0] Total      :  9317 cycles (87.0% Kernel + 13.0% Overhead, 8105 + 1212)
+
+=== Performance Statistics: encodermaxpool1MaxPool ===
+Cycles:                    9085
+Instructions:              5149
+IPC:                      0.567
+
+--- Instruction Mix ---
+Loads:                     1321 (25.66%)
+Stores:                    1075 (20.88%)
+Branches:                   518 (10.06%)
+Taken Branches:             372 (71.81%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                334
+Jump Stalls:                  0
+I-cache Misses:            1818
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose_L2 =====
+[encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   332 cycles
+[encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Kernel     :  2022 cycles
+[encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   301 cycles
+[encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Total      :  2655 cycles (76.2% Kernel + 23.8% Overhead, 2022 + 633)
+
+=== Performance Statistics: encodermaxpool1MaxPool_encodermaxpool1MaxPool_output_0_tensor_pre_transpose ===
+Cycles:                    2948
+Instructions:               680
+IPC:                      0.231
+
+--- Instruction Mix ---
+Loads:                      260 (38.24%)
+Stores:                     275 (40.44%)
+Branches:                     8 (1.18%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                243
+Jump Stalls:                  0
+I-cache Misses:            1699
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encoderrelu1Relu_L2 =====
+[encoderrelu1Relu_L2][SB][1600 ops][Tile 0] Pre-Kernel :   333 cycles
+[encoderrelu1Relu_L2][SB][1600 ops][Tile 0] Kernel     : 16477 cycles
+[encoderrelu1Relu_L2][SB][1600 ops][Tile 0] Post-Kernel:   318 cycles
+[encoderrelu1Relu_L2][SB][1600 ops][Tile 0] Total      : 17128 cycles (96.2% Kernel + 3.8% Overhead, 16477 + 651)
+
+=== Performance Statistics: encoderrelu1Relu ===
+Cycles:                   17281
+Instructions:             11374
+IPC:                      0.658
+
+--- Instruction Mix ---
+Loads:                     1620 (14.24%)
+Stores:                    1635 (14.37%)
+Branches:                  1608 (14.14%)
+Taken Branches:            1601 (99.56%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               1602
+Jump Stalls:                  0
+I-cache Misses:             867
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   313 cycles
+[_MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose_L2][SB][0 ops][Tile 0] Kernel     :  1708 cycles
+[_MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   317 cycles
+[_MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose_L2][SB][0 ops][Tile 0] Total      :  2338 cycles (73.1% Kernel + 26.9% Overhead, 1708 + 630)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_1_encoderrelu1Relu_output_0_tensor_transpose ===
+Cycles:                    2641
+Instructions:               907
+IPC:                      0.343
+
+--- Instruction Mix ---
+Loads:                      340 (37.49%)
+Stores:                     356 (39.25%)
+Branches:                    24 (2.65%)
+Taken Branches:              16 (66.67%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                310
+Jump Stalls:                  0
+I-cache Misses:            1063
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_1_L2 =====
+[_MERGE_CONVRQ_PASS_1_L2][SB][1152240 ops][Tile 0] Pre-Kernel :  1633 cycles
+[_MERGE_CONVRQ_PASS_1_L2][SB][1152240 ops][Tile 0] Kernel     :  3470 cycles
+[_MERGE_CONVRQ_PASS_1_L2][SB][1152240 ops][Tile 0] Post-Kernel:   522 cycles
+[_MERGE_CONVRQ_PASS_1_L2][SB][1152240 ops][Tile 0] Total      :  5625 cycles (61.7% Kernel + 38.3% Overhead, 3470 + 2155)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_1 ===
+Cycles:                    2733
+Instructions:               430
+IPC:                      0.157
+
+--- Instruction Mix ---
+Loads:                       63 (14.65%)
+Stores:                     100 (23.26%)
+Branches:                    14 (3.26%)
+Taken Branches:               3 (21.43%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 28
+Jump Stalls:                  0
+I-cache Misses:            1950
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encodermaxpool2MaxPool_L2 =====
+[encodermaxpool2MaxPool_L2][SB][2400 ops][Tile 0] Pre-Kernel :   513 cycles
+[encodermaxpool2MaxPool_L2][SB][2400 ops][Tile 0] Kernel     :  6124 cycles
+[encodermaxpool2MaxPool_L2][SB][2400 ops][Tile 0] Post-Kernel:   213 cycles
+[encodermaxpool2MaxPool_L2][SB][2400 ops][Tile 0] Total      :  6850 cycles (89.4% Kernel + 10.6% Overhead, 6124 + 726)
+
+=== Performance Statistics: encodermaxpool2MaxPool ===
+Cycles:                    7144
+Instructions:              3779
+IPC:                      0.529
+
+--- Instruction Mix ---
+Loads:                     1042 (27.57%)
+Stores:                     872 (23.07%)
+Branches:                   405 (10.72%)
+Taken Branches:             341 (84.20%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                222
+Jump Stalls:                  0
+I-cache Misses:            1856
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose_L2 =====
+[encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   232 cycles
+[encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Kernel     :  1709 cycles
+[encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   198 cycles
+[encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Total      :  2139 cycles (79.9% Kernel + 20.1% Overhead, 1709 + 430)
+
+=== Performance Statistics: encodermaxpool2MaxPool_encodermaxpool2MaxPool_output_0_tensor_pre_transpose ===
+Cycles:                    2584
+Instructions:               416
+IPC:                      0.161
+
+--- Instruction Mix ---
+Loads:                      120 (28.85%)
+Stores:                     135 (32.45%)
+Branches:                     8 (1.92%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 80
+Jump Stalls:                  0
+I-cache Misses:            1938
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling encoderrelu2Relu_L2 =====
+[encoderrelu2Relu_L2][SB][800 ops][Tile 0] Pre-Kernel :   212 cycles
+[encoderrelu2Relu_L2][SB][800 ops][Tile 0] Kernel     :  8250 cycles
+[encoderrelu2Relu_L2][SB][800 ops][Tile 0] Post-Kernel:   238 cycles
+[encoderrelu2Relu_L2][SB][800 ops][Tile 0] Total      :  8700 cycles (94.8% Kernel + 5.2% Overhead, 8250 + 450)
+
+=== Performance Statistics: encoderrelu2Relu ===
+Cycles:                    9123
+Instructions:              5775
+IPC:                      0.633
+
+--- Instruction Mix ---
+Loads:                      821 (14.22%)
+Stores:                     836 (14.48%)
+Branches:                   808 (13.99%)
+Taken Branches:             801 (99.13%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                802
+Jump Stalls:                  0
+I-cache Misses:             801
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2 =====
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Pre-Kernel :  6724 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Kernel     :  5819 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Post-Kernel:   198 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Total      : 12741 cycles (45.7% Kernel + 54.3% Overhead, 5819 + 6922)
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Pre-Kernel :  6637 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Kernel     :  5167 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Post-Kernel:    79 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Total      : 11883 cycles (43.5% Kernel + 56.5% Overhead, 5167 + 6716)
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Pre-Kernel :  6622 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Kernel     :  5143 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Post-Kernel:    79 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Total      : 11844 cycles (43.4% Kernel + 56.6% Overhead, 5143 + 6701)
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Pre-Kernel :   970 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Kernel     :  2185 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Post-Kernel:    62 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Total      :  3217 cycles (67.9% Kernel + 32.1% Overhead, 2185 + 1032)
+
+=== Performance Statistics: _REQUANTIZED_GEMM_TO_PW_PASS_0_RequantizedPwConv ===
+Cycles:                    5804
+Instructions:              1718
+IPC:                      0.296
+
+--- Instruction Mix ---
+Loads:                      365 (21.25%)
+Stores:                     410 (23.86%)
+Branches:                    53 (3.08%)
+Taken Branches:              14 (26.42%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                158
+Jump Stalls:                  0
+I-cache Misses:            2927
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2 =====
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Pre-Kernel :  7614 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Kernel     :  6694 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Post-Kernel:   196 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 0] Total      : 14504 cycles (46.2% Kernel + 53.8% Overhead, 6694 + 7810)
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Pre-Kernel :  7543 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Kernel     :  6083 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Post-Kernel:   126 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 1] Total      : 13752 cycles (44.2% Kernel + 55.8% Overhead, 6083 + 7669)
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Pre-Kernel :  7507 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Kernel     :  6011 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Post-Kernel:    94 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 2] Total      : 13612 cycles (44.2% Kernel + 55.8% Overhead, 6011 + 7601)
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Pre-Kernel :  1011 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Kernel     :  1195 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Post-Kernel:    57 cycles
+[_REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv_L2][SB][320003 ops][Tile 3] Total      :  2263 cycles (52.8% Kernel + 47.2% Overhead, 1195 + 1068)
+
+=== Performance Statistics: _REQUANTIZED_GEMM_TO_PW_PASS_1_RequantizedPwConv ===
+Cycles:                    5945
+Instructions:              1720
+IPC:                      0.289
+
+--- Instruction Mix ---
+Loads:                      355 (20.64%)
+Stores:                     410 (23.84%)
+Branches:                    54 (3.14%)
+Taken Branches:              11 (20.37%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                138
+Jump Stalls:                  0
+I-cache Misses:            3044
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderconv_transpose1ConvTranspose_L2 =====
+[decoderconv_transpose1ConvTranspose_L2][SB][512000 ops][Tile 0] Pre-Kernel :   594 cycles
+[decoderconv_transpose1ConvTranspose_L2][SB][512000 ops][Tile 0] Kernel     :1346111 cycles
+[decoderconv_transpose1ConvTranspose_L2][SB][512000 ops][Tile 0] Post-Kernel:   915 cycles
+[decoderconv_transpose1ConvTranspose_L2][SB][512000 ops][Tile 0] Total      :1347620 cycles (99.9% Kernel + 0.1% Overhead, 1346111 + 1509)
+
+=== Performance Statistics: decoderconv_transpose1ConvTranspose ===
+Cycles:                 1347262
+Instructions:            813496
+IPC:                      0.604
+
+--- Instruction Mix ---
+Loads:                   399124 (49.06%)
+Stores:                   94075 (11.56%)
+Branches:                 68909 (8.47%)
+Taken Branches:           46573 (67.59%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:             225530
+Jump Stalls:                  0
+I-cache Misses:           58978
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _decoder_conv_transpose1_ConvTranspose_RequantShift_L2 =====
+[_decoder_conv_transpose1_ConvTranspose_RequantShift_L2][SB][4800 ops][Tile 0] Pre-Kernel :   916 cycles
+[_decoder_conv_transpose1_ConvTranspose_RequantShift_L2][SB][4800 ops][Tile 0] Kernel     :182921 cycles
+[_decoder_conv_transpose1_ConvTranspose_RequantShift_L2][SB][4800 ops][Tile 0] Post-Kernel:   336 cycles
+[_decoder_conv_transpose1_ConvTranspose_RequantShift_L2][SB][4800 ops][Tile 0] Total      :184173 cycles (99.3% Kernel + 0.7% Overhead, 182921 + 1252)
+
+=== Performance Statistics: _decoder_conv_transpose1_ConvTranspose_RequantShift ===
+Cycles:                  184256
+Instructions:             89799
+IPC:                      0.487
+
+--- Instruction Mix ---
+Loads:                     9625 (10.72%)
+Stores:                    1649 (1.84%)
+Branches:                  4809 (5.36%)
+Taken Branches:               3 (0.06%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               3200
+Jump Stalls:                  0
+I-cache Misses:            1437
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   317 cycles
+[_MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Kernel     :  1702 cycles
+[_MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   319 cycles
+[_MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Total      :  2338 cycles (72.8% Kernel + 27.2% Overhead, 1702 + 636)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_2_decoderconv_transpose1ConvTranspose_output_0_requant_int8_tensor_transpose ===
+Cycles:                    2601
+Instructions:               906
+IPC:                      0.348
+
+--- Instruction Mix ---
+Loads:                      340 (37.53%)
+Stores:                     356 (39.29%)
+Branches:                    24 (2.65%)
+Taken Branches:              16 (66.67%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                305
+Jump Stalls:                  0
+I-cache Misses:            1048
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_2_L2 =====
+[_MERGE_CONVRQ_PASS_2_L2][SB][576240 ops][Tile 0] Pre-Kernel :   975 cycles
+[_MERGE_CONVRQ_PASS_2_L2][SB][576240 ops][Tile 0] Kernel     :  2270 cycles
+[_MERGE_CONVRQ_PASS_2_L2][SB][576240 ops][Tile 0] Post-Kernel:   320 cycles
+[_MERGE_CONVRQ_PASS_2_L2][SB][576240 ops][Tile 0] Total      :  3565 cycles (63.7% Kernel + 36.3% Overhead, 2270 + 1295)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_2 ===
+Cycles:                    2753
+Instructions:               428
+IPC:                      0.155
+
+--- Instruction Mix ---
+Loads:                       63 (14.72%)
+Stores:                     100 (23.36%)
+Branches:                    14 (3.27%)
+Taken Branches:               3 (21.43%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 29
+Jump Stalls:                  0
+I-cache Misses:            1971
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   315 cycles
+[_MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Kernel     :  1840 cycles
+[_MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   315 cycles
+[_MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Total      :  2470 cycles (74.5% Kernel + 25.5% Overhead, 1840 + 630)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_2_decoderconv1Conv_output_0_requant_int8_tensor_pre_transpose ===
+Cycles:                    2788
+Instructions:               681
+IPC:                      0.244
+
+--- Instruction Mix ---
+Loads:                      260 (38.18%)
+Stores:                     275 (40.38%)
+Branches:                     8 (1.17%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                155
+Jump Stalls:                  0
+I-cache Misses:            1620
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderrelu1Relu_L2 =====
+[decoderrelu1Relu_L2][SB][1600 ops][Tile 0] Pre-Kernel :   333 cycles
+[decoderrelu1Relu_L2][SB][1600 ops][Tile 0] Kernel     : 16492 cycles
+[decoderrelu1Relu_L2][SB][1600 ops][Tile 0] Post-Kernel:   318 cycles
+[decoderrelu1Relu_L2][SB][1600 ops][Tile 0] Total      : 17143 cycles (96.2% Kernel + 3.8% Overhead, 16492 + 651)
+
+=== Performance Statistics: decoderrelu1Relu ===
+Cycles:                   17219
+Instructions:             11376
+IPC:                      0.661
+
+--- Instruction Mix ---
+Loads:                     1620 (14.24%)
+Stores:                    1635 (14.37%)
+Branches:                  1608 (14.14%)
+Taken Branches:            1601 (99.56%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               1602
+Jump Stalls:                  0
+I-cache Misses:             861
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _RECOGNIZE_DEQUANT_PASS_0_L2 =====
+[_RECOGNIZE_DEQUANT_PASS_0_L2][SB][0 ops][Tile 0] Pre-Kernel :   317 cycles
+[_RECOGNIZE_DEQUANT_PASS_0_L2][SB][0 ops][Tile 0] Kernel     :1942781 cycles
+[_RECOGNIZE_DEQUANT_PASS_0_L2][SB][0 ops][Tile 0] Post-Kernel:   960 cycles
+[_RECOGNIZE_DEQUANT_PASS_0_L2][SB][0 ops][Tile 0] Total      :1944058 cycles (99.9% Kernel + 0.1% Overhead, 1942781 + 1277)
+
+=== Performance Statistics: _RECOGNIZE_DEQUANT_PASS_0 ===
+Cycles:                 1943671
+Instructions:            980377
+IPC:                      0.504
+
+--- Instruction Mix ---
+Loads:                   270733 (27.62%)
+Stores:                  301421 (30.75%)
+Branches:                 25755 (2.63%)
+Taken Branches:           16180 (62.82%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:              49427
+Jump Stalls:                  0
+I-cache Misses:          810818
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderbatchnorm1BatchNormalization_L2 =====
+[decoderbatchnorm1BatchNormalization_L2][SB][8000 ops][Tile 0] Pre-Kernel :   956 cycles
+[decoderbatchnorm1BatchNormalization_L2][SB][8000 ops][Tile 0] Kernel     : 16187 cycles
+[decoderbatchnorm1BatchNormalization_L2][SB][8000 ops][Tile 0] Post-Kernel:   936 cycles
+[decoderbatchnorm1BatchNormalization_L2][SB][8000 ops][Tile 0] Total      : 18079 cycles (89.5% Kernel + 10.5% Overhead, 16187 + 1892)
+
+=== Performance Statistics: decoderbatchnorm1BatchNormalization ===
+Cycles:                   17577
+Instructions:             13587
+IPC:                      0.773
+
+--- Instruction Mix ---
+Loads:                     1712 (12.60%)
+Stores:                    1656 (12.19%)
+Branches:                    33 (0.24%)
+Taken Branches:              21 (63.64%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               1604
+Jump Stalls:                  0
+I-cache Misses:            1651
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _QUANT_PATTERN_PASS_1_Quant_L2 =====
+[_QUANT_PATTERN_PASS_1_Quant_L2][SB][0 ops][Tile 0] Pre-Kernel :   917 cycles
+[_QUANT_PATTERN_PASS_1_Quant_L2][SB][0 ops][Tile 0] Kernel     : 54543 cycles
+[_QUANT_PATTERN_PASS_1_Quant_L2][SB][0 ops][Tile 0] Post-Kernel:   318 cycles
+[_QUANT_PATTERN_PASS_1_Quant_L2][SB][0 ops][Tile 0] Total      : 55778 cycles (97.8% Kernel + 2.2% Overhead, 54543 + 1235)
+
+=== Performance Statistics: _QUANT_PATTERN_PASS_1_Quant ===
+Cycles:                   55650
+Instructions:             26870
+IPC:                      0.483
+
+--- Instruction Mix ---
+Loads:                     3221 (11.99%)
+Stores:                    1635 (6.08%)
+Branches:                  3209 (11.94%)
+Taken Branches:             263 (8.20%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               3201
+Jump Stalls:                  0
+I-cache Misses:            1118
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderconv_transpose2ConvTranspose_L2 =====
+[decoderconv_transpose2ConvTranspose_L2][SB][512000 ops][Tile 0] Pre-Kernel :   415 cycles
+[decoderconv_transpose2ConvTranspose_L2][SB][512000 ops][Tile 0] Kernel     :1743223 cycles
+[decoderconv_transpose2ConvTranspose_L2][SB][512000 ops][Tile 0] Post-Kernel:  1759 cycles
+[decoderconv_transpose2ConvTranspose_L2][SB][512000 ops][Tile 0] Total      :1745397 cycles (99.9% Kernel + 0.1% Overhead, 1743223 + 2174)
+
+=== Performance Statistics: decoderconv_transpose2ConvTranspose ===
+Cycles:                 1744293
+Instructions:           1079473
+IPC:                      0.619
+
+--- Instruction Mix ---
+Loads:                   531063 (49.20%)
+Stores:                  124343 (11.52%)
+Branches:                 91143 (8.44%)
+Taken Branches:           61889 (67.90%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:             301281
+Jump Stalls:                  0
+I-cache Misses:           60163
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _decoder_conv_transpose2_ConvTranspose_RequantShift_L2 =====
+[_decoder_conv_transpose2_ConvTranspose_RequantShift_L2][SB][9600 ops][Tile 0] Pre-Kernel :  1702 cycles
+[_decoder_conv_transpose2_ConvTranspose_RequantShift_L2][SB][9600 ops][Tile 0] Kernel     :352552 cycles
+[_decoder_conv_transpose2_ConvTranspose_RequantShift_L2][SB][9600 ops][Tile 0] Post-Kernel:   522 cycles
+[_decoder_conv_transpose2_ConvTranspose_RequantShift_L2][SB][9600 ops][Tile 0] Total      :354776 cycles (99.4% Kernel + 0.6% Overhead, 352552 + 2224)
+
+=== Performance Statistics: _decoder_conv_transpose2_ConvTranspose_RequantShift ===
+Cycles:                  353839
+Instructions:            179402
+IPC:                      0.507
+
+--- Instruction Mix ---
+Loads:                    19225 (10.72%)
+Stores:                    3249 (1.81%)
+Branches:                  9609 (5.36%)
+Taken Branches:               3 (0.03%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               6399
+Jump Stalls:                  0
+I-cache Misses:            1436
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   549 cycles
+[_MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Kernel     :  2330 cycles
+[_MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   524 cycles
+[_MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Total      :  3403 cycles (68.5% Kernel + 31.5% Overhead, 2330 + 1073)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_3_decoderconv_transpose2ConvTranspose_output_0_requant_int8_tensor_transpose ===
+Cycles:                    3383
+Instructions:              1353
+IPC:                      0.400
+
+--- Instruction Mix ---
+Loads:                      504 (37.25%)
+Stores:                     515 (38.06%)
+Branches:                    56 (4.14%)
+Taken Branches:              47 (83.93%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                434
+Jump Stalls:                  0
+I-cache Misses:            1127
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_3_L2 =====
+[_MERGE_CONVRQ_PASS_3_L2][SB][576960 ops][Tile 0] Pre-Kernel :   825 cycles
+[_MERGE_CONVRQ_PASS_3_L2][SB][576960 ops][Tile 0] Kernel     :  3655 cycles
+[_MERGE_CONVRQ_PASS_3_L2][SB][576960 ops][Tile 0] Post-Kernel:   504 cycles
+[_MERGE_CONVRQ_PASS_3_L2][SB][576960 ops][Tile 0] Total      :  4984 cycles (73.3% Kernel + 26.7% Overhead, 3655 + 1329)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_3 ===
+Cycles:                    2763
+Instructions:               428
+IPC:                      0.155
+
+--- Instruction Mix ---
+Loads:                       62 (14.49%)
+Stores:                     100 (23.36%)
+Branches:                    14 (3.27%)
+Taken Branches:               3 (21.43%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 30
+Jump Stalls:                  0
+I-cache Misses:            1980
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   513 cycles
+[_MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Kernel     :  2772 cycles
+[_MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   523 cycles
+[_MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Total      :  3808 cycles (72.8% Kernel + 27.2% Overhead, 2772 + 1036)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_3_decoderconv2Conv_output_0_requant_int8_tensor_pre_transpose ===
+Cycles:                    3819
+Instructions:              1639
+IPC:                      0.429
+
+--- Instruction Mix ---
+Loads:                      660 (40.27%)
+Stores:                     675 (41.18%)
+Branches:                    48 (2.93%)
+Taken Branches:              40 (83.33%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                594
+Jump Stalls:                  0
+I-cache Misses:            1083
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderrelu2Relu_L2 =====
+[decoderrelu2Relu_L2][SB][3200 ops][Tile 0] Pre-Kernel :   513 cycles
+[decoderrelu2Relu_L2][SB][3200 ops][Tile 0] Kernel     : 16423 cycles
+[decoderrelu2Relu_L2][SB][3200 ops][Tile 0] Post-Kernel:   526 cycles
+[decoderrelu2Relu_L2][SB][3200 ops][Tile 0] Total      : 17462 cycles (94.0% Kernel + 6.0% Overhead, 16423 + 1039)
+
+=== Performance Statistics: decoderrelu2Relu ===
+Cycles:                   17301
+Instructions:             12978
+IPC:                      0.750
+
+--- Instruction Mix ---
+Loads:                     3220 (24.81%)
+Stores:                    3235 (24.93%)
+Branches:                     8 (0.06%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               3200
+Jump Stalls:                  0
+I-cache Misses:             958
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _RECOGNIZE_DEQUANT_PASS_1_L2 =====
+[_RECOGNIZE_DEQUANT_PASS_1_L2][SB][0 ops][Tile 0] Pre-Kernel :   513 cycles
+[_RECOGNIZE_DEQUANT_PASS_1_L2][SB][0 ops][Tile 0] Kernel     :3917320 cycles
+[_RECOGNIZE_DEQUANT_PASS_1_L2][SB][0 ops][Tile 0] Post-Kernel:  1763 cycles
+[_RECOGNIZE_DEQUANT_PASS_1_L2][SB][0 ops][Tile 0] Total      :3919596 cycles (99.9% Kernel + 0.1% Overhead, 3917320 + 2276)
+
+=== Performance Statistics: _RECOGNIZE_DEQUANT_PASS_1 ===
+Cycles:                 3918360
+Instructions:           2027414
+IPC:                      0.517
+
+--- Instruction Mix ---
+Loads:                   559721 (27.61%)
+Stores:                  614391 (30.30%)
+Branches:                 51720 (2.55%)
+Taken Branches:           33307 (64.40%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:             122850
+Jump Stalls:                  0
+I-cache Misses:         1558741
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderbatchnorm2BatchNormalization_L2 =====
+[decoderbatchnorm2BatchNormalization_L2][SB][16000 ops][Tile 0] Pre-Kernel :  1760 cycles
+[decoderbatchnorm2BatchNormalization_L2][SB][16000 ops][Tile 0] Kernel     : 30042 cycles
+[decoderbatchnorm2BatchNormalization_L2][SB][16000 ops][Tile 0] Post-Kernel:  1760 cycles
+[decoderbatchnorm2BatchNormalization_L2][SB][16000 ops][Tile 0] Total      : 33562 cycles (89.5% Kernel + 10.5% Overhead, 30042 + 3520)
+
+=== Performance Statistics: decoderbatchnorm2BatchNormalization ===
+Cycles:                   31477
+Instructions:             26117
+IPC:                      0.830
+
+--- Instruction Mix ---
+Loads:                     3272 (12.53%)
+Stores:                    3256 (12.47%)
+Branches:                    23 (0.09%)
+Taken Branches:              11 (47.83%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               3203
+Jump Stalls:                  0
+I-cache Misses:            1661
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _QUANT_PATTERN_PASS_2_Quant_L2 =====
+[_QUANT_PATTERN_PASS_2_Quant_L2][SB][0 ops][Tile 0] Pre-Kernel :  1718 cycles
+[_QUANT_PATTERN_PASS_2_Quant_L2][SB][0 ops][Tile 0] Kernel     : 97277 cycles
+[_QUANT_PATTERN_PASS_2_Quant_L2][SB][0 ops][Tile 0] Post-Kernel:   524 cycles
+[_QUANT_PATTERN_PASS_2_Quant_L2][SB][0 ops][Tile 0] Total      : 99519 cycles (97.7% Kernel + 2.3% Overhead, 97277 + 2242)
+
+=== Performance Statistics: _QUANT_PATTERN_PASS_2_Quant ===
+Cycles:                   98349
+Instructions:             44034
+IPC:                      0.448
+
+--- Instruction Mix ---
+Loads:                     6421 (14.58%)
+Stores:                    3235 (7.35%)
+Branches:                  3209 (7.29%)
+Taken Branches:             955 (29.76%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               6401
+Jump Stalls:                  0
+I-cache Misses:            1049
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   514 cycles
+[_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Kernel     :  2371 cycles
+[_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   528 cycles
+[_MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose_L2][SB][0 ops][Tile 0] Total      :  3413 cycles (69.5% Kernel + 30.5% Overhead, 2371 + 1042)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_4__decoder_last_conv_Conv_quant_int8_tensor_transpose ===
+Cycles:                    3390
+Instructions:              1355
+IPC:                      0.400
+
+--- Instruction Mix ---
+Loads:                      505 (37.27%)
+Stores:                     516 (38.08%)
+Branches:                    56 (4.13%)
+Taken Branches:              47 (83.93%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                436
+Jump Stalls:                  0
+I-cache Misses:            1172
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_4_L2 =====
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 0] Pre-Kernel :   494 cycles
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 0] Kernel     :  2341 cycles
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 0] Post-Kernel:   180 cycles
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 0] Total      :  3015 cycles (77.6% Kernel + 22.4% Overhead, 2341 + 674)
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 1] Pre-Kernel :   239 cycles
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 1] Kernel     :   944 cycles
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 1] Post-Kernel:   105 cycles
+[_MERGE_CONVRQ_PASS_4_L2][SB][7360 ops][Tile 1] Total      :  1288 cycles (73.3% Kernel + 26.7% Overhead, 944 + 344)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_4 ===
+Cycles:                    3970
+Instructions:               776
+IPC:                      0.195
+
+--- Instruction Mix ---
+Loads:                      118 (15.21%)
+Stores:                     189 (24.36%)
+Branches:                    24 (3.09%)
+Taken Branches:               6 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 59
+Jump Stalls:                  0
+I-cache Misses:            2590
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose_L2 =====
+[_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Pre-Kernel :   204 cycles
+[_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Kernel     :   642 cycles
+[_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Post-Kernel:   179 cycles
+[_MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose_L2][SB][0 ops][Tile 0] Total      :  1025 cycles (62.6% Kernel + 37.4% Overhead, 642 + 383)
+
+=== Performance Statistics: _MERGE_CONVRQ_PASS_4_decoderlast_convConv_output_0_requant_int8_tensor_pre_transpose ===
+Cycles:                    1437
+Instructions:               285
+IPC:                      0.198
+
+--- Instruction Mix ---
+Loads:                       72 (25.26%)
+Stores:                      83 (29.12%)
+Branches:                     8 (2.81%)
+Taken Branches:               2 (25.00%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                 45
+Jump Stalls:                  0
+I-cache Misses:             948
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling _RECOGNIZE_DEQUANT_PASS_2_L2 =====
+[_RECOGNIZE_DEQUANT_PASS_2_L2][SB][0 ops][Tile 0] Pre-Kernel :   180 cycles
+[_RECOGNIZE_DEQUANT_PASS_2_L2][SB][0 ops][Tile 0] Kernel     :365751 cycles
+[_RECOGNIZE_DEQUANT_PASS_2_L2][SB][0 ops][Tile 0] Post-Kernel:   275 cycles
+[_RECOGNIZE_DEQUANT_PASS_2_L2][SB][0 ops][Tile 0] Total      :366206 cycles (99.9% Kernel + 0.1% Overhead, 365751 + 455)
+
+=== Performance Statistics: _RECOGNIZE_DEQUANT_PASS_2 ===
+Cycles:                  366594
+Instructions:            196104
+IPC:                      0.535
+
+--- Instruction Mix ---
+Loads:                    54152 (27.61%)
+Stores:                   60495 (30.85%)
+Branches:                  5220 (2.66%)
+Taken Branches:            3240 (62.07%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:               9438
+Jump Stalls:                  0
+I-cache Misses:          140242
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderSlice_L2 =====
+[decoderSlice_L2][SB][0 ops][Tile 0] Pre-Kernel :   292 cycles
+[decoderSlice_L2][SB][0 ops][Tile 0] Kernel     :  1302 cycles
+[decoderSlice_L2][SB][0 ops][Tile 0] Post-Kernel:   176 cycles
+[decoderSlice_L2][SB][0 ops][Tile 0] Total      :  1770 cycles (73.6% Kernel + 26.4% Overhead, 1302 + 468)
+
+=== Performance Statistics: decoderSlice ===
+Cycles:                    2223
+Instructions:               806
+IPC:                      0.363
+
+--- Instruction Mix ---
+Loads:                      183 (22.70%)
+Stores:                     199 (24.69%)
+Branches:                    29 (3.60%)
+Taken Branches:              12 (41.38%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                  2
+Jump Stalls:                  0
+I-cache Misses:            1209
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+===== Profiling decoderSlice_1_L2 =====
+[decoderSlice_1_L2][SB][0 ops][Tile 0] Pre-Kernel :   215 cycles
+[decoderSlice_1_L2][SB][0 ops][Tile 0] Kernel     :  4277 cycles
+[decoderSlice_1_L2][SB][0 ops][Tile 0] Post-Kernel:   173 cycles
+[decoderSlice_1_L2][SB][0 ops][Tile 0] Total      :  4665 cycles (91.7% Kernel + 8.3% Overhead, 4277 + 388)
+
+=== Performance Statistics: decoderSlice_1 ===
+Cycles:                    5177
+Instructions:              2956
+IPC:                      0.571
+
+--- Instruction Mix ---
+Loads:                      188 (6.36%)
+Stores:                     202 (6.83%)
+Branches:                   339 (11.47%)
+Taken Branches:             170 (50.15%)
+Compressed (RVC):             0 (0.00%)
+
+--- Stalls & Hazards ---
+Load Stalls:                  2
+Jump Stalls:                  0
+I-cache Misses:            1394
+TCDM Contentions:             0
+
+--- Memory Hierarchy ---
+External Loads:               0 (0.00%)
+External Stores:              0 (0.00%)
+Ext Load Cycles:              0 (avg: 0.00)
+Ext Store Cycles:             0 (avg: 0.00)
+========================================
+
+Output:
+Runtime: 5204 cycles
+Errors: 0 out of 160
+[100%] Built target gvsoc_STD_FULL_QUANT
+
+[92m✓ Test STD_FULL_QUANT PASSED - No errors found[0m
+[92m  Runtime: 5204 cycles[0m
