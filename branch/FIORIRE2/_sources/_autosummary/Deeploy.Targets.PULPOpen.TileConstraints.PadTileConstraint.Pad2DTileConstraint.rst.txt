@@ -1,0 +1,36 @@
+.. SPDX-FileCopyrightText: 2024 ETH Zurich and University of Bologna
+..
+.. SPDX-License-Identifier: Apache-2.0
+
+Deeploy.Targets.PULPOpen.TileConstraints.PadTileConstraint.Pad2DTileConstraint
+==============================================================================
+
+.. currentmodule:: Deeploy.Targets.PULPOpen.TileConstraints.PadTileConstraint
+
+.. autoclass:: Pad2DTileConstraint
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. automethod:: __init__
+
+   .. autosummary::
+   
+      ~Pad2DTileConstraint.__init__
+      ~Pad2DTileConstraint.addGeometricalConstraint
+      ~Pad2DTileConstraint.addPolicyConstraint
+      ~Pad2DTileConstraint.constructSymbolicNodeRep
+      ~Pad2DTileConstraint.extractBaseAddr
+      ~Pad2DTileConstraint.getBaseAddr
+      ~Pad2DTileConstraint.sanitizeTilingSchedule
+      ~Pad2DTileConstraint.serializeTilingSolution
+      ~Pad2DTileConstraint.wrapTilingSolution
+   
+   
+
+   
+   
+   
