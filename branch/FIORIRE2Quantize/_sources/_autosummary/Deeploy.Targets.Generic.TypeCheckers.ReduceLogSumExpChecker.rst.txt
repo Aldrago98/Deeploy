@@ -1,0 +1,41 @@
+.. SPDX-FileCopyrightText: 2024 ETH Zurich and University of Bologna
+..
+.. SPDX-License-Identifier: Apache-2.0
+
+Deeploy.Targets.Generic.TypeCheckers.ReduceLogSumExpChecker
+===========================================================
+
+.. currentmodule:: Deeploy.Targets.Generic.TypeCheckers
+
+.. autoclass:: ReduceLogSumExpChecker
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. automethod:: __init__
+
+   .. autosummary::
+   
+      ~ReduceLogSumExpChecker.__init__
+      ~ReduceLogSumExpChecker.annotateDict
+      ~ReduceLogSumExpChecker.checkOutputType
+      ~ReduceLogSumExpChecker.signature
+      ~ReduceLogSumExpChecker.typeCheck
+      ~ReduceLogSumExpChecker.typeCheckNodeInputs
+      ~ReduceLogSumExpChecker.typeInferGlobalCtxt
+      ~ReduceLogSumExpChecker.typeInferOutput
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReduceLogSumExpChecker.typeDict
+   
+   
