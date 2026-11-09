@@ -1,0 +1,39 @@
+.. SPDX-FileCopyrightText: 2024 ETH Zurich and University of Bologna
+..
+.. SPDX-License-Identifier: Apache-2.0
+
+Deeploy.Targets.Generic.Parsers.ReduceLogSumExpParser
+=====================================================
+
+.. currentmodule:: Deeploy.Targets.Generic.Parsers
+
+.. autoclass:: ReduceLogSumExpParser
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. automethod:: __init__
+
+   .. autosummary::
+   
+      ~ReduceLogSumExpParser.__init__
+      ~ReduceLogSumExpParser.parse
+      ~ReduceLogSumExpParser.parseInputs
+      ~ReduceLogSumExpParser.parseNode
+      ~ReduceLogSumExpParser.parseNodeCtxt
+      ~ReduceLogSumExpParser.parseOutputs
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReduceLogSumExpParser.operatorRepresentation
+   
+   

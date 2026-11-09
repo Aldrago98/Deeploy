@@ -1,0 +1,47 @@
+.. SPDX-FileCopyrightText: 2024 ETH Zurich and University of Bologna
+..
+.. SPDX-License-Identifier: Apache-2.0
+
+Deeploy.Targets.Generic.Layers.ReduceLogSumExpLayer
+===================================================
+
+.. currentmodule:: Deeploy.Targets.Generic.Layers
+
+.. autoclass:: ReduceLogSumExpLayer
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   
+   .. rubric:: Methods
+   .. automethod:: __init__
+
+   .. autosummary::
+   
+      ~ReduceLogSumExpLayer.__init__
+      ~ReduceLogSumExpLayer.bind
+      ~ReduceLogSumExpLayer.broadcast
+      ~ReduceLogSumExpLayer.codeTransform
+      ~ReduceLogSumExpLayer.computeOps
+      ~ReduceLogSumExpLayer.computeShapes
+      ~ReduceLogSumExpLayer.discardCurrentMapper
+      ~ReduceLogSumExpLayer.generate
+      ~ReduceLogSumExpLayer.parse
+      ~ReduceLogSumExpLayer.resetDiscardedMappers
+      ~ReduceLogSumExpLayer.typeCheck
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ReduceLogSumExpLayer.maps
+      ~ReduceLogSumExpLayer.mapper
+      ~ReduceLogSumExpLayer.discardedMappers
+      ~ReduceLogSumExpLayer.node
+   
+   

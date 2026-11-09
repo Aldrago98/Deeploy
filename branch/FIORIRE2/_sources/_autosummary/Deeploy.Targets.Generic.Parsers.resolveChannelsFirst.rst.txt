@@ -1,0 +1,6 @@
+Deeploy.Targets.Generic.Parsers.resolveChannelsFirst
+====================================================
+
+.. currentmodule:: Deeploy.Targets.Generic.Parsers
+
+.. autofunction:: resolveChannelsFirst

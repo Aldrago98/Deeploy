@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/DeeployIconGreen.svg" rel="icon" type="image/svg+xml">
+    <link href="../_static/DeeployIconGreen-32x32.png" sizes="32x32" rel="icon" type="image/png">
+    <link href="../_static/DeeployIconGreen-64x64.png" sizes="64x64" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint &mdash; Deeploy 2024 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6fefd858"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deeploy.Targets.PULPOpen.TileConstraints.SoftmaxCrossEntropyTileConstraint" href="Deeploy.Targets.PULPOpen.TileConstraints.SoftmaxCrossEntropyTileConstraint.html" />
+    <link rel="prev" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint" href="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/DeeployBannerGreen-640x-320.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/overview.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../structure.html">Library Structure</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="Deeploy.html">Deeploy</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.AbstractDataTypes.html">Deeploy.AbstractDataTypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.CommonExtensions.html">Deeploy.CommonExtensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.DeeployTypes.html">Deeploy.DeeployTypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.EngineExtension.html">Deeploy.EngineExtension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.FutureExtension.html">Deeploy.FutureExtension</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.Logging.html">Deeploy.Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.MLIRAIETypes.html">Deeploy.MLIRAIETypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.MemoryLevelExtension.html">Deeploy.MemoryLevelExtension</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="Deeploy.Targets.html">Deeploy.Targets</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.CortexM.html">Deeploy.Targets.CortexM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.GAP9.html">Deeploy.Targets.GAP9</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.Generic.html">Deeploy.Targets.Generic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.MemPool.html">Deeploy.Targets.MemPool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.Neureka.html">Deeploy.Targets.Neureka</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="Deeploy.Targets.PULPOpen.html">Deeploy.Targets.PULPOpen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.Snitch.html">Deeploy.Targets.Snitch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Deeploy.Targets.xheep.html">Deeploy.Targets.xheep</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Deeploy.TilingExtension.html">Deeploy.TilingExtension</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../releasing.html">Deeploy Release Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deeploy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../apidocs.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="Deeploy.html">Deeploy</a></li>
+          <li class="breadcrumb-item"><a href="Deeploy.Targets.html">Deeploy.Targets</a></li>
+          <li class="breadcrumb-item"><a href="Deeploy.Targets.PULPOpen.html">Deeploy.Targets.PULPOpen</a></li>
+          <li class="breadcrumb-item"><a href="Deeploy.Targets.PULPOpen.TileConstraints.html">Deeploy.Targets.PULPOpen.TileConstraints</a></li>
+          <li class="breadcrumb-item"><a href="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.html">Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint</a></li>
+      <li class="breadcrumb-item active">Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deeploy-targets-pulpopen-tileconstraints-sliceconstraint-slicetileconstraint">
+<h1>Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint<a class="headerlink" href="#deeploy-targets-pulpopen-tileconstraints-sliceconstraint-slicetileconstraint" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.</span></span><span class="sig-name descname"><span class="pre">SliceTileConstraint</span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="Deeploy.TilingExtension.TileConstraint.TileConstraint.html#Deeploy.TilingExtension.TileConstraint.TileConstraint" title="Deeploy.TilingExtension.TileConstraint.TileConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">TileConstraint</span></code></a></p>
+<p class="rubric">Methods</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.__init__" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addGeometricalConstraint" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addGeometricalConstraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addGeometricalConstraint</span></code></a>(tilerModel, ...)</p></td>
+<td><p>Override this function to add your geometric constraints.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addPolicyConstraint" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addPolicyConstraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addPolicyConstraint</span></code></a>(tilerModel, parseDict, ctxt)</p></td>
+<td><p>Override this function to add your custom constraints to your node.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeInputCubeFromOutputCube" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeInputCubeFromOutputCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">computeInputCubeFromOutputCube</span></code></a>(outputCube, ...)</p></td>
+<td><p>Return the input bounding box of <code class="docutils literal notranslate"><span class="pre">outputCube</span></code> in <strong>full-tensor</strong> coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeLocalInputCubeFromOutputCube" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeLocalInputCubeFromOutputCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">computeLocalInputCubeFromOutputCube</span></code></a>(...)</p></td>
+<td><p>Return the input bounding box of <code class="docutils literal notranslate"><span class="pre">outputCube</span></code> relative to its parent <strong>input tile</strong>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">constructSymbolicNodeRep</span></code>(tilerModel, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractBaseAddr</span></code>(tilingSolution, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBaseAddr</span></code>(tilingSolution, targetMemLevel, name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.inputLevelIndex" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.inputLevelIndex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputLevelIndex</span></code></a>(tilingSolution, ...)</p></td>
+<td><p>Position of <code class="docutils literal notranslate"><span class="pre">targetMemLevel</span></code> in the memory path of <code class="docutils literal notranslate"><span class="pre">data_in</span></code> (-1 if absent).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.normalizedParameters" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.normalizedParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalizedParameters</span></code></a>(parseDict, ctxt)</p></td>
+<td><p>Resolve constant names and normalize ONNX indices against the full input shape.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sanitizeTilingSchedule</span></code>(tilingSchedule)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.serializeTilingSolution" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.serializeTilingSolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">serializeTilingSolution</span></code></a>(tilingSolution, ...)</p></td>
+<td><p>Serialize the output tiles of one parent tile.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">wrapTilingSolution</span></code>(tilingSolution, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.normalizedParameters">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">normalizedParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parseDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctxt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.DeeployTypes.NetworkContext.html#Deeploy.DeeployTypes.NetworkContext" title="Deeploy.DeeployTypes.NetworkContext"><span class="pre">NetworkContext</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.normalizedParameters" title="Link to this definition"></a></dt>
+<dd><p>Resolve constant names and normalize ONNX indices against the full input shape.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addGeometricalConstraint">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">addGeometricalConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tilerModel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.TilingExtension.TilerModel.TilerModel.html#Deeploy.TilingExtension.TilerModel.TilerModel" title="Deeploy.TilingExtension.TilerModel.TilerModel"><span class="pre">TilerModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parseDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctxt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.DeeployTypes.NetworkContext.html#Deeploy.DeeployTypes.NetworkContext" title="Deeploy.DeeployTypes.NetworkContext"><span class="pre">NetworkContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Deeploy.TilingExtension.TilerModel.TilerModel.html#Deeploy.TilingExtension.TilerModel.TilerModel" title="Deeploy.TilingExtension.TilerModel.TilerModel"><span class="pre">TilerModel</span></a></span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addGeometricalConstraint" title="Link to this definition"></a></dt>
+<dd><p>Override this function to add your geometric constraints.
+Each dimension of the output tensors should be determinable through a linear equation that utilizes the dimensions of the input tensors and the attributes of the nodes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeInputCubeFromOutputCube">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">computeInputCubeFromOutputCube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputCube</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.HyperRectangle.html#Deeploy.TilingExtension.TilingCodegen.HyperRectangle" title="Deeploy.TilingExtension.TilingCodegen.HyperRectangle"><span class="pre">HyperRectangle</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parseDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.HyperRectangle.html#Deeploy.TilingExtension.TilingCodegen.HyperRectangle" title="Deeploy.TilingExtension.TilingCodegen.HyperRectangle"><span class="pre">HyperRectangle</span></a></span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeInputCubeFromOutputCube" title="Link to this definition"></a></dt>
+<dd><p>Return the input bounding box of <code class="docutils literal notranslate"><span class="pre">outputCube</span></code> in <strong>full-tensor</strong> coordinates.</p>
+<p><code class="docutils literal notranslate"><span class="pre">outputCube.offset</span></code> must be expressed in full output coordinates. For every axis the selected
+input elements are <code class="docutils literal notranslate"><span class="pre">first,</span> <span class="pre">first</span> <span class="pre">+</span> <span class="pre">step,</span> <span class="pre">...,</span> <span class="pre">last</span></code> with <code class="docutils literal notranslate"><span class="pre">first</span> <span class="pre">=</span> <span class="pre">start</span> <span class="pre">+</span> <span class="pre">offset</span> <span class="pre">*</span> <span class="pre">step</span></code> and
+<code class="docutils literal notranslate"><span class="pre">last</span> <span class="pre">=</span> <span class="pre">first</span> <span class="pre">+</span> <span class="pre">(size</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">step</span></code>; the box spans <code class="docutils literal notranslate"><span class="pre">min(first,</span> <span class="pre">last)</span></code> and <code class="docutils literal notranslate"><span class="pre">|last</span> <span class="pre">-</span> <span class="pre">first|</span> <span class="pre">+</span> <span class="pre">1</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeLocalInputCubeFromOutputCube">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">computeLocalInputCubeFromOutputCube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputCube</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.HyperRectangle.html#Deeploy.TilingExtension.TilingCodegen.HyperRectangle" title="Deeploy.TilingExtension.TilingCodegen.HyperRectangle"><span class="pre">HyperRectangle</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parentOutputDims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parseDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.HyperRectangle.html#Deeploy.TilingExtension.TilingCodegen.HyperRectangle" title="Deeploy.TilingExtension.TilingCodegen.HyperRectangle"><span class="pre">HyperRectangle</span></a></span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeLocalInputCubeFromOutputCube" title="Link to this definition"></a></dt>
+<dd><p>Return the input bounding box of <code class="docutils literal notranslate"><span class="pre">outputCube</span></code> relative to its parent <strong>input tile</strong>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">outputCube.offset</span></code> is relative to a parent output tile of extent <code class="docutils literal notranslate"><span class="pre">parentOutputDims</span></code>, and the
+parent input buffer holds exactly the bounding box of that parent output tile (it was produced by
+<a class="reference internal" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeInputCubeFromOutputCube" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.computeInputCubeFromOutputCube"><code class="xref py py-meth docutils literal notranslate"><span class="pre">computeInputCubeFromOutputCube()</span></code></a> or by this method one level up). The slice start is therefore
+already contained in the parent buffer and must not be applied again:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">step</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>: the parent box starts at the parent’s first selected element, so the local offset is
+<code class="docutils literal notranslate"><span class="pre">off</span> <span class="pre">*</span> <span class="pre">step</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">step</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>: the parent box starts at the parent’s <em>last</em> selected element, so the local offset is
+measured from the end of the parent output tile: <code class="docutils literal notranslate"><span class="pre">(P</span> <span class="pre">-</span> <span class="pre">off</span> <span class="pre">-</span> <span class="pre">size)</span> <span class="pre">*</span> <span class="pre">|step|</span></code>.</p></li>
+</ul>
+<p>The extent is <code class="docutils literal notranslate"><span class="pre">(size</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">|step|</span> <span class="pre">+</span> <span class="pre">1</span></code> in both cases.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.serializeTilingSolution">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">serializeTilingSolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tilingSolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.TilingExtension.MemoryConstraints.NodeMemoryConstraint.html#Deeploy.TilingExtension.MemoryConstraints.NodeMemoryConstraint" title="Deeploy.TilingExtension.MemoryConstraints.NodeMemoryConstraint"><span class="pre">NodeMemoryConstraint</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">absoluteOutputCubes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.AbsoluteHyperRectangle.html#Deeploy.TilingExtension.TilingCodegen.AbsoluteHyperRectangle" title="Deeploy.TilingExtension.TilingCodegen.AbsoluteHyperRectangle"><span class="pre">AbsoluteHyperRectangle</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetMemLevel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctxt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.DeeployTypes.NetworkContext.html#Deeploy.DeeployTypes.NetworkContext" title="Deeploy.DeeployTypes.NetworkContext"><span class="pre">NetworkContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operatorRepresentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.VariableReplacementScheme.html#Deeploy.TilingExtension.TilingCodegen.VariableReplacementScheme" title="Deeploy.TilingExtension.TilingCodegen.VariableReplacementScheme"><span class="pre">VariableReplacementScheme</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="Deeploy.TilingExtension.TilingCodegen.TilingSchedule.html#Deeploy.TilingExtension.TilingCodegen.TilingSchedule" title="Deeploy.TilingExtension.TilingCodegen.TilingSchedule"><span class="pre">TilingSchedule</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.serializeTilingSolution" title="Link to this definition"></a></dt>
+<dd><p>Serialize the output tiles of one parent tile.</p>
+<p><code class="docutils literal notranslate"><span class="pre">wrapTilingSolution</span></code> calls this once per parent output tile, with that parent’s children in
+<code class="docutils literal notranslate"><span class="pre">absoluteOutputCubes</span></code>. <code class="docutils literal notranslate"><span class="pre">cube.rectangle.offset</span></code> is relative to the parent output tile and
+<code class="docutils literal notranslate"><span class="pre">cube.absoluteOffset</span></code> is relative to the full output tensor. Two cases:</p>
+<ul class="simple">
+<li><p>The parent <code class="docutils literal notranslate"><span class="pre">data_in</span></code> buffer is the full input tensor (first tiling level): the input cube is the
+global bounding box computed from the absolute output offset, which includes the slice start.</p></li>
+<li><p>The parent <code class="docutils literal notranslate"><span class="pre">data_in</span></code> buffer is itself a tile (nested tiling, e.g. L3 -&gt; L2 -&gt; L1): it is the
+bounding box of the parent output tile, so the input cube is computed relative to it and the start
+is not added again. The parent output extent per axis is <code class="docutils literal notranslate"><span class="pre">max(offset</span> <span class="pre">+</span> <span class="pre">dims)</span></code> over the children,
+since they partition the parent (<code class="docutils literal notranslate"><span class="pre">computeTileHyperRectangles</span></code>), including partial edge tiles.</p></li>
+</ul>
+<p>In both cases <code class="docutils literal notranslate"><span class="pre">slice_start_k</span></code> is local to the transferred input tile: <code class="docutils literal notranslate"><span class="pre">0</span></code> for <code class="docutils literal notranslate"><span class="pre">step</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> (the
+box starts at the first selected element) and <code class="docutils literal notranslate"><span class="pre">dims</span> <span class="pre">-</span> <span class="pre">1</span></code> for <code class="docutils literal notranslate"><span class="pre">step</span> <span class="pre">&lt;</span> <span class="pre">0</span></code> (it ends there). If the
+input is not transferred at all (resident at the target level), the kernel indexes the full tensor, so
+the full input shape and the global first index are used instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addPolicyConstraint">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">addPolicyConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tilerModel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.TilingExtension.TilerModel.TilerModel.html#Deeploy.TilingExtension.TilerModel.TilerModel" title="Deeploy.TilingExtension.TilerModel.TilerModel"><span class="pre">TilerModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parseDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctxt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.DeeployTypes.NetworkContext.html#Deeploy.DeeployTypes.NetworkContext" title="Deeploy.DeeployTypes.NetworkContext"><span class="pre">NetworkContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="Deeploy.TilingExtension.TilerModel.TilerModel.html#Deeploy.TilingExtension.TilerModel.TilerModel" title="Deeploy.TilingExtension.TilerModel.TilerModel"><span class="pre">TilerModel</span></a></span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.addPolicyConstraint" title="Link to this definition"></a></dt>
+<dd><p>Override this function to add your custom constraints to your node.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.inputLevelIndex">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">inputLevelIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tilingSolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="Deeploy.TilingExtension.MemoryConstraints.NodeMemoryConstraint.html#Deeploy.TilingExtension.MemoryConstraints.NodeMemoryConstraint" title="Deeploy.TilingExtension.MemoryConstraints.NodeMemoryConstraint"><span class="pre">NodeMemoryConstraint</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetMemLevel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operatorRepresentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.SliceTileConstraint.inputLevelIndex" title="Link to this definition"></a></dt>
+<dd><p>Position of <code class="docutils literal notranslate"><span class="pre">targetMemLevel</span></code> in the memory path of <code class="docutils literal notranslate"><span class="pre">data_in</span></code> (-1 if absent).</p>
+<p>A tensor’s <code class="docutils literal notranslate"><span class="pre">memoryConstraints</span></code> are ordered from its home level, which holds the full tensor, towards
+the compute level, and <code class="docutils literal notranslate"><span class="pre">data_in</span></code> tiles at <code class="docutils literal notranslate"><span class="pre">targetMemLevel</span></code> are cut from the level just before it.
+Index 1 therefore means the parent buffer is the full tensor (first tiling level), index &gt;= 2 means the
+parent is an input tile of the enclosing tiling level, and 0/-1 mean the input is not transferred into
+<code class="docutils literal notranslate"><span class="pre">targetMemLevel</span></code> at all and is read in place.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint.html" class="btn btn-neutral float-left" title="Deeploy.Targets.PULPOpen.TileConstraints.SliceConstraint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Deeploy.Targets.PULPOpen.TileConstraints.SoftmaxCrossEntropyTileConstraint.html" class="btn btn-neutral float-right" title="Deeploy.Targets.PULPOpen.TileConstraints.SoftmaxCrossEntropyTileConstraint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Moritz Scherer, Philip Wiese, Luka Macan, Victor Jung.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!--
+SPDX-FileCopyrightText: 2025 ETH Zurich and University of Bologna
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    Version: FIORIRE2
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    
+    
+    <dl>
+      <dt>Versions</dt>
+      
+      <dd><a href="https://pulp-platform.github.io/Deeploy/index.html">main</a></dd>
+      
+      <dd><a href="https://pulp-platform.github.io/Deeploy/branch/devel/index.html">devel</a></dd>
+      
+      <dd><a href="https://pulp-platform.github.io/Deeploy/tag/v0.2.0/index.html">v0.2.0</a></dd>
+      
+      <dd><a href="https://pulp-platform.github.io/Deeploy/tag/v0.2.1/index.html">v0.2.1</a></dd>
+      
+    </dl>
+    
+    <br>
+    </dl>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
